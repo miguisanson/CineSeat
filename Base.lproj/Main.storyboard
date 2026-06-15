@@ -1,24 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tab-main">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22604"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--CineSeat Tabs-->
+        <scene sceneID="scene-tabs">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tabBarController id="tab-main" customClass="MainTabBarController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="tab-bar">
+                        <rect key="frame" x="0.0" y="769" width="393" height="83"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="nav-movies" kind="relationship" relationship="viewControllers" id="segue-tab-movies"/>
+                        <segue destination="nav-bookings" kind="relationship" relationship="viewControllers" id="segue-tab-bookings"/>
+                        <segue destination="nav-info" kind="relationship" relationship="viewControllers" id="segue-tab-info"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-tabs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-1270" y="125"/>
+        </scene>
+        <!--Movies Navigation Controller-->
+        <scene sceneID="scene-nav-movies">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-movies" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Movies" image="film" catalog="system" id="tab-movies"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-movies">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="movies-vc" kind="relationship" relationship="rootViewController" id="root-movies"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-movies" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-410" y="-600"/>
+        </scene>
+        <!--Movies-->
+        <scene sceneID="scene-movies">
+            <objects>
+                <viewController id="movies-vc" customClass="ViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="movies-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="movies-header">
+                                <rect key="frame" x="0.0" y="59" width="393" height="72"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="CineSeat" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-title">
+                                        <rect key="frame" x="20" y="12" width="94" height="27"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
+                                        <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="WIREFRAME PROTOTYPE" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-subtitle">
+                                        <rect key="frame" x="20" y="43" width="136" height="12"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="movies-profile">
+                                        <rect key="frame" x="341" y="20" width="32" height="32"/>
+                                        <color key="tintColor" white="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="movies-title" firstAttribute="top" secondItem="movies-header" secondAttribute="top" constant="12" id="title-top"/>
+                                    <constraint firstItem="movies-title" firstAttribute="leading" secondItem="movies-header" secondAttribute="leading" constant="20" id="title-leading"/>
+                                    <constraint firstItem="movies-subtitle" firstAttribute="top" secondItem="movies-title" secondAttribute="bottom" constant="2" id="subtitle-top"/>
+                                    <constraint firstItem="movies-subtitle" firstAttribute="leading" secondItem="movies-title" secondAttribute="leading" id="subtitle-leading"/>
+                                    <constraint firstItem="movies-profile" firstAttribute="centerY" secondItem="movies-header" secondAttribute="centerY" id="profile-center"/>
+                                    <constraint firstAttribute="trailing" secondItem="movies-profile" secondAttribute="trailing" constant="20" id="profile-trailing"/>
+                                    <constraint firstItem="movies-profile" firstAttribute="width" constant="32" id="profile-width"/>
+                                    <constraint firstItem="movies-profile" firstAttribute="height" constant="32" id="profile-height"/>
+                                </constraints>
+                            </view>
+                            <searchBar contentMode="redraw" placeholder="Search movies..." translatesAutoresizingMaskIntoConstraints="NO" id="movies-search">
+                                <rect key="frame" x="12" y="139" width="369" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="movies-vc" id="search-delegate"/>
+                                </connections>
+                            </searchBar>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="movies-segments">
+                                <rect key="frame" x="16" y="191" width="361" height="33"/>
+                                <segments>
+                                    <segment title="All"/>
+                                    <segment title="Now Playing"/>
+                                    <segment title="Coming Soon"/>
+                                    <segment title="Top Rated"/>
+                                </segments>
+                                <connections>
+                                    <action selector="categoryChanged:" destination="movies-vc" eventType="valueChanged" id="category-action"/>
+                                </connections>
+                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="126" estimatedRowHeight="126" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="movies-table">
+                                <rect key="frame" x="0.0" y="233" width="393" height="536"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="movies-vc" id="movies-data-source"/>
+                                    <outlet property="delegate" destination="movies-vc" id="movies-delegate"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="movies-safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="movies-header" firstAttribute="top" secondItem="movies-safe" secondAttribute="top" id="header-top"/>
+                            <constraint firstItem="movies-header" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" id="header-leading"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-header" secondAttribute="trailing" id="header-trailing"/>
+                            <constraint firstItem="movies-header" firstAttribute="height" constant="72" id="header-height"/>
+                            <constraint firstItem="movies-search" firstAttribute="top" secondItem="movies-header" secondAttribute="bottom" constant="8" id="search-top"/>
+                            <constraint firstItem="movies-search" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" constant="12" id="search-leading"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-search" secondAttribute="trailing" constant="12" id="search-trailing"/>
+                            <constraint firstItem="movies-search" firstAttribute="height" constant="44" id="search-height"/>
+                            <constraint firstItem="movies-segments" firstAttribute="top" secondItem="movies-search" secondAttribute="bottom" constant="8" id="segments-top"/>
+                            <constraint firstItem="movies-segments" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" constant="16" id="segments-leading"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-segments" secondAttribute="trailing" constant="16" id="segments-trailing"/>
+                            <constraint firstItem="movies-segments" firstAttribute="height" constant="32" id="segments-height"/>
+                            <constraint firstItem="movies-table" firstAttribute="top" secondItem="movies-segments" secondAttribute="bottom" constant="10" id="table-top"/>
+                            <constraint firstItem="movies-table" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" id="table-leading"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-table" secondAttribute="trailing" id="table-trailing"/>
+                            <constraint firstItem="movies-table" firstAttribute="bottom" secondItem="movies-safe" secondAttribute="bottom" id="table-bottom"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="movies-navigation-item"/>
+                    <connections>
+                        <outlet property="categorySegmentedControl" destination="movies-segments" id="outlet-segments"/>
+                        <outlet property="movieTableView" destination="movies-table" id="outlet-movies-table"/>
+                        <outlet property="searchBar" destination="movies-search" id="outlet-search"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-movies" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="420" y="-600"/>
+        </scene>
+        <!--Bookings Navigation Controller-->
+        <scene sceneID="scene-nav-bookings">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-bookings" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Bookings" image="ticket" catalog="system" id="tab-bookings"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-bookings">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bookings-vc" kind="relationship" relationship="rootViewController" id="root-bookings"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-bookings" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-410" y="125"/>
+        </scene>
+        <!--My Bookings-->
+        <scene sceneID="scene-bookings">
+            <objects>
+                <viewController id="bookings-vc" customClass="BookingsViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bookings-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="My Bookings" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-title">
+                                <rect key="frame" x="20" y="75" width="127" height="26"/>
+                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
+                                <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="4 BOOKINGS TOTAL" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-count">
+                                <rect key="frame" x="20" y="116" width="116" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="132" estimatedRowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-table">
+                                <rect key="frame" x="0.0" y="140" width="393" height="629"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="bookings-vc" id="bookings-data-source"/>
+                                    <outlet property="delegate" destination="bookings-vc" id="bookings-delegate"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="bookings-safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bookings-title" firstAttribute="top" secondItem="bookings-safe" secondAttribute="top" constant="16" id="bookings-title-top"/>
+                            <constraint firstItem="bookings-title" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" constant="20" id="bookings-title-leading"/>
+                            <constraint firstItem="bookings-count" firstAttribute="top" secondItem="bookings-title" secondAttribute="bottom" constant="10" id="bookings-count-top"/>
+                            <constraint firstItem="bookings-count" firstAttribute="leading" secondItem="bookings-title" secondAttribute="leading" id="bookings-count-leading"/>
+                            <constraint firstItem="bookings-table" firstAttribute="top" secondItem="bookings-count" secondAttribute="bottom" constant="12" id="bookings-table-top"/>
+                            <constraint firstItem="bookings-table" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" id="bookings-table-leading"/>
+                            <constraint firstAttribute="trailing" secondItem="bookings-table" secondAttribute="trailing" id="bookings-table-trailing"/>
+                            <constraint firstItem="bookings-table" firstAttribute="bottom" secondItem="bookings-safe" secondAttribute="bottom" id="bookings-table-bottom"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="bookings-navigation-item"/>
+                    <connections>
+                        <outlet property="bookingsTableView" destination="bookings-table" id="outlet-bookings-table"/>
+                        <outlet property="countLabel" destination="bookings-count" id="outlet-bookings-count"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-bookings" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="420" y="125"/>
+        </scene>
+        <!--Info Navigation Controller-->
+        <scene sceneID="scene-nav-info">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-info" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Info" image="info.circle" catalog="system" id="tab-info"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-info">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="info-vc" kind="relationship" relationship="rootViewController" id="root-info"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-info" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-410" y="850"/>
+        </scene>
+        <!--Info-->
+        <scene sceneID="scene-info">
+            <objects>
+                <viewController id="info-vc" customClass="InfoViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="info-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="info-safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="info-navigation-item"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-info" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="420" y="850"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="film" catalog="system" width="128" height="93"/>
+        <image name="info.circle" catalog="system" width="128" height="123"/>
+        <image name="person.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="ticket" catalog="system" width="128" height="102"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
