@@ -65,15 +65,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                         <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-profile">
-                                        <rect key="frame" x="341" y="16" width="36" height="36"/>
-                                        <fontDescription key="fontDescription" type="system" weight="bold" pointSize="13"/>
-                                        <color key="tintColor" white="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="person.circle.fill" catalog="system"/>
-                                        <connections>
-                                            <action selector="profileShortcutTapped:" destination="movies-vc" eventType="touchUpInside" id="profile-shortcut-action"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -81,10 +72,6 @@
                                     <constraint firstItem="movies-title" firstAttribute="leading" secondItem="movies-header" secondAttribute="leading" constant="20" id="title-leading"/>
                                     <constraint firstItem="movies-subtitle" firstAttribute="top" secondItem="movies-title" secondAttribute="bottom" constant="2" id="subtitle-top"/>
                                     <constraint firstItem="movies-subtitle" firstAttribute="leading" secondItem="movies-title" secondAttribute="leading" id="subtitle-leading"/>
-                                    <constraint firstItem="movies-profile" firstAttribute="centerY" secondItem="movies-header" secondAttribute="centerY" id="profile-center"/>
-                                    <constraint firstAttribute="trailing" secondItem="movies-profile" secondAttribute="trailing" constant="20" id="profile-trailing"/>
-                                    <constraint firstItem="movies-profile" firstAttribute="width" constant="36" id="profile-width"/>
-                                    <constraint firstItem="movies-profile" firstAttribute="height" constant="36" id="profile-height"/>
                                 </constraints>
                             </view>
                             <searchBar contentMode="redraw" placeholder="Search movies..." translatesAutoresizingMaskIntoConstraints="NO" id="movies-search">
@@ -100,7 +87,6 @@
                                     <segment title="All"/>
                                     <segment title="Now Playing"/>
                                     <segment title="Coming Soon"/>
-                                    <segment title="Top Rated"/>
                                 </segments>
                                 <connections>
                                     <action selector="categoryChanged:" destination="movies-vc" eventType="valueChanged" id="category-action"/>
@@ -140,7 +126,6 @@
                     <connections>
                         <outlet property="categorySegmentedControl" destination="movies-segments" id="outlet-segments"/>
                         <outlet property="movieTableView" destination="movies-table" id="outlet-movies-table"/>
-                        <outlet property="profileShortcutButton" destination="movies-profile" id="outlet-profile-shortcut"/>
                         <outlet property="searchBar" destination="movies-search" id="outlet-search"/>
                     </connections>
                 </viewController>
@@ -370,7 +355,6 @@
     <resources>
         <image name="film" catalog="system" width="128" height="93"/>
         <image name="person.crop.circle" catalog="system" width="128" height="123"/>
-        <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <image name="ticket" catalog="system" width="128" height="102"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

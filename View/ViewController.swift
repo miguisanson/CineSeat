@@ -9,12 +9,9 @@ final class ViewController: UIViewController {
     @IBOutlet private weak var searchBar: UISearchBar!
     // this outlet connects to the category segmented control
     @IBOutlet private weak var categorySegmentedControl: UISegmentedControl!
-    // storyboard button at the top right, shows profile initials when signed in
-    @IBOutlet private weak var profileShortcutButton: UIButton!
 
     private let factory = AppFactory.shared
     private lazy var viewModel = factory.makeMoviesViewModel()
-    private lazy var profileViewModel = factory.makeProfileViewModel()
     private let headerLabel = CineSeatTheme.captionLabel("")
     private let ratingSortButton = UIButton(type: .system)
 
@@ -22,26 +19,13 @@ final class ViewController: UIViewController {
         super.viewDidLoad()
         configureTableView()
         configureSearchBar()
-        configureProfileShortcutButton()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(authenticationChanged),
-            name: profileViewModel.authenticationDidChangeNotification,
-            object: nil
-        )
         categorySegmentedControl.selectedSegmentIndex = viewModel.selectedCategory.rawValue
         updateMovieHeader()
-        updateProfileShortcutButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        updateProfileShortcutButton()
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 
     private func configureTableView() {
@@ -69,42 +53,6 @@ final class ViewController: UIViewController {
         searchBar.searchTextField.font = .monospacedSystemFont(ofSize: 11, weight: .regular)
         searchBar.searchTextField.placeholder = "Search movies..."
         searchBar.backgroundImage = UIImage()
-    }
-
-    private func configureProfileShortcutButton() {
-        profileShortcutButton.layer.cornerRadius = 18
-        profileShortcutButton.clipsToBounds = true
-        profileShortcutButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .bold)
-        profileShortcutButton.accessibilityIdentifier = "profileShortcutButton"
-        profileShortcutButton.accessibilityLabel = "Open Profile"
-    }
-
-    @objc private func authenticationChanged() {
-        updateProfileShortcutButton()
-    }
-
-    private func updateProfileShortcutButton() {
-        if let profile = profileViewModel.currentProfile {
-            profileShortcutButton.setImage(nil, for: .normal)
-            profileShortcutButton.setTitle(profile.initials, for: .normal)
-            profileShortcutButton.setTitleColor(.white, for: .normal)
-            profileShortcutButton.backgroundColor = CineSeatTheme.primaryText
-            profileShortcutButton.layer.borderWidth = 0
-        } else {
-            profileShortcutButton.setTitle(nil, for: .normal)
-            profileShortcutButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
-            profileShortcutButton.tintColor = CineSeatTheme.mutedText
-            profileShortcutButton.backgroundColor = .clear
-            profileShortcutButton.layer.borderWidth = 0
-        }
-    }
-
-    // storyboard action from the profile shortcut button
-    @IBAction private func profileShortcutTapped(_ sender: UIButton) {
-        tabBarController?.selectedIndex = 2
-        if let profileNavigation = tabBarController?.selectedViewController as? UINavigationController {
-            profileNavigation.popToRootViewController(animated: false)
-        }
     }
 
     // value changed action from the storyboard category segmented control

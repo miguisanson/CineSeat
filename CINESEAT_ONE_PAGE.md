@@ -4,7 +4,7 @@
 
 ## Application Overview
 
-CineSeat is a cinema booking app based on a Figma wireframe. A user can search and filter movies, sort top-rated movies, view online poster images, choose a scheduled showing with an assigned cinema, select available seats, review prices, confirm a booking after login, view the cinema map again from booking details, cancel saved bookings, and manage a local profile through account creation, login, editing, logout, and restored sessions. The main storyboard contains three tab-based navigation flows: **Movies**, **Bookings**, and **Profile**.
+CineSeat is a cinema booking app based on a Figma wireframe. A user can search and filter movies, sort each movie filter by highest or lowest rating, view online poster images, choose a scheduled showing with an assigned cinema, select available seats, review prices, confirm a booking after login, view the cinema map again from booking details, cancel saved bookings, and manage a local profile through account creation, login, editing, logout, and restored sessions. The main storyboard contains three tab-based navigation flows: **Movies**, **Bookings**, and **Profile**.
 
 **Main flow:** Movies -> Movie Detail -> Scheduled Showing -> Seat Selection -> Booking Summary -> Confirmation -> Booking History. Profile -> Create Account/Login -> View/Edit Profile -> Logout.
 

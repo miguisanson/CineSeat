@@ -39,20 +39,19 @@ final class MoviesViewModel {
     }
 
     var filterSummaryText: String {
+        let sortText = ratingSortOrder.title.lowercased()
         switch selectedCategory {
         case .all:
-            return "\(filteredMovies.count) movies available"
+            return "\(filteredMovies.count) movies available - rating \(sortText)"
         case .nowPlaying:
-            return "\(filteredMovies.count) movies ready for booking"
+            return "\(filteredMovies.count) movies ready for booking - rating \(sortText)"
         case .comingSoon:
-            return "\(filteredMovies.count) movies coming soon - booking opens later"
-        case .topRated:
-            return "\(filteredMovies.count) top rated movies - \(ratingSortOrder.title.lowercased())"
+            return "\(filteredMovies.count) movies coming soon - rating \(sortText)"
         }
     }
 
     var canSortRating: Bool {
-        selectedCategory == .topRated
+        true
     }
 
     var ratingSortButtonTitle: String {
@@ -77,14 +76,10 @@ final class MoviesViewModel {
                 matchesCategory = movie.isNowPlaying
             case .comingSoon:
                 matchesCategory = movie.isComingSoon
-            case .topRated:
-                matchesCategory = movie.rating >= 4.5
             }
 
             return matchesSearch && matchesCategory
         }
-
-        guard selectedCategory == .topRated else { return matchingMovies }
 
         return matchingMovies.sorted { first, second in
             if first.rating == second.rating {

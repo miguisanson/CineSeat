@@ -5,7 +5,7 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 ## Features
 
 - Search and filter the movie table view
-- Sort top-rated movies by highest or lowest rating
+- Sort All, Now Playing, and Coming Soon movies by highest or lowest rating
 - Load bundled movie poster images offline, with online cache fallback when needed
 - View movie details and scheduled showings
 - Block seat booking for Coming Soon movies
@@ -30,7 +30,7 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 - `Models/AccountPersistence.swift`: profile JSON repository, Keychain passwords, and session storage
 - `Domain/DependencyProtocols.swift`: protocol-based DI contracts for API fetch, preferences, bookings, and auth
 - `Domain/UseCases.swift`: movie, booking, confirmation, and cancellation use cases
-- `ViewModel/MoviesViewModels.swift`: movie search, category filtering, and movie count text
+- `ViewModel/MoviesViewModels.swift`: movie search, category filtering, rating sorting, and movie count text
 - `ViewModel/BookingViewModels.swift`: booking filtering, fixed showing selection, and seat-selection business logic
 - `ViewModel/ProfileViewModels.swift`: login, registration, and profile business logic
 - `View/ViewController.swift`: Movies table view screen

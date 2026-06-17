@@ -6,14 +6,12 @@ enum MovieCategory: Int, CaseIterable, Codable {
     case all
     case nowPlaying
     case comingSoon
-    case topRated
 
     var title: String {
         switch self {
         case .all: return "All"
         case .nowPlaying: return "Now Playing"
         case .comingSoon: return "Coming Soon"
-        case .topRated: return "Top Rated"
         }
     }
 }
