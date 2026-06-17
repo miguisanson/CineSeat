@@ -68,7 +68,9 @@ private struct SampleDataStore {
             throw SampleDataError.missingJSON
         }
 
-        let data = try Data(contentsOf: jsonURL)
+        guard let data = fileManager.contents(atPath: jsonURL.path) else {
+            throw SampleDataError.unreadableJSON
+        }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return try decoder.decode(SampleDataJSON.self, from: data)
@@ -163,6 +165,7 @@ private struct ProfileAccountJSON: Decodable {
 
 private enum SampleDataError: LocalizedError {
     case missingJSON
+    case unreadableJSON
     case missingMovie(String)
     case missingCinema(Int)
 
@@ -170,6 +173,8 @@ private enum SampleDataError: LocalizedError {
         switch self {
         case .missingJSON:
             return "SampleDataJson.json is missing from the app bundle"
+        case .unreadableJSON:
+            return "SampleDataJson.json could not be read"
         case .missingMovie(let title):
             return "Missing movie in sample json: \(title)"
         case .missingCinema(let id):

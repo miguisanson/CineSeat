@@ -196,7 +196,7 @@ final class PosterPlaceholderView: UIView {
             withExtension: nil,
             subdirectory: "PosterImages"
         ),
-              let data = try? Data(contentsOf: fileURL) else {
+              let data = FileManager.default.contents(atPath: fileURL.path) else {
             return nil
         }
         return UIImage(data: data)

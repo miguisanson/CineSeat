@@ -6,7 +6,7 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 
 - Search and filter the movie table view
 - Sort top-rated movies by highest or lowest rating
-- Load movie poster images online and cache them on the device
+- Load bundled movie poster images offline, with online cache fallback when needed
 - View movie details and scheduled showings
 - Block seat booking for Coming Soon movies
 - Use fixed cinema schedules: 6 standard cinemas at ₱350 and 2 VIP cinemas at ₱550
