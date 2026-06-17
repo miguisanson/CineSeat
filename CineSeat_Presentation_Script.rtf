@@ -1,0 +1,46 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Arial;}}
+\f0\fs24
+\b CineSeat Presentation Script\b0\par
+\par
+\b 1. TMDB Poster Integration\b0\par
+CineSeat uses direct TMDB image CDN links for movie posters. It does not use the full TMDB API yet, so there is no API key required in the current version.\par
+\par
+Each movie in the Movie model has a posterURLString property. In SampleData, every movie has a poster URL, for example a TMDB image link. When a movie is shown in the table view or movie detail screen, the app passes that URL to PosterPlaceholderView.\par
+\par
+PosterPlaceholderView handles the loading. First, it checks if the image already exists in the app cache. If it exists, the local cached image is shown. If it does not exist, URLSession downloads the image online. After downloading, the image data is saved inside the app Caches directory in a PosterCache folder, then shown in a UIImageView.\par
+\par
+So the flow is: Movie model has poster URL, the cell or detail screen calls loadPoster, URLSession downloads the image, FileManager saves it to cache, and UIImageView displays it.\par
+\par
+\b 2. Constraints and Scalable Layout\b0\par
+The app is made scalable using Auto Layout, safe area constraints, scroll views, table views, and stack views.\par
+\par
+In the storyboard, the Movies screen uses top, leading, trailing, and bottom constraints. The table view is pinned to the screen edges and safe area, so it automatically resizes on different devices.\par
+\par
+For screens built in Swift, the app uses ScrollableViewController. This creates a UIScrollView with a vertical UIStackView inside it. The scroll view is pinned to the safe area, and the stack view is pinned to the scroll view layout guides. This allows long screens like movie detail, seat selection, booking summary, and profile forms to scroll properly on smaller devices.\par
+\par
+The seat map also adjusts based on device size. On compact screens, the seat spacing and seat size are smaller. This helps the layout fit on phones like iPhone SE while still looking balanced on larger devices.\par
+\par
+\b 3. Module 5: Data Persistence\b0\par
+Module 5 is applied through UserDefaults, FileManager, Codable JSON storage, and Keychain.\par
+\par
+UserDefaults stores simple app preferences such as the selected movie category, the show-cancelled-bookings setting, and the signed-in profile ID.\par
+\par
+Bookings are stored using BookingFileRepository. It uses FileManager to find the Documents directory, then saves bookings to bookings.json using JSONEncoder. When the app opens, JSONDecoder reads the saved bookings back into the app.\par
+\par
+Profiles are stored in profiles.json using the same Codable and FileManager approach. Passwords are not saved in JSON. They are stored separately in the iOS Keychain through KeychainPasswordStore, which uses SecItemAdd, SecItemCopyMatching, and SecItemDelete.\par
+\par
+This shows simple preferences, save and retrieve data, Codable models, file writing and reading, and secure password storage.\par
+\par
+\b 4. Module 6: MVVM, Clean Architecture, and DI\b0\par
+Module 6 is applied through MVVM, clean architecture folders, protocol-based dependency injection, singleton usage, and the factory pattern.\par
+\par
+The app is separated into Models, View, ViewModel, Domain, and Design folders. The View layer contains view controllers and UI. The ViewModel layer handles screen logic like movie filtering, booking filtering, seat totals, and profile actions. The Model layer contains data structures and persistence. The Domain layer contains protocols and use cases. The Design layer contains reusable UI components and AppFactory.\par
+\par
+Protocol-based dependency injection is shown through protocols such as MovieFetching, BookingManaging, AppPreferencesManaging, and Authenticating. ViewModels receive use cases or services instead of directly creating concrete classes.\par
+\par
+AppFactory is the composition root. It creates view controllers and view models, then injects the dependencies they need. The app still uses a few singletons, such as AppFactory.shared, AppPreferences.shared, BookingStore.shared, and AuthenticationService.shared, but they are kept at the app-service level.\par
+\par
+\b Short Closing\b0\par
+Overall, CineSeat applies UIKit, MVVM, persistence, protocol-based dependency injection, and scalable Auto Layout. Posters are loaded online from TMDB image links and cached locally. User data is stored with JSON files and Keychain. The app keeps the structure simple enough for a beginner iOS project while still showing the main module concepts.\par
+}

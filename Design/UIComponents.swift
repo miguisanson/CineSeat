@@ -1,5 +1,7 @@
 import UIKit
 
+// module 6 design layer
+// shared colors, reusable cells, and layout helpers live here
 enum CineSeatTheme {
     static let background = UIColor.white
     static let card = UIColor(white: 0.96, alpha: 1)
@@ -11,7 +13,7 @@ enum CineSeatTheme {
     static let reservedSeat = UIColor(white: 0.75, alpha: 1)
 
     static func money(_ value: Double) -> String {
-        String(format: "$%.2f", value)
+        String(format: "₱%.2f", value)
     }
 
     static func captionLabel(_ text: String) -> UILabel {
@@ -85,8 +87,11 @@ final class CardView: UIView {
 }
 
 final class PosterPlaceholderView: UIView {
+    private let imageView = UIImageView()
     private let iconView = UIImageView(image: UIImage(systemName: "photo"))
     private let titleLabel = CineSeatTheme.captionLabel("Poster")
+    private var currentPosterID: String?
+    private var task: URLSessionDataTask?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,6 +107,12 @@ final class PosterPlaceholderView: UIView {
         backgroundColor = CineSeatTheme.placeholder
         layer.borderWidth = 1
         layer.borderColor = UIColor(white: 0.69, alpha: 1).cgColor
+        clipsToBounds = true
+
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.isHidden = true
+        addSubview(imageView)
 
         iconView.tintColor = CineSeatTheme.mutedText
         iconView.contentMode = .scaleAspectFit
@@ -115,41 +126,134 @@ final class PosterPlaceholderView: UIView {
         addSubview(stack)
 
         NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             iconView.widthAnchor.constraint(equalToConstant: 28),
             iconView.heightAnchor.constraint(equalToConstant: 28),
             stack.centerXAnchor.constraint(equalTo: centerXAnchor),
             stack.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
+
+    func loadPoster(from urlString: String?, localName: String? = nil) {
+        task?.cancel()
+        imageView.image = nil
+        imageView.isHidden = true
+        iconView.superview?.isHidden = false
+        currentPosterID = localName ?? urlString
+
+        if let localName,
+           let image = bundledPoster(named: localName) {
+            show(image, for: localName)
+            return
+        }
+
+        guard let urlString,
+              let url = URL(string: urlString) else {
+            currentPosterID = nil
+            return
+        }
+
+        currentPosterID = urlString
+
+        if let cachedURL = cachedFileURL(for: url),
+           let data = try? Data(contentsOf: cachedURL),
+           let image = UIImage(data: data) {
+            show(image, for: urlString)
+            return
+        }
+
+        task = URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+            guard let self,
+                  let data,
+                  let image = UIImage(data: data) else {
+                return
+            }
+
+            if let cachedURL = self.cachedFileURL(for: url) {
+                try? data.write(to: cachedURL, options: .atomic)
+            }
+
+            DispatchQueue.main.async {
+                self.show(image, for: urlString)
+            }
+        }
+        task?.resume()
+    }
+
+    private func show(_ image: UIImage, for posterID: String) {
+        guard currentPosterID == posterID else { return }
+        imageView.image = image
+        imageView.isHidden = false
+        iconView.superview?.isHidden = true
+    }
+
+    private func bundledPoster(named fileName: String) -> UIImage? {
+        guard let fileURL = Bundle.main.url(
+            forResource: fileName,
+            withExtension: nil,
+            subdirectory: "PosterImages"
+        ),
+              let data = try? Data(contentsOf: fileURL) else {
+            return nil
+        }
+        return UIImage(data: data)
+    }
+
+    private func cachedFileURL(for url: URL) -> URL? {
+        guard let cacheDirectory = FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask
+        ).first else {
+            return nil
+        }
+
+        let posterDirectory = cacheDirectory.appendingPathComponent("PosterCache", isDirectory: true)
+        try? FileManager.default.createDirectory(
+            at: posterDirectory,
+            withIntermediateDirectories: true
+        )
+        return posterDirectory.appendingPathComponent(url.lastPathComponent)
+    }
 }
 
 class ScrollableViewController: UIViewController {
-    let scrollView = UIScrollView()
-    let contentStack = UIStackView()
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var contentStack: UIStackView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = CineSeatTheme.background
 
-        scrollView.alwaysBounceVertical = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
+        if scrollView == nil {
+            scrollView = UIScrollView()
+            scrollView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(scrollView)
+            NSLayoutConstraint.activate([
+                scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            ])
+        }
 
+        if contentStack == nil {
+            contentStack = UIStackView()
+            contentStack.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview(contentStack)
+            NSLayoutConstraint.activate([
+                contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
+                contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
+                contentStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -20),
+                contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
+            ])
+        }
+
+        scrollView.alwaysBounceVertical = true
         contentStack.axis = .vertical
         contentStack.spacing = 12
-        contentStack.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(contentStack)
-
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
-            contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
-            contentStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -20),
-            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
-        ])
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -211,6 +315,11 @@ final class MovieTableViewCell: UITableViewCell {
         configureViews()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterView.loadPoster(from: nil)
+    }
+
     private func configureViews() {
         backgroundColor = .clear
         selectionStyle = .none
@@ -222,8 +331,10 @@ final class MovieTableViewCell: UITableViewCell {
 
         titleLabel.font = .systemFont(ofSize: 15, weight: .bold)
         titleLabel.textColor = CineSeatTheme.primaryText
+        titleLabel.numberOfLines = 2
         detailLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
         detailLabel.textColor = CineSeatTheme.mutedText
+        detailLabel.numberOfLines = 1
         ratingLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
         ratingLabel.textColor = CineSeatTheme.primaryText
         durationLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
@@ -252,23 +363,26 @@ final class MovieTableViewCell: UITableViewCell {
             card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             posterView.topAnchor.constraint(equalTo: card.topAnchor, constant: 12),
             posterView.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 12),
-            posterView.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -12),
+            posterView.bottomAnchor.constraint(lessThanOrEqualTo: card.bottomAnchor, constant: -12),
             posterView.widthAnchor.constraint(equalToConstant: 68),
             posterView.heightAnchor.constraint(equalToConstant: 92),
-            labels.topAnchor.constraint(equalTo: posterView.topAnchor),
+            labels.topAnchor.constraint(equalTo: card.topAnchor, constant: 12),
             labels.leadingAnchor.constraint(equalTo: posterView.trailingAnchor, constant: 12),
             labels.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -12),
-            labels.bottomAnchor.constraint(equalTo: posterView.bottomAnchor),
+            labels.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -12),
             bookLabel.widthAnchor.constraint(equalToConstant: 62),
             bookLabel.heightAnchor.constraint(equalToConstant: 26)
         ])
     }
 
     func configure(with movie: Movie) {
+        posterView.loadPoster(from: movie.posterURLString, localName: movie.localPosterName)
         titleLabel.text = movie.title
         detailLabel.text = movie.genre
         ratingLabel.text = "\(String(repeating: "*", count: Int(movie.rating.rounded())))  \(String(format: "%.1f", movie.rating))"
         durationLabel.text = "TIME  \(movie.duration)"
+        bookLabel.text = movie.isComingSoon ? "SOON" : "BOOK"
+        bookLabel.backgroundColor = movie.isComingSoon ? CineSeatTheme.mutedText : CineSeatTheme.primaryText
         isAccessibilityElement = true
         accessibilityIdentifier = "movieCell_\(movie.title)"
         accessibilityLabel = "\(movie.title), \(movie.genre), rating \(movie.rating), duration \(movie.duration)"
@@ -304,6 +418,7 @@ final class BookingTableViewCell: UITableViewCell {
 
         titleLabel.font = .systemFont(ofSize: 14, weight: .bold)
         titleLabel.textColor = CineSeatTheme.primaryText
+        titleLabel.numberOfLines = 2
         idLabel.font = .monospacedSystemFont(ofSize: 9, weight: .regular)
         idLabel.textColor = CineSeatTheme.mutedText
         statusLabel.font = .monospacedSystemFont(ofSize: 9, weight: .bold)
@@ -316,6 +431,7 @@ final class BookingTableViewCell: UITableViewCell {
         totalLabel.font = .monospacedSystemFont(ofSize: 13, weight: .bold)
         totalLabel.textColor = CineSeatTheme.primaryText
         totalLabel.textAlignment = .right
+        totalLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         let titleStack = UIStackView(arrangedSubviews: [titleLabel, UIView(), statusLabel])
         titleStack.axis = .horizontal

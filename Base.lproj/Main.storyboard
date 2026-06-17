@@ -20,7 +20,7 @@
                     <connections>
                         <segue destination="nav-movies" kind="relationship" relationship="viewControllers" id="segue-tab-movies"/>
                         <segue destination="nav-bookings" kind="relationship" relationship="viewControllers" id="segue-tab-bookings"/>
-                        <segue destination="nav-info" kind="relationship" relationship="viewControllers" id="segue-tab-info"/>
+                        <segue destination="nav-profile" kind="relationship" relationship="viewControllers" id="segue-tab-profile"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-tabs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -60,7 +60,7 @@
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
                                         <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="WIREFRAME PROTOTYPE" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-subtitle">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="CINEMA BOOKING" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-subtitle">
                                         <rect key="frame" x="20" y="43" width="136" height="12"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                         <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -177,8 +177,19 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                 <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Show cancelled bookings" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-filter-label">
+                                <rect key="frame" x="20" y="148" width="160" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.33000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-filter-switch">
+                                <rect key="frame" x="324" y="141" width="51" height="31"/>
+                                <connections>
+                                    <action selector="showCancelledChanged:" destination="bookings-vc" eventType="valueChanged" id="bookings-filter-action"/>
+                                </connections>
+                            </switch>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="132" estimatedRowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-table">
-                                <rect key="frame" x="0.0" y="140" width="393" height="629"/>
+                                <rect key="frame" x="0.0" y="184" width="393" height="585"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="bookings-vc" id="bookings-data-source"/>
@@ -193,7 +204,11 @@
                             <constraint firstItem="bookings-title" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" constant="20" id="bookings-title-leading"/>
                             <constraint firstItem="bookings-count" firstAttribute="top" secondItem="bookings-title" secondAttribute="bottom" constant="10" id="bookings-count-top"/>
                             <constraint firstItem="bookings-count" firstAttribute="leading" secondItem="bookings-title" secondAttribute="leading" id="bookings-count-leading"/>
-                            <constraint firstItem="bookings-table" firstAttribute="top" secondItem="bookings-count" secondAttribute="bottom" constant="12" id="bookings-table-top"/>
+                            <constraint firstItem="bookings-filter-label" firstAttribute="top" secondItem="bookings-count" secondAttribute="bottom" constant="14" id="bookings-filter-top"/>
+                            <constraint firstItem="bookings-filter-label" firstAttribute="leading" secondItem="bookings-title" secondAttribute="leading" id="bookings-filter-leading"/>
+                            <constraint firstItem="bookings-filter-switch" firstAttribute="centerY" secondItem="bookings-filter-label" secondAttribute="centerY" id="bookings-filter-switch-center"/>
+                            <constraint firstAttribute="trailing" secondItem="bookings-filter-switch" secondAttribute="trailing" constant="20" id="bookings-filter-switch-trailing"/>
+                            <constraint firstItem="bookings-table" firstAttribute="top" secondItem="bookings-filter-label" secondAttribute="bottom" constant="12" id="bookings-table-top"/>
                             <constraint firstItem="bookings-table" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" id="bookings-table-leading"/>
                             <constraint firstAttribute="trailing" secondItem="bookings-table" secondAttribute="trailing" id="bookings-table-trailing"/>
                             <constraint firstItem="bookings-table" firstAttribute="bottom" secondItem="bookings-safe" secondAttribute="bottom" id="bookings-table-bottom"/>
@@ -203,49 +218,152 @@
                     <connections>
                         <outlet property="bookingsTableView" destination="bookings-table" id="outlet-bookings-table"/>
                         <outlet property="countLabel" destination="bookings-count" id="outlet-bookings-count"/>
+                        <outlet property="showCancelledSwitch" destination="bookings-filter-switch" id="outlet-bookings-filter"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-bookings" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="420" y="125"/>
         </scene>
-        <!--Info Navigation Controller-->
-        <scene sceneID="scene-nav-info">
+        <!--Profile Navigation Controller-->
+        <scene sceneID="scene-nav-profile">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-info" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Info" image="info.circle" catalog="system" id="tab-info"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-info">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-profile" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle" catalog="system" id="tab-profile"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-profile">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="info-vc" kind="relationship" relationship="rootViewController" id="root-info"/>
+                        <segue destination="profile-vc" kind="relationship" relationship="rootViewController" id="root-profile"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-info" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-profile" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-410" y="850"/>
         </scene>
-        <!--Info-->
-        <scene sceneID="scene-info">
+        <!--Profile-->
+        <scene sceneID="scene-profile">
             <objects>
-                <viewController id="info-vc" customClass="InfoViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="info-view">
+                <viewController id="profile-vc" customClass="ProfileViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="profile-view">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="info-safe"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="profile-scroll">
+                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="profile-content-stack">
+                                        <rect key="frame" x="20" y="16" width="353" height="419"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Profile" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-title">
+                                                <rect key="frame" x="0.0" y="0.0" width="353" height="26"/>
+                                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
+                                                <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="profile-icon">
+                                                <rect key="frame" x="0.0" y="38" width="353" height="96"/>
+                                                <color key="tintColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="96" id="profile-icon-height"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Welcome to CineSeat" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-welcome">
+                                                <rect key="frame" x="0.0" y="146" width="353" height="26"/>
+                                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
+                                                <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Sign in to manage your account, keep your profile details, and quickly access your cinema bookings." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="profile-message">
+                                                <rect key="frame" x="0.0" y="184" width="353" height="50"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.33000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="horizontal" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="profile-button-hstack">
+                                                <rect key="frame" x="0.0" y="246" width="353" height="52"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-login-button">
+                                                        <rect key="frame" x="0.0" y="0.0" width="171.66666666666666" height="52"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                        <state key="normal" title="Log In"/>
+                                                        <connections>
+                                                            <action selector="profileLoginButtonTapped:" destination="profile-vc" eventType="touchUpInside" id="profile-login-action"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-create-button">
+                                                        <rect key="frame" x="181.66666666666666" y="0.0" width="171.33333333333334" height="52"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                        <state key="normal" title="Create Account"/>
+                                                        <connections>
+                                                            <action selector="profileCreateAccountButtonTapped:" destination="profile-vc" eventType="touchUpInside" id="profile-create-action"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="52" id="profile-button-hstack-height"/>
+                                                </constraints>
+                                            </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="profile-privacy-card">
+                                                <rect key="frame" x="0.0" y="310" width="353" height="109"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Your password is stored securely in the iOS Keychain. Account data stays on this device." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="profile-privacy-label">
+                                                        <rect key="frame" x="12" y="12" width="329" height="85"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                        <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.96000000000000008" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="profile-privacy-label" firstAttribute="top" secondItem="profile-privacy-card" secondAttribute="top" constant="12" id="profile-privacy-label-top"/>
+                                                    <constraint firstItem="profile-privacy-label" firstAttribute="leading" secondItem="profile-privacy-card" secondAttribute="leading" constant="12" id="profile-privacy-label-leading"/>
+                                                    <constraint firstAttribute="trailing" secondItem="profile-privacy-label" secondAttribute="trailing" constant="12" id="profile-privacy-label-trailing"/>
+                                                    <constraint firstAttribute="bottom" secondItem="profile-privacy-label" secondAttribute="bottom" constant="12" id="profile-privacy-label-bottom"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <viewLayoutGuide key="contentLayoutGuide" id="profile-scroll-content"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="profile-scroll-frame"/>
+                                <constraints>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="top" secondItem="profile-scroll-content" secondAttribute="top" constant="16" id="profile-stack-top"/>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="leading" secondItem="profile-scroll-content" secondAttribute="leading" constant="20" id="profile-stack-leading"/>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="trailing" secondItem="profile-scroll-content" secondAttribute="trailing" constant="-20" id="profile-stack-trailing"/>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="bottom" secondItem="profile-scroll-content" secondAttribute="bottom" constant="-20" id="profile-stack-bottom"/>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="width" secondItem="profile-scroll-frame" secondAttribute="width" constant="-40" id="profile-stack-width"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="profile-safe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="profile-scroll" firstAttribute="top" secondItem="profile-safe" secondAttribute="top" id="profile-scroll-top"/>
+                            <constraint firstItem="profile-scroll" firstAttribute="leading" secondItem="profile-view" secondAttribute="leading" id="profile-scroll-leading"/>
+                            <constraint firstAttribute="trailing" secondItem="profile-scroll" secondAttribute="trailing" id="profile-scroll-trailing"/>
+                            <constraint firstItem="profile-scroll" firstAttribute="bottom" secondItem="profile-safe" secondAttribute="bottom" id="profile-scroll-bottom"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="info-navigation-item"/>
+                    <navigationItem key="navigationItem" id="profile-navigation-item"/>
+                    <connections>
+                        <outlet property="contentStack" destination="profile-content-stack" id="outlet-profile-content-stack"/>
+                        <outlet property="profileCreateAccountButton" destination="profile-create-button" id="outlet-profile-create-button"/>
+                        <outlet property="profileLoginButton" destination="profile-login-button" id="outlet-profile-login-button"/>
+                        <outlet property="scrollView" destination="profile-scroll" id="outlet-profile-scroll"/>
+                        <outlet property="signedOutButtonStackView" destination="profile-button-hstack" id="outlet-profile-button-hstack"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="first-info" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-profile" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="420" y="850"/>
         </scene>
     </scenes>
     <resources>
         <image name="film" catalog="system" width="128" height="93"/>
-        <image name="info.circle" catalog="system" width="128" height="123"/>
+        <image name="person.crop.circle" catalog="system" width="128" height="123"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <image name="ticket" catalog="system" width="128" height="102"/>
         <systemColor name="systemBackgroundColor">
