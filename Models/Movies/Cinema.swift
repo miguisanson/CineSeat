@@ -1,0 +1,18 @@
+import Foundation
+
+// module 1 codable struct
+// each cinema has its own layout so seats are not one-size-fits-all
+struct Cinema: Codable, Equatable, Identifiable {
+    let id: Int
+    let name: String
+    let type: CinemaType
+    let ticketPrice: Double
+
+    var shortName: String {
+        "Cinema \(id)"
+    }
+
+    var seatLayout: SeatLayout {
+        SeatLayout.layout(forCinemaID: id, type: type)
+    }
+}

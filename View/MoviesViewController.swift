@@ -2,7 +2,7 @@ import UIKit
 
 // module 2 movies screen
 // storyboard outlets connect the search filter and table view here
-final class ViewController: UIViewController {
+final class MoviesViewController: UIViewController {
     // this outlet connects to the movies table view
     @IBOutlet private weak var movieTableView: UITableView!
     // this outlet connects to the search bar above the movie list
@@ -78,7 +78,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UISearchBarDelegate {
+extension MoviesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.searchText = searchText
         reloadMovies()
@@ -89,7 +89,7 @@ extension ViewController: UISearchBarDelegate {
     }
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.filteredMovies.count
     }

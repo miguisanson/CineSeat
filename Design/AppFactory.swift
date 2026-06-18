@@ -55,8 +55,8 @@ final class AppFactory {
         MovieScheduleViewModel(movie: movie)
     }
 
-    func makeSeatSelectionViewModel(ticketPrice: Double = 350) -> SeatSelectionViewModel {
-        SeatSelectionViewModel(ticketPrice: ticketPrice)
+    func makeSeatSelectionViewModel(layout: SeatLayout, ticketPrice: Double = 350) -> SeatSelectionViewModel {
+        SeatSelectionViewModel(layout: layout, ticketPrice: ticketPrice)
     }
 
     func makeProfileViewModel() -> ProfileViewModel {

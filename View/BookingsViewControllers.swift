@@ -208,63 +208,23 @@ final class BookingDetailViewController: ScrollableViewController {
         return stack
     }
 
-    private func makeBookedSeatMap() -> UIStackView {
-        let selectedSeats = Set(booking.seats)
-        let reservedSeats = SeatSelectionViewModel(selectedSeats: []).reservedSeats
-        let gridStack = UIStackView()
-        gridStack.axis = .vertical
-        gridStack.spacing = 5
-        gridStack.alignment = .center
-
-        for row in Array("ABCDEFG").map(String.init) {
-            let rowStack = UIStackView()
-            rowStack.axis = .horizontal
-            rowStack.spacing = traitCollection.horizontalSizeClass == .compact ? 3 : 4
-            rowStack.alignment = .center
-            rowStack.addArrangedSubview(makeMapRowLabel(row))
-
-            for number in 1...8 {
-                if number == 5 {
-                    let aisle = UIView()
-                    aisle.widthAnchor.constraint(equalToConstant: 6).isActive = true
-                    rowStack.addArrangedSubview(aisle)
-                }
-
-                let seat = "\(row)\(number)"
-                let isBookedSeat = selectedSeats.contains(seat)
-                let button = UIButton(type: .system)
-                button.accessibilityIdentifier = "bookingSeat_\(seat)"
-                button.accessibilityLabel = "Booking seat \(seat)"
-                button.titleLabel?.font = .monospacedSystemFont(ofSize: 8, weight: .bold)
-                button.setTitle(isBookedSeat ? seat : "", for: .normal)
-                button.setTitleColor(.white, for: .normal)
-                button.backgroundColor = isBookedSeat ? CineSeatTheme.primaryText : (reservedSeats.contains(seat) ? CineSeatTheme.reservedSeat : CineSeatTheme.card)
-                button.layer.cornerRadius = 5
-                button.layer.borderWidth = 1
-                button.layer.borderColor = (isBookedSeat ? CineSeatTheme.primaryText : CineSeatTheme.border).cgColor
-                button.isEnabled = isBookedSeat
-                button.widthAnchor.constraint(equalToConstant: traitCollection.horizontalSizeClass == .compact ? 24 : 28).isActive = true
-                button.heightAnchor.constraint(equalToConstant: 25).isActive = true
-                button.addTarget(self, action: #selector(bookedSeatTapped(_:)), for: .touchUpInside)
-                rowStack.addArrangedSubview(button)
-            }
-
-            rowStack.addArrangedSubview(makeMapRowLabel(row))
-            gridStack.addArrangedSubview(rowStack)
+    private func makeBookedSeatMap() -> SeatMapView {
+        let seatMapView = SeatMapView()
+        let bookedSeats = Set(booking.seats)
+        seatMapView.configure(
+            layout: booking.seatLayout,
+            selectedSeats: [],
+            highlightedSeats: bookedSeats,
+            showsSeatIDForHighlightedSeats: true,
+            accessibilityPrefix: "bookingSeat"
+        )
+        seatMapView.onSeatTapped = { [weak self] seat in
+            self?.showBookedSeatAlert(seat)
         }
-
-        return gridStack
+        return seatMapView
     }
 
-    private func makeMapRowLabel(_ row: String) -> UILabel {
-        let label = CineSeatTheme.captionLabel(row)
-        label.textAlignment = .center
-        label.widthAnchor.constraint(equalToConstant: 12).isActive = true
-        return label
-    }
-
-    @objc private func bookedSeatTapped(_ sender: UIButton) {
-        let seat = sender.accessibilityIdentifier?.replacingOccurrences(of: "bookingSeat_", with: "") ?? "selected seat"
+    private func showBookedSeatAlert(_ seat: String) {
         let alert = UIAlertController(
             title: "Seat \(seat)",
             message: "This highlighted seat is inside \(booking.cinema).",

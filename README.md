@@ -10,7 +10,7 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 - View movie details and scheduled showings
 - Block seat booking for Coming Soon movies
 - Use fixed cinema schedules: 6 standard cinemas at ₱350 and 2 VIP cinemas at ₱550
-- Select available seats from a 7-row seat map
+- Select available seats from cinema-specific seat maps
 - Review ticket price, booking fee, and total
 - Confirm a booking and receive a booking ID
 - View booking history after login and cancel confirmed bookings
@@ -21,24 +21,27 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 
 ## Project Structure
 
-- `Models/Models.swift`: `Movie`, `Cinema`, `MovieShowing`, `Booking`, `BookingDraft`, and `BookingStore`
-- `Models/SampleDataJson.json`: seeded movies, cinema schedules, bookings, and profile accounts used by the local demo data source
+- `Models/Movies/`: movie, cinema, showing, category, rating sort, and cinema type structs/enums
+- `Models/Booking/`: booking, draft, status, and seat layout structs/enums
+- `Models/Profile/`: profile, sample account, authentication error, and account validation structs/enums
+- `Persistence/SampleData/SampleDataJson.json`: seeded movies, cinema schedules, bookings, and profile accounts used by the local demo data source
 - `PosterImages/`: bundled poster image files used for offline display
-- `Models/SampleDataStore.swift`: JSON loader that decodes the bundled sample data with `FileManager` and `JSONDecoder`
-- `Models/Persistence.swift`: UserDefaults preferences and Codable JSON FileManager storage
-- `Models/AccountModels.swift`: profile model and account validation
-- `Models/AccountPersistence.swift`: profile JSON repository, Keychain passwords, and session storage
+- `Persistence/SampleData/`: JSON DTOs, decoder loader, mapper, and sample data entry point
+- `Persistence/Shared/`: reusable JSON FileManager reader/writer helpers
+- `Persistence/Booking/`: booking JSON repository and booking store
+- `Persistence/Profile/`: profile JSON repository, Keychain passwords, authentication service, and session storage
+- `Persistence/AppPreferences.swift`: UserDefaults preferences and flags
 - `Domain/DependencyProtocols.swift`: protocol-based DI contracts for API fetch, preferences, bookings, and auth
 - `Domain/UseCases.swift`: movie, booking, confirmation, and cancellation use cases
 - `ViewModel/MoviesViewModels.swift`: movie search, category filtering, rating sorting, and movie count text
 - `ViewModel/BookingViewModels.swift`: booking filtering, fixed showing selection, and seat-selection business logic
 - `ViewModel/ProfileViewModels.swift`: login, registration, and profile business logic
-- `View/ViewController.swift`: Movies table view screen
+- `View/MoviesViewController.swift`: Movies table view screen
 - `View/BookingFlowViewControllers.swift`: detail, seat, summary, and confirmation screens
 - `View/BookingsViewControllers.swift`: booking list and booking detail screens
 - `View/ProfileViewControllers.swift`: Profile tab and account screens
-- `Design/UIComponents.swift`: reusable cells, poster image cache, cards, buttons, theme, and scroll layout
 - `Design/AppFactory.swift`: factory pattern and composition root for dependencies
+- `CustomViews/`: reusable theme, cards, poster view, table cells, scroll container, and custom seating views
 - `CINESEAT_ONE_PAGE.md`: compact application overview and lecture-module reflection
 
 ## Storyboard Connections
@@ -69,7 +72,7 @@ The My Bookings scene connects:
 - `showCancelledChanged:` action
 - table view data source and delegate
 
-All storyboard views use Auto Layout. The booking-flow screens use `UIStackView` inside `UIScrollView` so they also fit compact devices such as iPhone SE.
+All storyboard views use Auto Layout. The booking-flow screens use `UIStackView` inside `UIScrollView` so they also fit compact devices such as iPhone SE. The seating UI is a custom UIKit view made from vertical and horizontal `UIStackView` rows with `UIButton` seats, so every cinema can have a different row count, aisle position, reserved seats, and unavailable seats.
 
 ## Architecture
 
@@ -77,7 +80,7 @@ The project follows a small MVVM and clean architecture structure:
 
 - Presentation: storyboard scenes, view controllers, view models, table cells, buttons, labels, and stack views
 - Domain: protocol-based DI contracts and use cases for fetching movies, filtering bookings, confirming bookings, cancelling bookings, and authentication access
-- Design: shared UI theme, reusable cells, layout helpers, and the factory that composes dependencies
+- Design: shared UI theme, reusable custom views, layout helpers, and the factory that composes dependencies
 - Model/Data: movie, booking, draft, profile, storage repository, and authentication service
 
 ## Module 5 Persistence

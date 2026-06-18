@@ -120,24 +120,27 @@ final class MovieScheduleViewModel {
 // module 2 seat selection viewmodel
 // seat rules and total price math stay here before the ui updates
 final class SeatSelectionViewModel {
-    let rows = Array("ABCDEFG").map(String.init)
-    let seatsPerRow = 8
-    let reservedSeats: Set<String> = [
-        "A2", "A3", "B5", "C1", "C2", "D4", "D5",
-        "E6", "E7", "F3", "G1", "G2", "G3"
-    ]
-
+    let layout: SeatLayout
     private(set) var selectedSeats: Set<String>
     let ticketPrice: Double
 
-    init(selectedSeats: Set<String> = ["D2", "D3"], ticketPrice: Double = 350) {
-        self.selectedSeats = selectedSeats.subtracting(reservedSeats)
+    var reservedSeats: Set<String> {
+        layout.reservedSeats
+    }
+
+    init(
+        layout: SeatLayout = SeatLayout.layout(forCinemaID: 1, type: .standard),
+        selectedSeats: Set<String> = ["D2", "D3"],
+        ticketPrice: Double = 350
+    ) {
+        self.layout = layout
+        self.selectedSeats = Set(selectedSeats.filter { layout.isSelectable($0) })
         self.ticketPrice = ticketPrice
     }
 
     @discardableResult
     func toggleSeat(_ seat: String) -> Bool {
-        guard !reservedSeats.contains(seat) else { return false }
+        guard layout.isSelectable(seat) else { return false }
 
         if selectedSeats.contains(seat) {
             selectedSeats.remove(seat)
@@ -149,16 +152,18 @@ final class SeatSelectionViewModel {
 
     var sortedSelectedSeats: [String] {
         selectedSeats.sorted { first, second in
-            let firstRow = first.first ?? "A"
-            let secondRow = second.first ?? "A"
-            if firstRow == secondRow {
-                return Int(first.dropFirst()) ?? 0 < Int(second.dropFirst()) ?? 0
-            }
-            return firstRow < secondRow
+            seatSortKey(first) < seatSortKey(second)
         }
     }
 
     var total: Double {
         Double(selectedSeats.count) * ticketPrice
+    }
+
+    private func seatSortKey(_ seat: String) -> String {
+        let rowLabel = String(seat.prefix(while: { !$0.isNumber }))
+        let seatNumber = Int(seat.drop { !$0.isNumber }) ?? 0
+        let rowIndex = layout.rows.firstIndex { $0.label == rowLabel } ?? 999
+        return String(format: "%03d-%03d", rowIndex, seatNumber)
     }
 }

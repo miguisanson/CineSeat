@@ -47,7 +47,7 @@
         <!--Movies-->
         <scene sceneID="scene-movies">
             <objects>
-                <viewController id="movies-vc" customClass="ViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="movies-vc" customClass="MoviesViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="movies-view">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

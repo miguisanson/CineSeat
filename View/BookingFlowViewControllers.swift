@@ -176,70 +176,16 @@ final class MovieDetailViewController: ScrollableViewController {
 }
 
 // module 2 seat selection screen
-// seat buttons are connected one by one to show manual outlet style
+// view controller handles flow, seat rules stay in the viewmodel
 final class SeatSelectionViewController: ScrollableViewController {
     var draft: BookingDraft!
     var factory = AppFactory.shared
 
-    private lazy var viewModel = factory.makeSeatSelectionViewModel(ticketPrice: draft.ticketPrice)
-    // beginner-style seat button references
-    // this intentionally avoids a clean dictionary or outlet collection
-    private var seatA1Button: UIButton!
-    private var seatA2Button: UIButton!
-    private var seatA3Button: UIButton!
-    private var seatA4Button: UIButton!
-    private var seatA5Button: UIButton!
-    private var seatA6Button: UIButton!
-    private var seatA7Button: UIButton!
-    private var seatA8Button: UIButton!
-    private var seatB1Button: UIButton!
-    private var seatB2Button: UIButton!
-    private var seatB3Button: UIButton!
-    private var seatB4Button: UIButton!
-    private var seatB5Button: UIButton!
-    private var seatB6Button: UIButton!
-    private var seatB7Button: UIButton!
-    private var seatB8Button: UIButton!
-    private var seatC1Button: UIButton!
-    private var seatC2Button: UIButton!
-    private var seatC3Button: UIButton!
-    private var seatC4Button: UIButton!
-    private var seatC5Button: UIButton!
-    private var seatC6Button: UIButton!
-    private var seatC7Button: UIButton!
-    private var seatC8Button: UIButton!
-    private var seatD1Button: UIButton!
-    private var seatD2Button: UIButton!
-    private var seatD3Button: UIButton!
-    private var seatD4Button: UIButton!
-    private var seatD5Button: UIButton!
-    private var seatD6Button: UIButton!
-    private var seatD7Button: UIButton!
-    private var seatD8Button: UIButton!
-    private var seatE1Button: UIButton!
-    private var seatE2Button: UIButton!
-    private var seatE3Button: UIButton!
-    private var seatE4Button: UIButton!
-    private var seatE5Button: UIButton!
-    private var seatE6Button: UIButton!
-    private var seatE7Button: UIButton!
-    private var seatE8Button: UIButton!
-    private var seatF1Button: UIButton!
-    private var seatF2Button: UIButton!
-    private var seatF3Button: UIButton!
-    private var seatF4Button: UIButton!
-    private var seatF5Button: UIButton!
-    private var seatF6Button: UIButton!
-    private var seatF7Button: UIButton!
-    private var seatF8Button: UIButton!
-    private var seatG1Button: UIButton!
-    private var seatG2Button: UIButton!
-    private var seatG3Button: UIButton!
-    private var seatG4Button: UIButton!
-    private var seatG5Button: UIButton!
-    private var seatG6Button: UIButton!
-    private var seatG7Button: UIButton!
-    private var seatG8Button: UIButton!
+    private lazy var viewModel = factory.makeSeatSelectionViewModel(
+        layout: draft.seatLayout,
+        ticketPrice: draft.ticketPrice
+    )
+    private let seatMapView = SeatMapView()
     private let selectedSeatsLabel = UILabel()
     private let totalLabel = UILabel()
     private let continueButton = CineSeatTheme.primaryButton(title: "Continue")
@@ -270,24 +216,27 @@ final class SeatSelectionViewController: ScrollableViewController {
             screenView.bottomAnchor.constraint(equalTo: screenContainer.bottomAnchor)
         ])
         contentStack.addArrangedSubview(screenContainer)
+
         let screenLabel = CineSeatTheme.captionLabel("Screen")
         screenLabel.textAlignment = .center
         contentStack.addArrangedSubview(screenLabel)
 
-        let gridStack = UIStackView()
-        gridStack.axis = .vertical
-        gridStack.spacing = 6
-        gridStack.alignment = .center
-
-        for row in viewModel.rows {
-            gridStack.addArrangedSubview(makeSeatRow(row))
+        // this custom view builds the hstack/vstack seat buttons from the cinema layout
+        seatMapView.configure(
+            layout: viewModel.layout,
+            selectedSeats: viewModel.selectedSeats,
+            accessibilityPrefix: "seat"
+        )
+        seatMapView.onSeatTapped = { [weak self] seat in
+            self?.seatTapped(seat)
         }
-        contentStack.addArrangedSubview(gridStack)
+        contentStack.addArrangedSubview(seatMapView)
 
         let legendStack = UIStackView(arrangedSubviews: [
             makeLegendItem(title: "Available", color: CineSeatTheme.card),
             makeLegendItem(title: "Selected", color: CineSeatTheme.primaryText),
-            makeLegendItem(title: "Reserved", color: CineSeatTheme.reservedSeat)
+            makeLegendItem(title: "Reserved", color: CineSeatTheme.reservedSeat),
+            makeLegendItem(title: "Unavailable", color: CineSeatTheme.unavailableSeat)
         ])
         legendStack.axis = .horizontal
         legendStack.distribution = .equalSpacing
@@ -311,110 +260,6 @@ final class SeatSelectionViewController: ScrollableViewController {
 
         continueButton.addTarget(self, action: #selector(continueTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(continueButton)
-    }
-
-    private func makeSeatRow(_ row: String) -> UIStackView {
-        let rowStack = UIStackView()
-        rowStack.axis = .horizontal
-        rowStack.spacing = traitCollection.horizontalSizeClass == .compact ? 3 : 4
-        rowStack.alignment = .center
-
-        let leadingLabel = makeRowLabel(row)
-        rowStack.addArrangedSubview(leadingLabel)
-        for number in 1...viewModel.seatsPerRow {
-            if number == 5 {
-                let aisle = UIView()
-                let aisleWidth: CGFloat = traitCollection.horizontalSizeClass == .compact ? 6 : 8
-                aisle.widthAnchor.constraint(equalToConstant: aisleWidth).isActive = true
-                rowStack.addArrangedSubview(aisle)
-            }
-
-            let seat = "\(row)\(number)"
-            let button = UIButton(type: .system)
-            button.accessibilityIdentifier = seat
-            button.accessibilityLabel = "Seat \(seat)"
-            button.titleLabel?.font = .monospacedSystemFont(ofSize: 9, weight: .bold)
-            button.layer.cornerRadius = 5
-            button.layer.borderWidth = 1
-            let seatSize: CGFloat = traitCollection.horizontalSizeClass == .compact ? 24 : 28
-            button.widthAnchor.constraint(equalToConstant: seatSize).isActive = true
-            button.heightAnchor.constraint(equalToConstant: 25).isActive = true
-            button.addTarget(self, action: #selector(seatTapped(_:)), for: .touchUpInside)
-            connectSeatButton(button, toSeat: seat)
-            rowStack.addArrangedSubview(button)
-        }
-        rowStack.addArrangedSubview(makeRowLabel(row))
-        return rowStack
-    }
-
-    private func connectSeatButton(_ button: UIButton, toSeat seat: String) {
-        switch seat {
-        case "A1": seatA1Button = button
-        case "A2": seatA2Button = button
-        case "A3": seatA3Button = button
-        case "A4": seatA4Button = button
-        case "A5": seatA5Button = button
-        case "A6": seatA6Button = button
-        case "A7": seatA7Button = button
-        case "A8": seatA8Button = button
-        case "B1": seatB1Button = button
-        case "B2": seatB2Button = button
-        case "B3": seatB3Button = button
-        case "B4": seatB4Button = button
-        case "B5": seatB5Button = button
-        case "B6": seatB6Button = button
-        case "B7": seatB7Button = button
-        case "B8": seatB8Button = button
-        case "C1": seatC1Button = button
-        case "C2": seatC2Button = button
-        case "C3": seatC3Button = button
-        case "C4": seatC4Button = button
-        case "C5": seatC5Button = button
-        case "C6": seatC6Button = button
-        case "C7": seatC7Button = button
-        case "C8": seatC8Button = button
-        case "D1": seatD1Button = button
-        case "D2": seatD2Button = button
-        case "D3": seatD3Button = button
-        case "D4": seatD4Button = button
-        case "D5": seatD5Button = button
-        case "D6": seatD6Button = button
-        case "D7": seatD7Button = button
-        case "D8": seatD8Button = button
-        case "E1": seatE1Button = button
-        case "E2": seatE2Button = button
-        case "E3": seatE3Button = button
-        case "E4": seatE4Button = button
-        case "E5": seatE5Button = button
-        case "E6": seatE6Button = button
-        case "E7": seatE7Button = button
-        case "E8": seatE8Button = button
-        case "F1": seatF1Button = button
-        case "F2": seatF2Button = button
-        case "F3": seatF3Button = button
-        case "F4": seatF4Button = button
-        case "F5": seatF5Button = button
-        case "F6": seatF6Button = button
-        case "F7": seatF7Button = button
-        case "F8": seatF8Button = button
-        case "G1": seatG1Button = button
-        case "G2": seatG2Button = button
-        case "G3": seatG3Button = button
-        case "G4": seatG4Button = button
-        case "G5": seatG5Button = button
-        case "G6": seatG6Button = button
-        case "G7": seatG7Button = button
-        case "G8": seatG8Button = button
-        default: break
-        }
-    }
-
-    private func makeRowLabel(_ row: String) -> UILabel {
-        let label = CineSeatTheme.captionLabel(row)
-        label.textAlignment = .center
-        let labelWidth: CGFloat = traitCollection.horizontalSizeClass == .compact ? 12 : 14
-        label.widthAnchor.constraint(equalToConstant: labelWidth).isActive = true
-        return label
     }
 
     private func makeLegendItem(title: String, color: UIColor) -> UIStackView {
@@ -444,85 +289,19 @@ final class SeatSelectionViewController: ScrollableViewController {
         return row
     }
 
-    @objc private func seatTapped(_ sender: UIButton) {
-        guard let seat = sender.accessibilityIdentifier else { return }
+    private func seatTapped(_ seat: String) {
         viewModel.toggleSeat(seat)
         updateSeatViews()
     }
 
     private func updateSeatViews() {
-        updateSeatButton(seatA1Button, seat: "A1")
-        updateSeatButton(seatA2Button, seat: "A2")
-        updateSeatButton(seatA3Button, seat: "A3")
-        updateSeatButton(seatA4Button, seat: "A4")
-        updateSeatButton(seatA5Button, seat: "A5")
-        updateSeatButton(seatA6Button, seat: "A6")
-        updateSeatButton(seatA7Button, seat: "A7")
-        updateSeatButton(seatA8Button, seat: "A8")
-        updateSeatButton(seatB1Button, seat: "B1")
-        updateSeatButton(seatB2Button, seat: "B2")
-        updateSeatButton(seatB3Button, seat: "B3")
-        updateSeatButton(seatB4Button, seat: "B4")
-        updateSeatButton(seatB5Button, seat: "B5")
-        updateSeatButton(seatB6Button, seat: "B6")
-        updateSeatButton(seatB7Button, seat: "B7")
-        updateSeatButton(seatB8Button, seat: "B8")
-        updateSeatButton(seatC1Button, seat: "C1")
-        updateSeatButton(seatC2Button, seat: "C2")
-        updateSeatButton(seatC3Button, seat: "C3")
-        updateSeatButton(seatC4Button, seat: "C4")
-        updateSeatButton(seatC5Button, seat: "C5")
-        updateSeatButton(seatC6Button, seat: "C6")
-        updateSeatButton(seatC7Button, seat: "C7")
-        updateSeatButton(seatC8Button, seat: "C8")
-        updateSeatButton(seatD1Button, seat: "D1")
-        updateSeatButton(seatD2Button, seat: "D2")
-        updateSeatButton(seatD3Button, seat: "D3")
-        updateSeatButton(seatD4Button, seat: "D4")
-        updateSeatButton(seatD5Button, seat: "D5")
-        updateSeatButton(seatD6Button, seat: "D6")
-        updateSeatButton(seatD7Button, seat: "D7")
-        updateSeatButton(seatD8Button, seat: "D8")
-        updateSeatButton(seatE1Button, seat: "E1")
-        updateSeatButton(seatE2Button, seat: "E2")
-        updateSeatButton(seatE3Button, seat: "E3")
-        updateSeatButton(seatE4Button, seat: "E4")
-        updateSeatButton(seatE5Button, seat: "E5")
-        updateSeatButton(seatE6Button, seat: "E6")
-        updateSeatButton(seatE7Button, seat: "E7")
-        updateSeatButton(seatE8Button, seat: "E8")
-        updateSeatButton(seatF1Button, seat: "F1")
-        updateSeatButton(seatF2Button, seat: "F2")
-        updateSeatButton(seatF3Button, seat: "F3")
-        updateSeatButton(seatF4Button, seat: "F4")
-        updateSeatButton(seatF5Button, seat: "F5")
-        updateSeatButton(seatF6Button, seat: "F6")
-        updateSeatButton(seatF7Button, seat: "F7")
-        updateSeatButton(seatF8Button, seat: "F8")
-        updateSeatButton(seatG1Button, seat: "G1")
-        updateSeatButton(seatG2Button, seat: "G2")
-        updateSeatButton(seatG3Button, seat: "G3")
-        updateSeatButton(seatG4Button, seat: "G4")
-        updateSeatButton(seatG5Button, seat: "G5")
-        updateSeatButton(seatG6Button, seat: "G6")
-        updateSeatButton(seatG7Button, seat: "G7")
-        updateSeatButton(seatG8Button, seat: "G8")
+        seatMapView.update(selectedSeats: viewModel.selectedSeats)
 
         let seats = viewModel.sortedSelectedSeats
         selectedSeatsLabel.text = seats.isEmpty ? "None" : seats.joined(separator: ", ")
         totalLabel.text = CineSeatTheme.money(viewModel.total)
         continueButton.isEnabled = !seats.isEmpty
         continueButton.alpha = seats.isEmpty ? 0.45 : 1
-    }
-
-    private func updateSeatButton(_ button: UIButton?, seat: String) {
-        let isReserved = viewModel.reservedSeats.contains(seat)
-        let isSelected = viewModel.selectedSeats.contains(seat)
-        button?.isEnabled = !isReserved
-        button?.backgroundColor = isReserved ? CineSeatTheme.reservedSeat : (isSelected ? CineSeatTheme.primaryText : CineSeatTheme.card)
-        button?.layer.borderColor = (isSelected ? CineSeatTheme.primaryText : CineSeatTheme.border).cgColor
-        button?.setTitle(isSelected ? "X" : "", for: .normal)
-        button?.setTitleColor(.white, for: .normal)
     }
 
     @objc private func continueTapped() {

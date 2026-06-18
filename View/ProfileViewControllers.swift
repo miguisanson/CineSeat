@@ -3,6 +3,17 @@ import UIKit
 // module 2 shared account form view
 // login create account and edit profile reuse the same field helpers
 class AccountFormViewController: ScrollableViewController, UITextFieldDelegate {
+    private weak var activeTextField: UITextField?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        registerForKeyboardNotifications()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     func makeTextField(
         placeholder: String,
         contentType: UITextContentType? = nil,
@@ -51,6 +62,16 @@ class AccountFormViewController: ScrollableViewController, UITextFieldDelegate {
         present(alert, animated: true)
     }
 
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if activeTextField === textField {
+            activeTextField = nil
+        }
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let nextField = contentStack.allTextFields.first(where: { $0.tag == textField.tag + 1 }) {
             nextField.becomeFirstResponder()
@@ -58,6 +79,42 @@ class AccountFormViewController: ScrollableViewController, UITextFieldDelegate {
             textField.resignFirstResponder()
         }
         return true
+    }
+
+    private func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+
+        let keyboardFrameInView = view.convert(keyboardFrame, from: nil)
+        let overlap = max(0, view.bounds.maxY - keyboardFrameInView.minY)
+        let inset = overlap + 24
+        scrollView.contentInset.bottom = inset
+        scrollView.verticalScrollIndicatorInsets.bottom = inset
+
+        guard let activeTextField else { return }
+        let textFieldFrame = activeTextField.convert(activeTextField.bounds, to: scrollView)
+        scrollView.scrollRectToVisible(textFieldFrame.insetBy(dx: 0, dy: -16), animated: true)
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        scrollView.contentInset.bottom = 0
+        scrollView.verticalScrollIndicatorInsets.bottom = 0
     }
 }
 
