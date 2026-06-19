@@ -130,7 +130,16 @@ final class SeatSelectionViewModel {
 
     init(
         layout: SeatLayout = SeatLayout.layout(forCinemaID: 1, type: .standard),
-        selectedSeats: Set<String> = ["D2", "D3"],
+        ticketPrice: Double = 350
+    ) {
+        self.layout = layout
+        self.selectedSeats = Self.defaultSelectedSeats(for: layout)
+        self.ticketPrice = ticketPrice
+    }
+
+    init(
+        layout: SeatLayout = SeatLayout.layout(forCinemaID: 1, type: .standard),
+        selectedSeats: Set<String>,
         ticketPrice: Double = 350
     ) {
         self.layout = layout
@@ -165,5 +174,45 @@ final class SeatSelectionViewModel {
         let seatNumber = Int(seat.drop { !$0.isNumber }) ?? 0
         let rowIndex = layout.rows.firstIndex { $0.label == rowLabel } ?? 999
         return String(format: "%03d-%03d", rowIndex, seatNumber)
+    }
+
+    private static func defaultSelectedSeats(for layout: SeatLayout) -> Set<String> {
+        let middleIndex = layout.rows.count / 2
+        let orderedRows = layout.rows.indices.sorted { first, second in
+            let firstDistance = abs(first - middleIndex)
+            let secondDistance = abs(second - middleIndex)
+            if firstDistance == secondDistance {
+                return first < second
+            }
+            return firstDistance < secondDistance
+        }.map { layout.rows[$0] }
+
+        for row in orderedRows {
+            let selectableSeats = row.seatNumbers
+                .map { row.seatID(for: $0) }
+                .filter { layout.isSelectable($0) }
+
+            for index in selectableSeats.indices.dropLast() {
+                let firstSeat = selectableSeats[index]
+                let secondSeat = selectableSeats[selectableSeats.index(after: index)]
+                if areSideBySide(firstSeat, secondSeat) {
+                    return [firstSeat, secondSeat]
+                }
+            }
+
+            if let firstSeat = selectableSeats.first {
+                return [firstSeat]
+            }
+        }
+
+        return []
+    }
+
+    private static func areSideBySide(_ firstSeat: String, _ secondSeat: String) -> Bool {
+        let firstRow = String(firstSeat.prefix(while: { !$0.isNumber }))
+        let secondRow = String(secondSeat.prefix(while: { !$0.isNumber }))
+        let firstNumber = Int(firstSeat.drop { !$0.isNumber }) ?? 0
+        let secondNumber = Int(secondSeat.drop { !$0.isNumber }) ?? 0
+        return firstRow == secondRow && secondNumber == firstNumber + 1
     }
 }
