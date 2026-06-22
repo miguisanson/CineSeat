@@ -32,6 +32,11 @@ final class LocalNotificationService: BookingNotificationScheduling {
         center.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 
+    func clearAllNotifications() {
+        center.removeAllPendingNotificationRequests()
+        center.removeAllDeliveredNotifications()
+    }
+
     func scheduleCancellationNotice(for booking: Booking, reason: BookingCancellationReason) {
         requestAuthorizationIfNeeded { [weak self] granted in
             guard granted else { return }

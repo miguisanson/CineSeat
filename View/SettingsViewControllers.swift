@@ -29,6 +29,7 @@ final class SettingsViewController: ScrollableViewController {
     private func buildInterface() {
         contentStack.addArrangedSubview(makePageTitle("Settings"))
         contentStack.addArrangedSubview(makeSettingsCard())
+        contentStack.addArrangedSubview(makeDemoResetCard())
 
         let resetButton = CineSeatTheme.secondaryButton(title: "Reset Settings")
         resetButton.accessibilityIdentifier = "resetSettingsButton"
@@ -59,6 +60,27 @@ final class SettingsViewController: ScrollableViewController {
             toggle: demoNotificationSwitch,
             action: #selector(demoNotificationChanged(_:))
         ))
+        return makeCard(with: stack)
+    }
+
+    private func makeDemoResetCard() -> CardView {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = CineSeatSpacing.regular
+        stack.addArrangedSubview(CineSeatTheme.captionLabel("Demo tools"))
+
+        let descriptionLabel = UILabel()
+        descriptionLabel.text = "Clear saved bookings so seat demos and booking numbers start clean again"
+        descriptionLabel.font = CineSeatFont.bodySmall
+        descriptionLabel.textColor = CineSeatTheme.secondaryText
+        descriptionLabel.numberOfLines = 0
+        stack.addArrangedSubview(descriptionLabel)
+
+        let button = CineSeatTheme.secondaryButton(title: "Clear Demo Bookings")
+        button.accessibilityIdentifier = "clearDemoBookingsButton"
+        button.setTitleColor(.systemRed, for: .normal)
+        button.addTarget(self, action: #selector(clearDemoBookingsTapped), for: .touchUpInside)
+        stack.addArrangedSubview(button)
         return makeCard(with: stack)
     }
 
@@ -131,5 +153,34 @@ final class SettingsViewController: ScrollableViewController {
 
     @objc private func resetTapped() {
         viewModel.resetSettings()
+    }
+
+    @objc private func clearDemoBookingsTapped() {
+        let alert = UIAlertController(
+            title: "Clear Demo Bookings?",
+            message: "This removes all saved bookings, clears taken seats from confirmed bookings, and cancels pending local reminders. Movies, profiles, settings, and seat layouts stay unchanged.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Keep Bookings", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Clear Bookings", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            let removedCount = self.viewModel.clearDemoBookings()
+            self.showDemoResetFinished(removedCount: removedCount)
+        })
+        present(alert, animated: true)
+    }
+
+    private func showDemoResetFinished(removedCount: Int) {
+        let noun = removedCount == 1 ? "booking" : "bookings"
+        let message = removedCount == 0
+            ? "There were no saved bookings to clear."
+            : "\(removedCount) saved \(noun) were cleared."
+        let alert = UIAlertController(
+            title: "Demo Reset Complete",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }

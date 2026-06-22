@@ -30,6 +30,11 @@ protocol BookingManaging: AnyObject {
 
     @discardableResult
     func cancelBooking(id: String, reason: BookingCancellationReason) -> Bool
+
+    func bookedSeats(for draft: BookingDraft) -> Set<String>
+
+    @discardableResult
+    func clearBookings() -> Int
 }
 
 extension BookingManaging {
@@ -42,6 +47,7 @@ extension BookingManaging {
 protocol BookingNotificationScheduling: AnyObject {
     func scheduleReminders(for booking: Booking)
     func cancelReminders(for bookingID: String)
+    func clearAllNotifications()
     func scheduleCancellationNotice(for booking: Booking, reason: BookingCancellationReason)
     func scheduleDemoReminder(for booking: Booking, delay: TimeInterval, completion: @escaping (Bool) -> Void)
 }

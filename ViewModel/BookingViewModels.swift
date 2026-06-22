@@ -182,35 +182,44 @@ final class MovieScheduleViewModel {
 // seat rules and total price math stay here before the ui updates
 final class SeatSelectionViewModel {
     let layout: SeatLayout
+    let bookedSeats: Set<String>
     private(set) var selectedSeats: Set<String>
     let ticketPrice: Double
 
     var reservedSeats: Set<String> {
-        layout.reservedSeats
+        layout.reservedSeats.union(bookedSeats)
     }
 
     init(
         layout: SeatLayout = SeatLayout.layout(forCinemaID: 1, type: .standard),
+        bookedSeats: Set<String> = [],
         ticketPrice: Double = 350
     ) {
         self.layout = layout
-        self.selectedSeats = Self.defaultSelectedSeats(for: layout)
+        let bookedSeatsForShowing = Set(bookedSeats.filter { layout.containsSeat($0) })
+        self.bookedSeats = bookedSeatsForShowing
+        self.selectedSeats = Self.defaultSelectedSeats(for: layout, bookedSeats: bookedSeatsForShowing)
         self.ticketPrice = ticketPrice
     }
 
     init(
         layout: SeatLayout = SeatLayout.layout(forCinemaID: 1, type: .standard),
+        bookedSeats: Set<String> = [],
         selectedSeats: Set<String>,
         ticketPrice: Double = 350
     ) {
         self.layout = layout
-        self.selectedSeats = Set(selectedSeats.filter { layout.isSelectable($0) })
+        let bookedSeatsForShowing = Set(bookedSeats.filter { layout.containsSeat($0) })
+        self.bookedSeats = bookedSeatsForShowing
+        self.selectedSeats = Set(selectedSeats.filter {
+            layout.isSelectable($0) && !bookedSeatsForShowing.contains($0)
+        })
         self.ticketPrice = ticketPrice
     }
 
     @discardableResult
     func toggleSeat(_ seat: String) -> Bool {
-        guard layout.isSelectable(seat) else { return false }
+        guard isSelectable(seat) else { return false }
 
         if selectedSeats.contains(seat) {
             selectedSeats.remove(seat)
@@ -239,7 +248,7 @@ final class SeatSelectionViewModel {
             return .selected
         }
 
-        if layout.reservedSeats.contains(seat) {
+        if reservedSeats.contains(seat) {
             return .reserved
         }
 
@@ -257,7 +266,11 @@ final class SeatSelectionViewModel {
         return String(format: "%03d-%03d", rowIndex, seatNumber)
     }
 
-    private static func defaultSelectedSeats(for layout: SeatLayout) -> Set<String> {
+    private func isSelectable(_ seat: String) -> Bool {
+        layout.isSelectable(seat) && !bookedSeats.contains(seat)
+    }
+
+    private static func defaultSelectedSeats(for layout: SeatLayout, bookedSeats: Set<String>) -> Set<String> {
         let middleIndex = layout.rows.count / 2
         let orderedRows = layout.rows.indices.sorted { first, second in
             let firstDistance = abs(first - middleIndex)
@@ -271,7 +284,7 @@ final class SeatSelectionViewModel {
         for row in orderedRows {
             let selectableSeats = row.seatNumbers
                 .map { row.seatID(for: $0) }
-                .filter { layout.isSelectable($0) }
+                .filter { layout.isSelectable($0) && !bookedSeats.contains($0) }
 
             for index in selectableSeats.indices.dropLast() {
                 let firstSeat = selectableSeats[index]

@@ -10,6 +10,8 @@ struct AppDependencies {
     let fetchBookingsUseCase: FetchBookingsUseCase
     let confirmBookingUseCase: ConfirmBookingUseCase
     let cancelBookingUseCase: CancelBookingUseCase
+    let fetchBookedSeatsUseCase: FetchBookedSeatsUseCase
+    let clearBookingsUseCase: ClearBookingsUseCase
     let notificationScheduler: BookingNotificationScheduling
 
     static var live: AppDependencies {
@@ -27,6 +29,8 @@ struct AppDependencies {
             fetchBookingsUseCase: DefaultFetchBookingsUseCase(bookingManager: bookingManager),
             confirmBookingUseCase: DefaultConfirmBookingUseCase(bookingManager: bookingManager),
             cancelBookingUseCase: DefaultCancelBookingUseCase(bookingManager: bookingManager),
+            fetchBookedSeatsUseCase: DefaultFetchBookedSeatsUseCase(bookingManager: bookingManager),
+            clearBookingsUseCase: DefaultClearBookingsUseCase(bookingManager: bookingManager),
             notificationScheduler: LocalNotificationService.shared
         )
     }
@@ -64,6 +68,14 @@ final class AppFactory {
         SeatSelectionViewModel(layout: layout, ticketPrice: ticketPrice)
     }
 
+    func makeSeatSelectionViewModel(draft: BookingDraft) -> SeatSelectionViewModel {
+        SeatSelectionViewModel(
+            layout: draft.seatLayout,
+            bookedSeats: dependencies.fetchBookedSeatsUseCase.execute(for: draft),
+            ticketPrice: draft.ticketPrice
+        )
+    }
+
     func makeProfileViewModel() -> ProfileViewModel {
         ProfileViewModel(
             authenticationService: dependencies.authenticationService,
@@ -80,7 +92,10 @@ final class AppFactory {
     }
 
     func makeSettingsViewModel() -> SettingsViewModel {
-        SettingsViewModel(settingsStore: dependencies.settingsStore)
+        SettingsViewModel(
+            settingsStore: dependencies.settingsStore,
+            clearBookingsUseCase: dependencies.clearBookingsUseCase
+        )
     }
 
     func makeLoginViewController() -> LoginViewController {

@@ -89,3 +89,37 @@ final class DefaultCancelBookingUseCase: CancelBookingUseCase {
         bookingManager.cancelBooking(id: id, reason: reason)
     }
 }
+
+protocol FetchBookedSeatsUseCase {
+    func execute(for draft: BookingDraft) -> Set<String>
+}
+
+final class DefaultFetchBookedSeatsUseCase: FetchBookedSeatsUseCase {
+    private let bookingManager: BookingManaging
+
+    init(bookingManager: BookingManaging) {
+        self.bookingManager = bookingManager
+    }
+
+    func execute(for draft: BookingDraft) -> Set<String> {
+        bookingManager.bookedSeats(for: draft)
+    }
+}
+
+protocol ClearBookingsUseCase {
+    @discardableResult
+    func execute() -> Int
+}
+
+final class DefaultClearBookingsUseCase: ClearBookingsUseCase {
+    private let bookingManager: BookingManaging
+
+    init(bookingManager: BookingManaging) {
+        self.bookingManager = bookingManager
+    }
+
+    @discardableResult
+    func execute() -> Int {
+        bookingManager.clearBookings()
+    }
+}

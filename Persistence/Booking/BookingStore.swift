@@ -72,6 +72,27 @@ final class BookingStore: BookingManaging {
         return true
     }
 
+    func bookedSeats(for draft: BookingDraft) -> Set<String> {
+        Set(bookings
+            .filter { booking in
+                booking.status.isConfirmed &&
+                    booking.movie.title == draft.movie.title &&
+                    bookingMatchesCinema(booking, draft: draft) &&
+                    CineSeatDateFormatters.isSameDay(booking.schedule.date, draft.schedule.date) &&
+                    booking.showtime == draft.showtime
+            }
+            .flatMap(\.seats))
+    }
+
+    @discardableResult
+    func clearBookings() -> Int {
+        let removedCount = bookings.count
+        bookings.removeAll()
+        notificationScheduler?.clearAllNotifications()
+        saveChanges()
+        return removedCount
+    }
+
     private var nextBookingSequence: Int {
         let savedSequences = bookings.compactMap { BookingNumberFormatter.sequence(from: $0.id) }
         return (savedSequences.max() ?? 0) + 1
@@ -84,5 +105,12 @@ final class BookingStore: BookingManaging {
             print("Could not save bookings: \(error.localizedDescription)")
         }
         NotificationCenter.default.post(name: Self.bookingsDidChange, object: nil)
+    }
+
+    private func bookingMatchesCinema(_ booking: Booking, draft: BookingDraft) -> Bool {
+        if let cinemaID = booking.cinemaID {
+            return cinemaID == draft.cinema.id
+        }
+        return booking.cinema == draft.cinema.name
     }
 }

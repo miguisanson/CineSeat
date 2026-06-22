@@ -208,10 +208,7 @@ final class SeatSelectionViewController: ScrollableViewController {
     var draft: BookingDraft!
     var factory = AppFactory.shared
 
-    private lazy var viewModel = factory.makeSeatSelectionViewModel(
-        layout: draft.seatLayout,
-        ticketPrice: draft.ticketPrice
-    )
+    private lazy var viewModel = factory.makeSeatSelectionViewModel(draft: draft)
     private let seatMapView = SeatMapView()
     private let selectedSeatsLabel = UILabel()
     private let totalLabel = UILabel()

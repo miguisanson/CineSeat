@@ -4,9 +4,14 @@ import Foundation
 // view reads clean text and toggle values instead of touching plist storage
 final class SettingsViewModel {
     private let settingsStore: AppSettingsManaging
+    private let clearBookingsUseCase: ClearBookingsUseCase
 
-    init(settingsStore: AppSettingsManaging = AppSettingsStore.shared) {
+    init(
+        settingsStore: AppSettingsManaging = AppSettingsStore.shared,
+        clearBookingsUseCase: ClearBookingsUseCase = DefaultClearBookingsUseCase(bookingManager: BookingStore.shared)
+    ) {
         self.settingsStore = settingsStore
+        self.clearBookingsUseCase = clearBookingsUseCase
     }
 
     var settings: AppSettings {
@@ -46,5 +51,10 @@ final class SettingsViewModel {
 
     func resetSettings() {
         settingsStore.resetToDefaults()
+    }
+
+    @discardableResult
+    func clearDemoBookings() -> Int {
+        clearBookingsUseCase.execute()
     }
 }
