@@ -4,14 +4,9 @@ import Foundation
 // view reads clean text and toggle values instead of touching plist storage
 final class SettingsViewModel {
     private let settingsStore: AppSettingsManaging
-    private let seatLayoutStore: SeatLayoutStore
 
-    init(
-        settingsStore: AppSettingsManaging = AppSettingsStore.shared,
-        seatLayoutStore: SeatLayoutStore = .shared
-    ) {
+    init(settingsStore: AppSettingsManaging = AppSettingsStore.shared) {
         self.settingsStore = settingsStore
-        self.seatLayoutStore = seatLayoutStore
     }
 
     var settings: AppSettings {
@@ -47,22 +42,6 @@ final class SettingsViewModel {
             updatedSettings.demoNotificationsEnabled = newValue
             settingsStore.updateSettings(updatedSettings)
         }
-    }
-
-    var settingsVersionText: String {
-        "Settings plist v\(settings.settingsVersion)"
-    }
-
-    var settingsPathText: String {
-        settingsStore.settingsFilePath
-    }
-
-    var seatDatabaseText: String {
-        "SeatLayouts.plist v\(seatLayoutStore.databaseVersion) - \(seatLayoutStore.layoutCount) cinema layouts"
-    }
-
-    var seatDatabasePathText: String {
-        seatLayoutStore.editableFilePath
     }
 
     func resetSettings() {

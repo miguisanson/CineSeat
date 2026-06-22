@@ -243,7 +243,7 @@ final class BookingDetailViewController: ScrollableViewController {
         alert.addAction(UIAlertAction(title: "Keep Booking", style: .cancel))
         alert.addAction(UIAlertAction(title: "Cancel Booking", style: .destructive) { [weak self] _ in
             guard let self else { return }
-            self.cancelBookingUseCase.execute(id: self.booking.id)
+            _ = self.cancelBookingUseCase.execute(id: self.booking.id)
             self.navigationController?.popViewController(animated: true)
         })
         present(alert, animated: true)

@@ -8,8 +8,6 @@ final class SettingsViewController: ScrollableViewController {
     private let showCancelledSwitch = UISwitch()
     private let reminderSwitch = UISwitch()
     private let demoNotificationSwitch = UISwitch()
-    private let settingsVersionLabel = UILabel()
-    private let seatDatabaseLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +29,6 @@ final class SettingsViewController: ScrollableViewController {
     private func buildInterface() {
         contentStack.addArrangedSubview(makePageTitle("Settings"))
         contentStack.addArrangedSubview(makeSettingsCard())
-        contentStack.addArrangedSubview(makeStorageCard())
 
         let resetButton = CineSeatTheme.secondaryButton(title: "Reset Settings")
         resetButton.accessibilityIdentifier = "resetSettingsButton"
@@ -62,18 +59,6 @@ final class SettingsViewController: ScrollableViewController {
             toggle: demoNotificationSwitch,
             action: #selector(demoNotificationChanged(_:))
         ))
-        return makeCard(with: stack)
-    }
-
-    private func makeStorageCard() -> CardView {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = CineSeatSpacing.regular
-        stack.addArrangedSubview(CineSeatTheme.captionLabel("Local plist storage"))
-        stack.addArrangedSubview(settingsVersionLabel)
-        stack.addArrangedSubview(seatDatabaseLabel)
-        stack.addArrangedSubview(makePathLabel("settings file: \(viewModel.settingsPathText)"))
-        stack.addArrangedSubview(makePathLabel("seat layout file: \(viewModel.seatDatabasePathText)"))
         return makeCard(with: stack)
     }
 
@@ -122,25 +107,10 @@ final class SettingsViewController: ScrollableViewController {
         return label
     }
 
-    private func makePathLabel(_ text: String) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.font = CineSeatFont.metadata
-        label.textColor = CineSeatTheme.mutedText
-        label.numberOfLines = 0
-        return label
-    }
-
     private func reloadSettings() {
         showCancelledSwitch.isOn = viewModel.showCancelledBookings
         reminderSwitch.isOn = viewModel.bookingRemindersEnabled
         demoNotificationSwitch.isOn = viewModel.demoNotificationsEnabled
-        settingsVersionLabel.text = viewModel.settingsVersionText
-        settingsVersionLabel.font = CineSeatFont.infoValue
-        settingsVersionLabel.textColor = CineSeatTheme.primaryText
-        seatDatabaseLabel.text = viewModel.seatDatabaseText
-        seatDatabaseLabel.font = CineSeatFont.infoValue
-        seatDatabaseLabel.textColor = CineSeatTheme.primaryText
     }
 
     @objc private func settingsChanged() {

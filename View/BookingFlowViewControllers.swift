@@ -112,7 +112,6 @@ final class MovieDetailViewController: ScrollableViewController {
         button.titleLabel?.font = CineSeatFont.infoValue
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
         button.layer.cornerRadius = CineSeatRadius.medium
         button.layer.borderWidth = 1
         button.accessibilityIdentifier = "timeButton\(index + 1)"

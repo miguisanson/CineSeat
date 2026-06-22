@@ -49,7 +49,7 @@ final class SeatMapView: UIView {
             self.highlightedSeats = highlightedSeats
         }
 
-        for case let button as SeatButton in allSeatButtons(in: gridStack) {
+        for button in allSeatButtons(in: gridStack) {
             update(button: button)
         }
     }
