@@ -41,7 +41,7 @@ final class MoviesViewController: UIViewController {
 
         ratingSortButton.frame = CGRect(x: 20, y: 34, width: view.bounds.width - 40, height: 30)
         ratingSortButton.contentHorizontalAlignment = .left
-        ratingSortButton.titleLabel?.font = .monospacedSystemFont(ofSize: 10, weight: .semibold)
+        ratingSortButton.titleLabel?.font = CineSeatFont.metadataSemibold
         ratingSortButton.setTitleColor(CineSeatTheme.primaryText, for: .normal)
         ratingSortButton.addTarget(self, action: #selector(ratingSortTapped), for: .touchUpInside)
         header.addSubview(ratingSortButton)
@@ -50,7 +50,7 @@ final class MoviesViewController: UIViewController {
 
     private func configureSearchBar() {
         searchBar.searchTextField.backgroundColor = CineSeatTheme.card
-        searchBar.searchTextField.font = .monospacedSystemFont(ofSize: 11, weight: .regular)
+        searchBar.searchTextField.font = CineSeatFont.metadata
         searchBar.searchTextField.placeholder = "Search movies..."
         searchBar.backgroundImage = UIImage()
     }

@@ -27,16 +27,16 @@ class ScrollableViewController: UIViewController {
             contentStack.translatesAutoresizingMaskIntoConstraints = false
             scrollView.addSubview(contentStack)
             NSLayoutConstraint.activate([
-                contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
-                contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
-                contentStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -20),
-                contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
+                contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: CineSeatSpacing.large),
+                contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: CineSeatSpacing.pageHorizontal),
+                contentStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -CineSeatSpacing.pageHorizontal),
+                contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -CineSeatSpacing.pageHorizontal)
             ])
         }
 
         scrollView.alwaysBounceVertical = true
         contentStack.axis = .vertical
-        contentStack.spacing = 12
+        contentStack.spacing = CineSeatSpacing.medium
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -44,7 +44,7 @@ class ScrollableViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
-    func makeCard(with stack: UIStackView, padding: CGFloat = 14) -> CardView {
+    func makeCard(with stack: UIStackView, padding: CGFloat = CineSeatSpacing.cardPadding) -> CardView {
         let card = CardView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         card.addSubview(stack)
@@ -62,7 +62,7 @@ class ScrollableViewController: UIViewController {
         let valueView = UILabel()
         valueView.text = value
         valueView.textAlignment = .right
-        valueView.font = .monospacedSystemFont(ofSize: 11, weight: .semibold)
+        valueView.font = CineSeatFont.infoValue
         valueView.textColor = CineSeatTheme.primaryText
         valueView.numberOfLines = 0
         valueView.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -70,7 +70,7 @@ class ScrollableViewController: UIViewController {
         let row = UIStackView(arrangedSubviews: [labelView, valueView])
         row.axis = .horizontal
         row.alignment = .center
-        row.spacing = 12
+        row.spacing = CineSeatSpacing.medium
         row.isLayoutMarginsRelativeArrangement = true
         row.directionalLayoutMargins = .init(top: 7, leading: 0, bottom: 7, trailing: 0)
         return row

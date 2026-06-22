@@ -1,9 +1,9 @@
 import Foundation
 
 // module 5 userdefaults preferences
-// this stores small settings like selected filter and cancelled booking visibility
+// plist handles app settings while userdefaults keeps tiny navigation flags
 final class AppPreferences: AppPreferencesManaging {
-    static let shared = AppPreferences()
+    static let shared = AppPreferences(settingsStore: AppSettingsStore.shared)
 
     private enum Key {
         static let hasLaunchedBefore = "hasLaunchedBefore"
@@ -12,9 +12,11 @@ final class AppPreferences: AppPreferencesManaging {
     }
 
     private let defaults: UserDefaults
+    private let settingsStore: AppSettingsManaging?
 
-    init(defaults: UserDefaults = .standard) {
+    init(defaults: UserDefaults = .standard, settingsStore: AppSettingsManaging? = nil) {
         self.defaults = defaults
+        self.settingsStore = settingsStore
         defaults.register(defaults: [Key.showCancelledBookings: true])
     }
 
@@ -33,7 +35,18 @@ final class AppPreferences: AppPreferencesManaging {
     }
 
     var showCancelledBookings: Bool {
-        get { defaults.bool(forKey: Key.showCancelledBookings) }
-        set { defaults.set(newValue, forKey: Key.showCancelledBookings) }
+        get {
+            settingsStore?.settings.showCancelledBookings ??
+                defaults.bool(forKey: Key.showCancelledBookings)
+        }
+        set {
+            if let settingsStore {
+                var settings = settingsStore.settings
+                settings.showCancelledBookings = newValue
+                settingsStore.updateSettings(settings)
+            } else {
+                defaults.set(newValue, forKey: Key.showCancelledBookings)
+            }
+        }
     }
 }

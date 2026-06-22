@@ -37,22 +37,22 @@ final class MovieTableViewCell: UITableViewCell {
         posterView.translatesAutoresizingMaskIntoConstraints = false
         card.addSubview(posterView)
 
-        titleLabel.font = .systemFont(ofSize: 15, weight: .bold)
+        titleLabel.font = CineSeatFont.fieldButton
         titleLabel.textColor = CineSeatTheme.primaryText
         titleLabel.numberOfLines = 2
-        detailLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
+        detailLabel.font = CineSeatFont.metadata
         detailLabel.textColor = CineSeatTheme.mutedText
         detailLabel.numberOfLines = 1
-        ratingLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
+        ratingLabel.font = CineSeatFont.metadata
         ratingLabel.textColor = CineSeatTheme.primaryText
-        durationLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
+        durationLabel.font = CineSeatFont.metadata
         durationLabel.textColor = CineSeatTheme.secondaryText
         bookLabel.text = "BOOK"
-        bookLabel.font = .monospacedSystemFont(ofSize: 10, weight: .bold)
+        bookLabel.font = CineSeatFont.caption
         bookLabel.textColor = .white
         bookLabel.textAlignment = .center
         bookLabel.backgroundColor = CineSeatTheme.primaryText
-        bookLabel.layer.cornerRadius = 6
+        bookLabel.layer.cornerRadius = CineSeatRadius.small
         bookLabel.clipsToBounds = true
 
         let bottomRow = UIStackView(arrangedSubviews: [durationLabel, UIView(), bookLabel])
@@ -60,26 +60,26 @@ final class MovieTableViewCell: UITableViewCell {
         bottomRow.alignment = .center
         let labels = UIStackView(arrangedSubviews: [titleLabel, detailLabel, ratingLabel, UIView(), bottomRow])
         labels.axis = .vertical
-        labels.spacing = 4
+        labels.spacing = CineSeatSpacing.tiny
         labels.translatesAutoresizingMaskIntoConstraints = false
         card.addSubview(labels)
 
         NSLayoutConstraint.activate([
             card.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: CineSeatSpacing.pageHorizontal),
+            card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -CineSeatSpacing.pageHorizontal),
             card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            posterView.topAnchor.constraint(equalTo: card.topAnchor, constant: 12),
-            posterView.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 12),
-            posterView.bottomAnchor.constraint(lessThanOrEqualTo: card.bottomAnchor, constant: -12),
-            posterView.widthAnchor.constraint(equalToConstant: 68),
-            posterView.heightAnchor.constraint(equalToConstant: 92),
-            labels.topAnchor.constraint(equalTo: card.topAnchor, constant: 12),
-            labels.leadingAnchor.constraint(equalTo: posterView.trailingAnchor, constant: 12),
-            labels.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -12),
-            labels.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -12),
-            bookLabel.widthAnchor.constraint(equalToConstant: 62),
-            bookLabel.heightAnchor.constraint(equalToConstant: 26)
+            posterView.topAnchor.constraint(equalTo: card.topAnchor, constant: CineSeatSpacing.medium),
+            posterView.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: CineSeatSpacing.medium),
+            posterView.bottomAnchor.constraint(lessThanOrEqualTo: card.bottomAnchor, constant: -CineSeatSpacing.medium),
+            posterView.widthAnchor.constraint(equalToConstant: CineSeatSize.moviePosterWidth),
+            posterView.heightAnchor.constraint(equalToConstant: CineSeatSize.moviePosterHeight),
+            labels.topAnchor.constraint(equalTo: card.topAnchor, constant: CineSeatSpacing.medium),
+            labels.leadingAnchor.constraint(equalTo: posterView.trailingAnchor, constant: CineSeatSpacing.medium),
+            labels.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -CineSeatSpacing.medium),
+            labels.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -CineSeatSpacing.medium),
+            bookLabel.widthAnchor.constraint(equalToConstant: CineSeatSize.bookBadgeWidth),
+            bookLabel.heightAnchor.constraint(equalToConstant: CineSeatSize.bookBadgeHeight)
         ])
     }
 

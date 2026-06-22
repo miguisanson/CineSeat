@@ -15,7 +15,7 @@ final class CardView: UIView {
 
     private func configure() {
         backgroundColor = CineSeatTheme.card
-        layer.cornerRadius = 10
+        layer.cornerRadius = CineSeatRadius.medium
         layer.borderWidth = 1
         layer.borderColor = CineSeatTheme.border.cgColor
     }

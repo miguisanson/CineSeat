@@ -58,7 +58,7 @@ final class SeatMapView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         gridStack.translatesAutoresizingMaskIntoConstraints = false
         gridStack.axis = .vertical
-        gridStack.spacing = 5
+        gridStack.spacing = CineSeatSpacing.small
         gridStack.alignment = .center
         addSubview(gridStack)
 
@@ -112,11 +112,11 @@ final class SeatMapView: UIView {
         button.seatID = seatID
         button.accessibilityIdentifier = accessibilityIdentifier(for: seatID)
         button.accessibilityLabel = accessibilityPrefix == "bookingSeat" ? "Booking seat \(seatID)" : "Seat \(seatID)"
-        button.titleLabel?.font = .monospacedSystemFont(ofSize: 8, weight: .bold)
-        button.layer.cornerRadius = 5
+        button.titleLabel?.font = CineSeatFont.seat
+        button.layer.cornerRadius = CineSeatRadius.seat
         button.layer.borderWidth = 1
         button.widthAnchor.constraint(equalToConstant: compactSeatSize).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        button.heightAnchor.constraint(equalToConstant: CineSeatSize.seatHeight).isActive = true
         button.addTarget(self, action: #selector(seatTapped(_:)), for: .touchUpInside)
         update(button: button)
         return button

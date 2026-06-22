@@ -33,7 +33,7 @@ enum CineSeatTheme {
     static func captionLabel(_ text: String) -> UILabel {
         let label = UILabel()
         label.text = text.uppercased()
-        label.font = .monospacedSystemFont(ofSize: 10, weight: .medium)
+        label.font = CineSeatFont.caption
         label.textColor = mutedText
         label.numberOfLines = 0
         return label
@@ -43,10 +43,10 @@ enum CineSeatTheme {
         let button = UIButton(type: .system)
         button.setTitle(title.uppercased(), for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .monospacedSystemFont(ofSize: 13, weight: .bold)
+        button.titleLabel?.font = CineSeatFont.button
         button.backgroundColor = primaryText
-        button.layer.cornerRadius = 10
-        button.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        button.layer.cornerRadius = CineSeatRadius.medium
+        button.heightAnchor.constraint(equalToConstant: CineSeatSize.primaryButtonHeight).isActive = true
         return button
     }
 
@@ -54,12 +54,12 @@ enum CineSeatTheme {
         let button = UIButton(type: .system)
         button.setTitle(title.uppercased(), for: .normal)
         button.setTitleColor(primaryText, for: .normal)
-        button.titleLabel?.font = .monospacedSystemFont(ofSize: 13, weight: .bold)
+        button.titleLabel?.font = CineSeatFont.button
         button.backgroundColor = UIColor(white: 0.91, alpha: 1)
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = CineSeatRadius.medium
         button.layer.borderWidth = 1
         button.layer.borderColor = border.cgColor
-        button.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        button.heightAnchor.constraint(equalToConstant: CineSeatSize.primaryButtonHeight).isActive = true
         return button
     }
 }

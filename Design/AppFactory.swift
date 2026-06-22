@@ -4,6 +4,7 @@ import UIKit
 // singleton stays at the composition root while features receive protocols
 struct AppDependencies {
     let preferences: AppPreferencesManaging
+    let settingsStore: AppSettingsManaging
     let authenticationService: Authenticating
     let fetchMoviesUseCase: FetchMoviesUseCase
     let fetchBookingsUseCase: FetchBookingsUseCase
@@ -12,6 +13,7 @@ struct AppDependencies {
     let notificationScheduler: BookingNotificationScheduling
 
     static var live: AppDependencies {
+        let settingsStore = AppSettingsStore.shared
         let preferences = AppPreferences.shared
         let bookingManager = BookingStore.shared
         let authenticationService = AuthenticationService.shared
@@ -19,6 +21,7 @@ struct AppDependencies {
 
         return AppDependencies(
             preferences: preferences,
+            settingsStore: settingsStore,
             authenticationService: authenticationService,
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: movieFetcher),
             fetchBookingsUseCase: DefaultFetchBookingsUseCase(bookingManager: bookingManager),
@@ -76,6 +79,10 @@ final class AppFactory {
         CreateAccountViewModel(authenticationService: dependencies.authenticationService)
     }
 
+    func makeSettingsViewModel() -> SettingsViewModel {
+        SettingsViewModel(settingsStore: dependencies.settingsStore)
+    }
+
     func makeLoginViewController() -> LoginViewController {
         let viewController = LoginViewController()
         viewController.factory = self
@@ -85,6 +92,12 @@ final class AppFactory {
     func makeCreateAccountViewController() -> CreateAccountViewController {
         let viewController = CreateAccountViewController()
         viewController.factory = self
+        return viewController
+    }
+
+    func makeSettingsViewController() -> SettingsViewController {
+        let viewController = SettingsViewController()
+        viewController.viewModel = makeSettingsViewModel()
         return viewController
     }
 

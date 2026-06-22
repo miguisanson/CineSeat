@@ -25,18 +25,18 @@ final class MovieDetailViewController: ScrollableViewController {
 
     private func buildInterface() {
         let poster = PosterPlaceholderView()
-        poster.heightAnchor.constraint(equalToConstant: 220).isActive = true
+        poster.heightAnchor.constraint(equalToConstant: CineSeatSize.posterDetailHeight).isActive = true
         poster.loadPoster(from: movie.posterURLString, localName: movie.localPosterName)
         contentStack.addArrangedSubview(poster)
 
         let titleLabel = UILabel()
         titleLabel.text = movie.title
-        titleLabel.font = .systemFont(ofSize: 22, weight: .heavy)
+        titleLabel.font = CineSeatFont.pageTitleHeavy
         titleLabel.textColor = CineSeatTheme.primaryText
 
         let metadataLabel = UILabel()
         metadataLabel.text = "\(movie.genre)  |  \(movie.duration)  |  ***** \(String(format: "%.1f", movie.rating))"
-        metadataLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
+        metadataLabel.font = CineSeatFont.metadata
         metadataLabel.textColor = CineSeatTheme.mutedText
         metadataLabel.numberOfLines = 0
 
@@ -46,7 +46,7 @@ final class MovieDetailViewController: ScrollableViewController {
         let synopsisTitle = CineSeatTheme.captionLabel("Synopsis")
         let synopsisLabel = UILabel()
         synopsisLabel.text = movie.synopsis
-        synopsisLabel.font = .systemFont(ofSize: 13)
+        synopsisLabel.font = CineSeatFont.bodySmall
         synopsisLabel.textColor = CineSeatTheme.secondaryText
         synopsisLabel.numberOfLines = 0
         let synopsisStack = UIStackView(arrangedSubviews: [synopsisTitle, synopsisLabel])
@@ -57,7 +57,7 @@ final class MovieDetailViewController: ScrollableViewController {
         if movie.isComingSoon {
             let comingSoonLabel = UILabel()
             comingSoonLabel.text = "This movie is coming soon. You can view the details now, but seat booking opens when it moves to Now Playing."
-            comingSoonLabel.font = .systemFont(ofSize: 13)
+            comingSoonLabel.font = CineSeatFont.bodySmall
             comingSoonLabel.textColor = CineSeatTheme.secondaryText
             comingSoonLabel.textAlignment = .center
             comingSoonLabel.numberOfLines = 0
@@ -80,10 +80,10 @@ final class MovieDetailViewController: ScrollableViewController {
             thirdTimeButton
         ])
         timesStack.axis = .vertical
-        timesStack.spacing = 8
+        timesStack.spacing = CineSeatSpacing.regular
         contentStack.addArrangedSubview(timesStack)
 
-        assignedCinemaLabel.font = .monospacedSystemFont(ofSize: 11, weight: .regular)
+        assignedCinemaLabel.font = CineSeatFont.metadata
         assignedCinemaLabel.textColor = CineSeatTheme.secondaryText
         assignedCinemaLabel.numberOfLines = 0
         assignedCinemaLabel.textAlignment = .center
@@ -109,11 +109,11 @@ final class MovieDetailViewController: ScrollableViewController {
     private func makeTimeButton(index: Int) -> UIButton {
         let button = UIButton(type: .system)
         button.tag = index
-        button.titleLabel?.font = .monospacedSystemFont(ofSize: 11, weight: .semibold)
+        button.titleLabel?.font = CineSeatFont.infoValue
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = CineSeatRadius.medium
         button.layer.borderWidth = 1
         button.accessibilityIdentifier = "timeButton\(index + 1)"
         button.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
@@ -232,7 +232,7 @@ final class SeatSelectionViewController: ScrollableViewController {
 
         let screenView = UIView()
         screenView.backgroundColor = CineSeatTheme.mutedText
-        screenView.layer.cornerRadius = 3
+        screenView.layer.cornerRadius = CineSeatRadius.extraSmall
         screenView.translatesAutoresizingMaskIntoConstraints = false
         let screenContainer = UIView()
         screenContainer.addSubview(screenView)
@@ -240,7 +240,7 @@ final class SeatSelectionViewController: ScrollableViewController {
             screenView.topAnchor.constraint(equalTo: screenContainer.topAnchor),
             screenView.centerXAnchor.constraint(equalTo: screenContainer.centerXAnchor),
             screenView.widthAnchor.constraint(equalTo: screenContainer.widthAnchor, multiplier: 0.82),
-            screenView.heightAnchor.constraint(equalToConstant: 6),
+            screenView.heightAnchor.constraint(equalToConstant: CineSeatSize.screenHeight),
             screenView.bottomAnchor.constraint(equalTo: screenContainer.bottomAnchor)
         ])
         contentStack.addArrangedSubview(screenContainer)
@@ -274,10 +274,10 @@ final class SeatSelectionViewController: ScrollableViewController {
         legendStack.alignment = .center
         contentStack.addArrangedSubview(makeCard(with: legendStack, padding: 12))
 
-        selectedSeatsLabel.font = .monospacedSystemFont(ofSize: 11, weight: .bold)
+        selectedSeatsLabel.font = CineSeatFont.infoValue
         selectedSeatsLabel.textColor = CineSeatTheme.primaryText
         selectedSeatsLabel.textAlignment = .right
-        totalLabel.font = .monospacedSystemFont(ofSize: 17, weight: .bold)
+        totalLabel.font = CineSeatFont.detailTitle
         totalLabel.textColor = CineSeatTheme.primaryText
         totalLabel.textAlignment = .right
 
@@ -296,15 +296,15 @@ final class SeatSelectionViewController: ScrollableViewController {
     private func makeLegendItem(title: String, color: UIColor) -> UIStackView {
         let square = UIView()
         square.backgroundColor = color
-        square.layer.cornerRadius = 3
+        square.layer.cornerRadius = CineSeatRadius.extraSmall
         square.layer.borderWidth = 1
         square.layer.borderColor = CineSeatTheme.border.cgColor
-        square.widthAnchor.constraint(equalToConstant: 18).isActive = true
-        square.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        square.widthAnchor.constraint(equalToConstant: CineSeatSize.legendWidth).isActive = true
+        square.heightAnchor.constraint(equalToConstant: CineSeatSize.legendHeight).isActive = true
 
         let label = UILabel()
         label.text = title
-        label.font = .monospacedSystemFont(ofSize: 9, weight: .regular)
+        label.font = CineSeatFont.status
         label.textColor = CineSeatTheme.secondaryText
 
         let stack = UIStackView(arrangedSubviews: [square, label])
@@ -364,7 +364,7 @@ final class BookingSummaryViewController: ScrollableViewController {
         movieStack.spacing = 5
         let titleLabel = UILabel()
         titleLabel.text = draft.movie.title
-        titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
+        titleLabel.font = CineSeatFont.detailTitle
         titleLabel.textColor = CineSeatTheme.primaryText
         movieStack.addArrangedSubview(titleLabel)
         movieStack.addArrangedSubview(CineSeatTheme.captionLabel("\(draft.movie.genre) - \(draft.movie.duration) - ***** \(String(format: "%.1f", draft.movie.rating))"))
@@ -441,13 +441,13 @@ final class ConfirmationViewController: ScrollableViewController {
         let successIcon = UIImageView(image: UIImage(systemName: "checkmark.circle.fill"))
         successIcon.tintColor = CineSeatTheme.primaryText
         successIcon.contentMode = .scaleAspectFit
-        successIcon.heightAnchor.constraint(equalToConstant: 72).isActive = true
+        successIcon.heightAnchor.constraint(equalToConstant: CineSeatSize.successIconHeight).isActive = true
         contentStack.addArrangedSubview(successIcon)
 
         let titleLabel = UILabel()
         titleLabel.text = "Booking Confirmed!"
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 21, weight: .heavy)
+        titleLabel.font = CineSeatFont.confirmationTitle
         titleLabel.textColor = CineSeatTheme.primaryText
         contentStack.addArrangedSubview(titleLabel)
 
@@ -456,7 +456,7 @@ final class ConfirmationViewController: ScrollableViewController {
         let idLabel = UILabel()
         idLabel.text = booking.id
         idLabel.textAlignment = .center
-        idLabel.font = .monospacedSystemFont(ofSize: 20, weight: .bold)
+        idLabel.font = CineSeatFont.bookingID
         idLabel.textColor = CineSeatTheme.primaryText
         let idStack = UIStackView(arrangedSubviews: [idTitle, idLabel])
         idStack.axis = .vertical

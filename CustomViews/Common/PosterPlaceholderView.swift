@@ -46,8 +46,8 @@ final class PosterPlaceholderView: UIView {
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            iconView.widthAnchor.constraint(equalToConstant: 28),
-            iconView.heightAnchor.constraint(equalToConstant: 28),
+            iconView.widthAnchor.constraint(equalToConstant: CineSeatSize.smallIcon),
+            iconView.heightAnchor.constraint(equalToConstant: CineSeatSize.smallIcon),
             stack.centerXAnchor.constraint(equalTo: centerXAnchor),
             stack.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])

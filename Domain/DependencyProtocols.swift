@@ -12,6 +12,15 @@ protocol AppPreferencesManaging: AnyObject {
     var showCancelledBookings: Bool { get set }
 }
 
+protocol AppSettingsManaging: AnyObject {
+    var settings: AppSettings { get }
+    var didChangeNotification: Notification.Name { get }
+    var settingsFilePath: String { get }
+
+    func updateSettings(_ settings: AppSettings)
+    func resetToDefaults()
+}
+
 protocol BookingManaging: AnyObject {
     var bookings: [Booking] { get }
     var didChangeNotification: Notification.Name { get }

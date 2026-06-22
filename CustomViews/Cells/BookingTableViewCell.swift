@@ -28,19 +28,19 @@ final class BookingTableViewCell: UITableViewCell {
         card.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(card)
 
-        titleLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        titleLabel.font = CineSeatFont.bodyBold
         titleLabel.textColor = CineSeatTheme.primaryText
         titleLabel.numberOfLines = 2
-        idLabel.font = .monospacedSystemFont(ofSize: 9, weight: .regular)
+        idLabel.font = CineSeatFont.status
         idLabel.textColor = CineSeatTheme.mutedText
-        statusLabel.font = .monospacedSystemFont(ofSize: 9, weight: .bold)
+        statusLabel.font = CineSeatFont.status
         statusLabel.textAlignment = .center
-        statusLabel.layer.cornerRadius = 10
+        statusLabel.layer.cornerRadius = CineSeatRadius.medium
         statusLabel.clipsToBounds = true
-        detailsLabel.font = .monospacedSystemFont(ofSize: 10, weight: .regular)
+        detailsLabel.font = CineSeatFont.metadata
         detailsLabel.textColor = CineSeatTheme.secondaryText
         detailsLabel.numberOfLines = 2
-        totalLabel.font = .monospacedSystemFont(ofSize: 13, weight: .bold)
+        totalLabel.font = CineSeatFont.button
         totalLabel.textColor = CineSeatTheme.primaryText
         totalLabel.textAlignment = .right
         totalLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -48,29 +48,29 @@ final class BookingTableViewCell: UITableViewCell {
         let titleStack = UIStackView(arrangedSubviews: [titleLabel, UIView(), statusLabel])
         titleStack.axis = .horizontal
         titleStack.alignment = .center
-        titleStack.spacing = 8
+        titleStack.spacing = CineSeatSpacing.regular
         let detailStack = UIStackView(arrangedSubviews: [detailsLabel, UIView(), totalLabel])
         detailStack.axis = .horizontal
         detailStack.alignment = .bottom
-        detailStack.spacing = 8
+        detailStack.spacing = CineSeatSpacing.regular
         let stack = UIStackView(arrangedSubviews: [titleStack, idLabel, detailStack])
         stack.axis = .vertical
-        stack.spacing = 6
+        stack.spacing = CineSeatSpacing.small
         stack.translatesAutoresizingMaskIntoConstraints = false
         card.addSubview(stack)
 
         NSLayoutConstraint.activate([
             card.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            card.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: CineSeatSpacing.pageHorizontal),
+            card.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -CineSeatSpacing.pageHorizontal),
             card.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: 12),
-            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 14),
-            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -14),
-            stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -12),
+            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: CineSeatSpacing.medium),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: CineSeatSpacing.cardPadding),
+            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -CineSeatSpacing.cardPadding),
+            stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -CineSeatSpacing.medium),
             statusLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 82),
             statusLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 170),
-            statusLabel.heightAnchor.constraint(equalToConstant: 21)
+            statusLabel.heightAnchor.constraint(equalToConstant: CineSeatSize.statusHeight)
         ])
     }
 

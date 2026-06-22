@@ -29,12 +29,12 @@ class AccountFormViewController: ScrollableViewController, UITextFieldDelegate {
         textField.autocorrectionType = .no
         textField.returnKeyType = .next
         textField.delegate = self
-        textField.font = .systemFont(ofSize: 15)
+        textField.font = CineSeatFont.field
         textField.backgroundColor = CineSeatTheme.card
-        textField.layer.cornerRadius = 10
+        textField.layer.cornerRadius = CineSeatRadius.medium
         textField.layer.borderWidth = 1
         textField.layer.borderColor = CineSeatTheme.border.cgColor
-        textField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        textField.heightAnchor.constraint(equalToConstant: CineSeatSize.textFieldHeight).isActive = true
 
         let padding = UIView(frame: CGRect(x: 0, y: 0, width: 14, height: 1))
         textField.leftView = padding
@@ -48,7 +48,7 @@ class AccountFormViewController: ScrollableViewController, UITextFieldDelegate {
         let arrangedViews: [UIView] = [CineSeatTheme.captionLabel(title)] + fields
         let stack = UIStackView(arrangedSubviews: arrangedViews)
         stack.axis = .vertical
-        stack.spacing = 10
+        stack.spacing = CineSeatSpacing.regular
         return makeCard(with: stack)
     }
 
@@ -182,11 +182,12 @@ final class ProfileViewController: ScrollableViewController {
             return
         }
         storyboardSignedOutViews.forEach { contentStack.addArrangedSubview($0) }
+        contentStack.addArrangedSubview(makeSettingsButton())
     }
 
     private func configureStoryboardButtons() {
         signedOutButtonStackView?.axis = .horizontal
-        signedOutButtonStackView?.spacing = 10
+        signedOutButtonStackView?.spacing = CineSeatSpacing.regular
         signedOutButtonStackView?.distribution = .fillEqually
         configure(profileLoginButton, title: "Log In", isPrimary: true)
         configure(profileCreateAccountButton, title: "Create Account", isPrimary: false)
@@ -196,8 +197,8 @@ final class ProfileViewController: ScrollableViewController {
 
     private func configure(_ button: UIButton?, title: String, isPrimary: Bool) {
         button?.setTitle(title, for: .normal)
-        button?.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
-        button?.layer.cornerRadius = 12
+        button?.titleLabel?.font = CineSeatFont.fieldButton
+        button?.layer.cornerRadius = CineSeatRadius.large
         button?.layer.borderWidth = isPrimary ? 0 : 1
         button?.layer.borderColor = CineSeatTheme.border.cgColor
         button?.backgroundColor = isPrimary ? CineSeatTheme.primaryText : CineSeatTheme.card
@@ -210,20 +211,20 @@ final class ProfileViewController: ScrollableViewController {
         let iconView = UIImageView(image: UIImage(systemName: "person.crop.circle"))
         iconView.tintColor = CineSeatTheme.primaryText
         iconView.contentMode = .scaleAspectFit
-        iconView.heightAnchor.constraint(equalToConstant: 96).isActive = true
+        iconView.heightAnchor.constraint(equalToConstant: CineSeatSize.profileIconHeight).isActive = true
         contentStack.addArrangedSubview(iconView)
 
         let welcomeLabel = UILabel()
         welcomeLabel.text = "Welcome to CineSeat"
         welcomeLabel.textAlignment = .center
-        welcomeLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        welcomeLabel.font = CineSeatFont.pageTitle
         welcomeLabel.textColor = CineSeatTheme.primaryText
         contentStack.addArrangedSubview(welcomeLabel)
 
         let messageLabel = UILabel()
         messageLabel.text = "Sign in to manage your account, keep your profile details, and quickly access your cinema bookings."
         messageLabel.textAlignment = .center
-        messageLabel.font = .systemFont(ofSize: 14)
+        messageLabel.font = CineSeatFont.body
         messageLabel.textColor = CineSeatTheme.secondaryText
         messageLabel.numberOfLines = 0
         contentStack.addArrangedSubview(messageLabel)
@@ -238,6 +239,8 @@ final class ProfileViewController: ScrollableViewController {
         createButton.addTarget(self, action: #selector(createAccountTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(createButton)
 
+        contentStack.addArrangedSubview(makeSettingsButton())
+
         let privacyLabel = CineSeatTheme.captionLabel("Your password is stored securely in the iOS Keychain. Account data stays on this device.")
         privacyLabel.textAlignment = .center
         contentStack.addArrangedSubview(makeCard(with: UIStackView(arrangedSubviews: [privacyLabel]), padding: 12))
@@ -249,13 +252,13 @@ final class ProfileViewController: ScrollableViewController {
         let avatarLabel = UILabel()
         avatarLabel.text = profile.initials
         avatarLabel.textAlignment = .center
-        avatarLabel.font = .systemFont(ofSize: 30, weight: .bold)
+        avatarLabel.font = CineSeatFont.avatarInitials
         avatarLabel.textColor = .white
         avatarLabel.backgroundColor = CineSeatTheme.primaryText
-        avatarLabel.layer.cornerRadius = 44
+        avatarLabel.layer.cornerRadius = CineSeatSize.avatarSize / 2
         avatarLabel.clipsToBounds = true
-        avatarLabel.widthAnchor.constraint(equalToConstant: 88).isActive = true
-        avatarLabel.heightAnchor.constraint(equalToConstant: 88).isActive = true
+        avatarLabel.widthAnchor.constraint(equalToConstant: CineSeatSize.avatarSize).isActive = true
+        avatarLabel.heightAnchor.constraint(equalToConstant: CineSeatSize.avatarSize).isActive = true
 
         let avatarContainer = UIStackView(arrangedSubviews: [UIView(), avatarLabel, UIView()])
         avatarContainer.axis = .horizontal
@@ -265,14 +268,14 @@ final class ProfileViewController: ScrollableViewController {
         let nameLabel = UILabel()
         nameLabel.text = profile.fullName
         nameLabel.textAlignment = .center
-        nameLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        nameLabel.font = CineSeatFont.pageTitle
         nameLabel.textColor = CineSeatTheme.primaryText
         contentStack.addArrangedSubview(nameLabel)
 
         let emailLabel = UILabel()
         emailLabel.text = profile.email
         emailLabel.textAlignment = .center
-        emailLabel.font = .monospacedSystemFont(ofSize: 11, weight: .regular)
+        emailLabel.font = CineSeatFont.metadata
         emailLabel.textColor = CineSeatTheme.mutedText
         contentStack.addArrangedSubview(emailLabel)
 
@@ -290,13 +293,15 @@ final class ProfileViewController: ScrollableViewController {
         ])
         statsStack.axis = .horizontal
         statsStack.distribution = .fillEqually
-        statsStack.spacing = 10
+        statsStack.spacing = CineSeatSpacing.regular
         contentStack.addArrangedSubview(statsStack)
 
         let editButton = CineSeatTheme.primaryButton(title: "Edit Profile")
         editButton.accessibilityIdentifier = "editProfileButton"
         editButton.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(editButton)
+
+        contentStack.addArrangedSubview(makeSettingsButton())
 
         let logoutButton = CineSeatTheme.secondaryButton(title: "Log Out")
         logoutButton.accessibilityIdentifier = "logoutButton"
@@ -308,16 +313,23 @@ final class ProfileViewController: ScrollableViewController {
     private func makePageTitle(_ title: String) -> UILabel {
         let label = UILabel()
         label.text = title
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = CineSeatFont.pageTitle
         label.textColor = CineSeatTheme.primaryText
         return label
+    }
+
+    private func makeSettingsButton() -> UIButton {
+        let settingsButton = CineSeatTheme.secondaryButton(title: "Settings")
+        settingsButton.accessibilityIdentifier = "settingsButton"
+        settingsButton.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside)
+        return settingsButton
     }
 
     private func makeStat(title: String, value: String) -> CardView {
         let valueLabel = UILabel()
         valueLabel.text = value
         valueLabel.textAlignment = .center
-        valueLabel.font = .monospacedSystemFont(ofSize: 24, weight: .bold)
+        valueLabel.font = CineSeatFont.statValue
         valueLabel.textColor = CineSeatTheme.primaryText
         let titleLabel = CineSeatTheme.captionLabel(title)
         titleLabel.textAlignment = .center
@@ -343,6 +355,10 @@ final class ProfileViewController: ScrollableViewController {
 
     @objc private func createAccountTapped() {
         navigationController?.pushViewController(factory.makeCreateAccountViewController(), animated: true)
+    }
+
+    @objc private func settingsTapped() {
+        navigationController?.pushViewController(factory.makeSettingsViewController(), animated: true)
     }
 
     @objc private func editProfileTapped() {
@@ -396,7 +412,7 @@ final class LoginViewController: AccountFormViewController {
     private func buildInterface() {
         let heading = UILabel()
         heading.text = "Welcome Back"
-        heading.font = .systemFont(ofSize: 24, weight: .bold)
+        heading.font = CineSeatFont.formTitle
         heading.textColor = CineSeatTheme.primaryText
         contentStack.addArrangedSubview(heading)
         contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Log in to continue to your CineSeat profile."))
@@ -471,7 +487,7 @@ final class CreateAccountViewController: AccountFormViewController {
     private func buildInterface(fields: [UITextField]) {
         let heading = UILabel()
         heading.text = "Create Your Profile"
-        heading.font = .systemFont(ofSize: 24, weight: .bold)
+        heading.font = CineSeatFont.formTitle
         heading.textColor = CineSeatTheme.primaryText
         contentStack.addArrangedSubview(heading)
         contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Use a password with at least 8 characters, uppercase, lowercase, and one number."))

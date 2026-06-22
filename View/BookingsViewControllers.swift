@@ -58,7 +58,7 @@ final class BookingsViewController: UIViewController {
 
     private func configureEmptyStateLabel() {
         emptyStateLabel.translatesAutoresizingMaskIntoConstraints = false
-        emptyStateLabel.font = .systemFont(ofSize: 14)
+        emptyStateLabel.font = CineSeatFont.body
         emptyStateLabel.textColor = CineSeatTheme.secondaryText
         emptyStateLabel.textAlignment = .center
         emptyStateLabel.numberOfLines = 0
@@ -130,7 +130,7 @@ final class BookingDetailViewController: ScrollableViewController {
     private func buildInterface() {
         let movieTitle = UILabel()
         movieTitle.text = booking.movie.title
-        movieTitle.font = .systemFont(ofSize: 17, weight: .bold)
+        movieTitle.font = CineSeatFont.detailTitle
         movieTitle.textColor = CineSeatTheme.primaryText
 
         let movieDetails = CineSeatTheme.captionLabel("\(booking.movie.genre) - \(booking.movie.duration)")
@@ -139,11 +139,11 @@ final class BookingDetailViewController: ScrollableViewController {
         statusLabel.textAlignment = .center
         statusLabel.textColor = booking.status.isConfirmed ? .white : CineSeatTheme.secondaryText
         statusLabel.backgroundColor = booking.status.isConfirmed ? CineSeatTheme.primaryText : CineSeatTheme.border
-        statusLabel.font = .monospacedSystemFont(ofSize: 9, weight: .bold)
-        statusLabel.layer.cornerRadius = 10
+        statusLabel.font = CineSeatFont.status
+        statusLabel.layer.cornerRadius = CineSeatRadius.medium
         statusLabel.clipsToBounds = true
         statusLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 92).isActive = true
-        statusLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        statusLabel.heightAnchor.constraint(equalToConstant: CineSeatSize.statusHeight).isActive = true
 
         let statusRow = UIStackView(arrangedSubviews: [movieTitle, UIView(), statusLabel])
         statusRow.axis = .horizontal
@@ -196,8 +196,8 @@ final class BookingDetailViewController: ScrollableViewController {
     private func makeScreenLabel() -> UIStackView {
         let screenView = UIView()
         screenView.backgroundColor = CineSeatTheme.mutedText
-        screenView.layer.cornerRadius = 3
-        screenView.heightAnchor.constraint(equalToConstant: 6).isActive = true
+        screenView.layer.cornerRadius = CineSeatRadius.extraSmall
+        screenView.heightAnchor.constraint(equalToConstant: CineSeatSize.screenHeight).isActive = true
 
         let screenText = CineSeatTheme.captionLabel("Screen")
         screenText.textAlignment = .center

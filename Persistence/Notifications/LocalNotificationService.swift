@@ -7,12 +7,18 @@ final class LocalNotificationService: BookingNotificationScheduling {
     static let shared = LocalNotificationService()
 
     private let center: UNUserNotificationCenter
+    private let settingsStore: AppSettingsManaging
 
-    init(center: UNUserNotificationCenter = .current()) {
+    init(
+        center: UNUserNotificationCenter = .current(),
+        settingsStore: AppSettingsManaging = AppSettingsStore.shared
+    ) {
         self.center = center
+        self.settingsStore = settingsStore
     }
 
     func scheduleReminders(for booking: Booking) {
+        guard settingsStore.settings.bookingRemindersEnabled else { return }
         requestAuthorizationIfNeeded { [weak self] granted in
             guard granted else { return }
             self?.addReminderRequests(for: booking)
@@ -38,6 +44,10 @@ final class LocalNotificationService: BookingNotificationScheduling {
         delay: TimeInterval = AppConstants.Notifications.demoDelay,
         completion: @escaping (Bool) -> Void = { _ in }
     ) {
+        guard settingsStore.settings.demoNotificationsEnabled else {
+            completion(false)
+            return
+        }
         requestAuthorizationIfNeeded { [weak self] granted in
             guard granted else {
                 completion(false)
