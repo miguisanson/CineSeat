@@ -7,11 +7,12 @@ final class MovieDetailViewController: ScrollableViewController {
     var factory = AppFactory.shared
 
     private lazy var scheduleViewModel = factory.makeMovieScheduleViewModel(movie: movie)
-    // beginner-style showing button references like separate storyboard outlets
-    // each showing already has the cinema assigned in sample data
-    private var firstShowingButton: UIButton!
-    private var secondShowingButton: UIButton!
-    private var thirdShowingButton: UIButton!
+    // beginner-style time button references like separate storyboard outlets
+    // each time already has the cinema assigned in sample data
+    private let datePicker = UIDatePicker()
+    private var firstTimeButton: UIButton!
+    private var secondTimeButton: UIButton!
+    private var thirdTimeButton: UIButton!
     private let assignedCinemaLabel = UILabel()
     private var selectSeatsButton: UIButton!
 
@@ -19,7 +20,7 @@ final class MovieDetailViewController: ScrollableViewController {
         super.viewDidLoad()
         title = "Movie Detail"
         buildInterface()
-        updateShowingButtons()
+        updateScheduleViews()
     }
 
     private func buildInterface() {
@@ -63,20 +64,24 @@ final class MovieDetailViewController: ScrollableViewController {
             contentStack.addArrangedSubview(makeCard(with: UIStackView(arrangedSubviews: [comingSoonLabel]), padding: 12))
         }
 
-        contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Select scheduled showing"))
+        contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Select date"))
+        configureDatePicker()
+        contentStack.addArrangedSubview(makeCard(with: UIStackView(arrangedSubviews: [datePicker]), padding: 10))
 
-        firstShowingButton = makeShowingButton(index: 0)
-        secondShowingButton = makeShowingButton(index: 1)
-        thirdShowingButton = makeShowingButton(index: 2)
+        contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Select time"))
 
-        let showingsStack = UIStackView(arrangedSubviews: [
-            firstShowingButton,
-            secondShowingButton,
-            thirdShowingButton
+        firstTimeButton = makeTimeButton(index: 0)
+        secondTimeButton = makeTimeButton(index: 1)
+        thirdTimeButton = makeTimeButton(index: 2)
+
+        let timesStack = UIStackView(arrangedSubviews: [
+            firstTimeButton,
+            secondTimeButton,
+            thirdTimeButton
         ])
-        showingsStack.axis = .vertical
-        showingsStack.spacing = 8
-        contentStack.addArrangedSubview(showingsStack)
+        timesStack.axis = .vertical
+        timesStack.spacing = 8
+        contentStack.addArrangedSubview(timesStack)
 
         assignedCinemaLabel.font = .monospacedSystemFont(ofSize: 11, weight: .regular)
         assignedCinemaLabel.textColor = CineSeatTheme.secondaryText
@@ -89,7 +94,19 @@ final class MovieDetailViewController: ScrollableViewController {
         contentStack.addArrangedSubview(selectSeatsButton)
     }
 
-    private func makeShowingButton(index: Int) -> UIButton {
+    private func configureDatePicker() {
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .inline
+        datePicker.minimumDate = scheduleViewModel.minimumDate
+        datePicker.maximumDate = scheduleViewModel.maximumDate
+        datePicker.isEnabled = movie.isNowPlaying && scheduleViewModel.minimumDate != nil
+        if let selectedDate = scheduleViewModel.selectedSchedule?.date {
+            datePicker.date = selectedDate
+        }
+        datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
+    }
+
+    private func makeTimeButton(index: Int) -> UIButton {
         let button = UIButton(type: .system)
         button.tag = index
         button.titleLabel?.font = .monospacedSystemFont(ofSize: 11, weight: .semibold)
@@ -98,24 +115,35 @@ final class MovieDetailViewController: ScrollableViewController {
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 8, bottom: 10, right: 8)
         button.layer.cornerRadius = 8
         button.layer.borderWidth = 1
-        button.accessibilityIdentifier = "showingButton\(index + 1)"
+        button.accessibilityIdentifier = "timeButton\(index + 1)"
         button.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
-        button.addTarget(self, action: #selector(showingTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(timeTapped(_:)), for: .touchUpInside)
         return button
     }
 
-    @objc private func showingTapped(_ sender: UIButton) {
-        scheduleViewModel.selectShowing(at: sender.tag)
-        updateShowingButtons()
+    @objc private func dateChanged(_ sender: UIDatePicker) {
+        scheduleViewModel.selectDate(sender.date)
+        updateScheduleViews()
     }
 
-    private func updateShowingButtons() {
-        update(button: firstShowingButton, at: 0)
-        update(button: secondShowingButton, at: 1)
-        update(button: thirdShowingButton, at: 2)
+    @objc private func timeTapped(_ sender: UIButton) {
+        scheduleViewModel.selectTime(at: sender.tag)
+        updateScheduleViews()
+    }
 
-        if let showing = scheduleViewModel.selectedShowing {
-            assignedCinemaLabel.text = "assigned cinema: \(showing.cinema.name)\n\(showing.cinema.type.rawValue) ticket - \(CineSeatTheme.money(showing.ticketPrice))"
+    private func updateScheduleViews() {
+        update(button: firstTimeButton, at: 0)
+        update(button: secondTimeButton, at: 1)
+        update(button: thirdTimeButton, at: 2)
+
+        if let selectedDate = scheduleViewModel.selectedSchedule?.date,
+           !CineSeatDateFormatters.isSameDay(datePicker.date, selectedDate) {
+            datePicker.date = selectedDate
+        }
+
+        if let schedule = scheduleViewModel.selectedSchedule,
+           let time = scheduleViewModel.selectedTime {
+            assignedCinemaLabel.text = "date: \(schedule.displayDateWithTitle)\nassigned cinema: \(time.cinema.name)\n\(time.cinema.type.rawValue) ticket - \(CineSeatTheme.money(time.ticketPrice))"
         } else {
             assignedCinemaLabel.text = "no bookable schedule yet"
         }
@@ -127,24 +155,24 @@ final class MovieDetailViewController: ScrollableViewController {
     }
 
     private func update(button: UIButton?, at index: Int) {
-        guard let showing = scheduleViewModel.showing(at: index) else {
+        guard let time = scheduleViewModel.time(at: index) else {
             button?.isHidden = true
             return
         }
 
-        let isSelected = scheduleViewModel.selectedShowing?.id == showing.id
+        let isSelected = scheduleViewModel.selectedTime?.id == time.id
         button?.isHidden = false
         button?.isEnabled = movie.isNowPlaying
         button?.alpha = movie.isNowPlaying ? 1 : 0.5
-        button?.setTitle(showingButtonTitle(for: showing), for: .normal)
-        button?.accessibilityLabel = "\(showing.dateTitle) \(showing.showtime), \(showing.cinema.name), \(showing.cinema.type.rawValue)"
+        button?.setTitle(timeButtonTitle(for: time), for: .normal)
+        button?.accessibilityLabel = "\(time.showtime), \(time.cinema.name), \(time.cinema.type.rawValue)"
         button?.backgroundColor = isSelected ? CineSeatTheme.primaryText : CineSeatTheme.card
         button?.setTitleColor(isSelected ? .white : CineSeatTheme.primaryText, for: .normal)
         button?.layer.borderColor = (isSelected ? CineSeatTheme.primaryText : CineSeatTheme.border).cgColor
     }
 
-    private func showingButtonTitle(for showing: MovieShowing) -> String {
-        "\(showing.dateTitle)  \(showing.showtime)\n\(showing.cinema.shortName) - \(showing.cinema.type.rawValue)\n\(CineSeatTheme.money(showing.ticketPrice))"
+    private func timeButtonTitle(for time: ShowingTime) -> String {
+        "\(time.showtime)\n\(time.cinema.shortName) - \(time.cinema.type.rawValue)\n\(CineSeatTheme.money(time.ticketPrice))"
     }
 
     @objc private func selectSeatsTapped() {
@@ -225,7 +253,10 @@ final class SeatSelectionViewController: ScrollableViewController {
         seatMapView.configure(
             layout: viewModel.layout,
             selectedSeats: viewModel.selectedSeats,
-            accessibilityPrefix: "seat"
+            accessibilityPrefix: "seat",
+            seatStateProvider: { [weak self] seat, isHighlighted in
+                self?.viewModel.visualState(for: seat, isHighlighted: isHighlighted) ?? .available
+            }
         )
         seatMapView.onSeatTapped = { [weak self] seat in
             self?.seatTapped(seat)
@@ -233,10 +264,10 @@ final class SeatSelectionViewController: ScrollableViewController {
         contentStack.addArrangedSubview(seatMapView)
 
         let legendStack = UIStackView(arrangedSubviews: [
-            makeLegendItem(title: "Available", color: CineSeatTheme.card),
-            makeLegendItem(title: "Selected", color: CineSeatTheme.primaryText),
-            makeLegendItem(title: "Reserved", color: CineSeatTheme.reservedSeat),
-            makeLegendItem(title: "Unavailable", color: CineSeatTheme.unavailableSeat)
+            makeLegendItem(title: "Available", color: CineSeatTheme.seatColor(for: .available)),
+            makeLegendItem(title: "Selected", color: CineSeatTheme.seatColor(for: .selected)),
+            makeLegendItem(title: "Reserved", color: CineSeatTheme.seatColor(for: .reserved)),
+            makeLegendItem(title: "Unavailable", color: CineSeatTheme.seatColor(for: .unavailable))
         ])
         legendStack.axis = .horizontal
         legendStack.distribution = .equalSpacing
@@ -342,7 +373,7 @@ final class BookingSummaryViewController: ScrollableViewController {
         let details = UIStackView()
         details.axis = .vertical
         details.addArrangedSubview(CineSeatTheme.captionLabel("Booking details"))
-        details.addArrangedSubview(makeInfoRow(label: "Date", value: draft.date))
+        details.addArrangedSubview(makeInfoRow(label: "Date", value: draft.dateSummary))
         details.addArrangedSubview(makeInfoRow(label: "Time", value: draft.showtime))
         details.addArrangedSubview(makeInfoRow(label: "Cinema", value: draft.cinema.name))
         details.addArrangedSubview(makeInfoRow(label: "Seats", value: draft.seats.joined(separator: ", ")))
@@ -397,6 +428,7 @@ final class BookingSummaryViewController: ScrollableViewController {
 // this shows the final booking details after persistence saves the booking
 final class ConfirmationViewController: ScrollableViewController {
     var booking: Booking!
+    var notificationScheduler: BookingNotificationScheduling?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -434,12 +466,16 @@ final class ConfirmationViewController: ScrollableViewController {
         let details = UIStackView()
         details.axis = .vertical
         details.addArrangedSubview(makeInfoRow(label: "Movie", value: booking.movie.title))
-        details.addArrangedSubview(makeInfoRow(label: "Date", value: booking.date))
+        details.addArrangedSubview(makeInfoRow(label: "Date", value: booking.dateSummary))
         details.addArrangedSubview(makeInfoRow(label: "Showtime", value: booking.showtime))
         details.addArrangedSubview(makeInfoRow(label: "Cinema", value: booking.cinema))
         details.addArrangedSubview(makeInfoRow(label: "Seats", value: booking.seats.joined(separator: ", ")))
         details.addArrangedSubview(makeInfoRow(label: "Total paid", value: CineSeatTheme.money(booking.total)))
         contentStack.addArrangedSubview(makeCard(with: details))
+
+        let demoReminderButton = CineSeatTheme.secondaryButton(title: "Demo Local Reminder")
+        demoReminderButton.addTarget(self, action: #selector(demoReminderTapped), for: .touchUpInside)
+        contentStack.addArrangedSubview(demoReminderButton)
 
         let viewBookingsButton = CineSeatTheme.primaryButton(title: "View My Bookings")
         viewBookingsButton.addTarget(self, action: #selector(viewBookingsTapped), for: .touchUpInside)
@@ -448,6 +484,24 @@ final class ConfirmationViewController: ScrollableViewController {
         let backToMoviesButton = CineSeatTheme.secondaryButton(title: "Back to Movies")
         backToMoviesButton.addTarget(self, action: #selector(backToMoviesTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(backToMoviesButton)
+    }
+
+    @objc private func demoReminderTapped() {
+        // schedules a 5 second local notification so it can be shown during presentation
+        notificationScheduler?.scheduleDemoReminder(for: booking) { [weak self] scheduled in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                let alert = UIAlertController(
+                    title: scheduled ? "Demo Reminder Set" : "Notifications Disabled",
+                    message: scheduled
+                        ? "Wait about 5 seconds. The local notification banner should appear from the top of the screen."
+                        : "Allow notifications for CineSeat in Settings to show the local reminder demo.",
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true)
+            }
+        }
     }
 
     @objc private func viewBookingsTapped() {

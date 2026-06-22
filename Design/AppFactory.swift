@@ -9,6 +9,7 @@ struct AppDependencies {
     let fetchBookingsUseCase: FetchBookingsUseCase
     let confirmBookingUseCase: ConfirmBookingUseCase
     let cancelBookingUseCase: CancelBookingUseCase
+    let notificationScheduler: BookingNotificationScheduling
 
     static var live: AppDependencies {
         let preferences = AppPreferences.shared
@@ -22,7 +23,8 @@ struct AppDependencies {
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: movieFetcher),
             fetchBookingsUseCase: DefaultFetchBookingsUseCase(bookingManager: bookingManager),
             confirmBookingUseCase: DefaultConfirmBookingUseCase(bookingManager: bookingManager),
-            cancelBookingUseCase: DefaultCancelBookingUseCase(bookingManager: bookingManager)
+            cancelBookingUseCase: DefaultCancelBookingUseCase(bookingManager: bookingManager),
+            notificationScheduler: LocalNotificationService.shared
         )
     }
 }
@@ -119,6 +121,7 @@ final class AppFactory {
     func makeConfirmationViewController(booking: Booking) -> ConfirmationViewController {
         let viewController = ConfirmationViewController()
         viewController.booking = booking
+        viewController.notificationScheduler = dependencies.notificationScheduler
         return viewController
     }
 

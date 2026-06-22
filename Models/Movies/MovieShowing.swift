@@ -1,16 +1,15 @@
 import Foundation
 
 // module 4 style local api result
-// a showing already has the cinema assigned by the sample json data
+// a showing groups the json schedule array for one movie
 struct MovieShowing: Codable, Equatable, Identifiable {
     let id: String
     let movieTitle: String
-    let dateTitle: String
-    let date: String
-    let showtime: String
-    let cinema: Cinema
+    let schedules: [ShowingSchedule]
 
-    var ticketPrice: Double {
-        cinema.ticketPrice
+    var allTimes: [(schedule: ShowingSchedule, time: ShowingTime)] {
+        schedules.flatMap { schedule in
+            schedule.times.map { (schedule, $0) }
+        }
     }
 }

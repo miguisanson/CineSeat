@@ -1,4 +1,5 @@
 import UIKit
+import UserNotifications
 
 // module 5 app launch setup
 // this keeps small app flags together while filemanager handles saved json data
@@ -6,6 +7,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppPreferences.shared.hasLaunchedBefore = true
+        UNUserNotificationCenter.current().delegate = self
 #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("-resetProfileSessionForUITests") {
             AuthenticationService.shared.logOut()
@@ -22,5 +24,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         // no extra cleanup is needed for this small app yet
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    // lets local reminders show as banners even when the app is open for demo
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .list, .sound])
     }
 }

@@ -137,12 +137,12 @@ final class BookingDetailViewController: ScrollableViewController {
         let statusLabel = UILabel()
         statusLabel.text = booking.status.rawValue.uppercased()
         statusLabel.textAlignment = .center
-        statusLabel.textColor = booking.status == .confirmed ? .white : CineSeatTheme.secondaryText
-        statusLabel.backgroundColor = booking.status == .confirmed ? CineSeatTheme.primaryText : CineSeatTheme.border
+        statusLabel.textColor = booking.status.isConfirmed ? .white : CineSeatTheme.secondaryText
+        statusLabel.backgroundColor = booking.status.isConfirmed ? CineSeatTheme.primaryText : CineSeatTheme.border
         statusLabel.font = .monospacedSystemFont(ofSize: 9, weight: .bold)
         statusLabel.layer.cornerRadius = 10
         statusLabel.clipsToBounds = true
-        statusLabel.widthAnchor.constraint(equalToConstant: 92).isActive = true
+        statusLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 92).isActive = true
         statusLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
 
         let statusRow = UIStackView(arrangedSubviews: [movieTitle, UIView(), statusLabel])
@@ -157,7 +157,7 @@ final class BookingDetailViewController: ScrollableViewController {
         details.axis = .vertical
         details.addArrangedSubview(CineSeatTheme.captionLabel("Booking information"))
         details.addArrangedSubview(makeInfoRow(label: "Booking ID", value: booking.id))
-        details.addArrangedSubview(makeInfoRow(label: "Date", value: booking.date))
+        details.addArrangedSubview(makeInfoRow(label: "Date", value: booking.dateSummary))
         details.addArrangedSubview(makeInfoRow(label: "Time", value: booking.showtime))
         details.addArrangedSubview(makeInfoRow(label: "Cinema", value: booking.cinema))
         details.addArrangedSubview(makeInfoRow(label: "Seats", value: booking.seats.joined(separator: ", ")))
@@ -181,7 +181,7 @@ final class BookingDetailViewController: ScrollableViewController {
         note.textAlignment = .center
         contentStack.addArrangedSubview(makeCard(with: UIStackView(arrangedSubviews: [note]), padding: 12))
 
-        if booking.status == .confirmed {
+        if booking.status.isConfirmed {
             let cancelButton = CineSeatTheme.secondaryButton(title: "Cancel Booking")
             cancelButton.setTitleColor(.systemRed, for: .normal)
             cancelButton.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)

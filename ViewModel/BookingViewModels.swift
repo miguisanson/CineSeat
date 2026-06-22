@@ -74,46 +74,107 @@ final class BookingsViewModel {
 final class MovieScheduleViewModel {
     private let movie: Movie
     private let showings: [MovieShowing]
-    private(set) var selectedShowingIndex: Int?
+    private(set) var selectedScheduleIndex: Int?
+    private(set) var selectedTimeIndex: Int?
 
     init(movie: Movie, showings: [MovieShowing]? = nil) {
         self.movie = movie
         self.showings = showings ?? SampleData.showings(for: movie)
-        selectedShowingIndex = movie.isNowPlaying && !self.showings.isEmpty ? 0 : nil
+        let hasSchedule = self.showings.first?.schedules.isEmpty == false
+        selectedScheduleIndex = movie.isNowPlaying && hasSchedule ? 0 : nil
+        selectedTimeIndex = movie.isNowPlaying && selectedSchedule?.times.isEmpty == false ? 0 : nil
     }
 
     var showingCount: Int {
-        showings.count
+        showings.reduce(0) { count, showing in
+            count + showing.allTimes.count
+        }
     }
 
     var isBookingAvailable: Bool {
-        movie.isNowPlaying && selectedShowing != nil
+        movie.isNowPlaying && selectedSchedule != nil && selectedTime != nil
     }
 
     var selectedShowing: MovieShowing? {
-        guard let selectedShowingIndex,
-              showings.indices.contains(selectedShowingIndex) else {
+        showings.first
+    }
+
+    var selectedSchedule: ShowingSchedule? {
+        guard let selectedScheduleIndex,
+              let showing = selectedShowing,
+              showing.schedules.indices.contains(selectedScheduleIndex) else {
             return nil
         }
-        return showings[selectedShowingIndex]
+        return showing.schedules[selectedScheduleIndex]
     }
 
-    func showing(at index: Int) -> MovieShowing? {
-        guard showings.indices.contains(index) else { return nil }
-        return showings[index]
+    var selectedTime: ShowingTime? {
+        guard let selectedTimeIndex,
+              let selectedSchedule,
+              selectedSchedule.times.indices.contains(selectedTimeIndex) else {
+            return nil
+        }
+        return selectedSchedule.times[selectedTimeIndex]
     }
 
-    func selectShowing(at index: Int) {
+    var minimumDate: Date? {
+        selectedShowing?.schedules.map(\.date).min()
+    }
+
+    var maximumDate: Date? {
+        selectedShowing?.schedules.map(\.date).max()
+    }
+
+    func schedule(at index: Int) -> ShowingSchedule? {
+        guard let showing = selectedShowing,
+              showing.schedules.indices.contains(index) else {
+            return nil
+        }
+        return showing.schedules[index]
+    }
+
+    func time(at index: Int) -> ShowingTime? {
+        guard let selectedSchedule,
+              selectedSchedule.times.indices.contains(index) else {
+            return nil
+        }
+        return selectedSchedule.times[index]
+    }
+
+    func selectDate(_ date: Date) {
         guard movie.isNowPlaying,
-              showings.indices.contains(index) else {
+              let showing = selectedShowing,
+              let index = showing.schedules.firstIndex(where: {
+                  CineSeatDateFormatters.isSameDay($0.date, date)
+              }) else {
             return
         }
-        selectedShowingIndex = index
+
+        selectedScheduleIndex = index
+        selectedTimeIndex = showing.schedules[index].times.isEmpty ? nil : 0
+    }
+
+    func selectTime(at index: Int) {
+        guard movie.isNowPlaying,
+              let selectedSchedule,
+              selectedSchedule.times.indices.contains(index) else {
+            return
+        }
+        selectedTimeIndex = index
     }
 
     func makeDraft() -> BookingDraft? {
-        guard let selectedShowing else { return nil }
-        return BookingDraft(movie: movie, showing: selectedShowing)
+        guard let selectedShowing,
+              let selectedSchedule,
+              let selectedTime else {
+            return nil
+        }
+        return BookingDraft(
+            movie: movie,
+            showing: selectedShowing,
+            schedule: selectedSchedule,
+            time: selectedTime
+        )
     }
 }
 
@@ -167,6 +228,26 @@ final class SeatSelectionViewModel {
 
     var total: Double {
         Double(selectedSeats.count) * ticketPrice
+    }
+
+    func visualState(for seat: String, isHighlighted: Bool = false) -> SeatVisualState {
+        if isHighlighted {
+            return .highlighted
+        }
+
+        if selectedSeats.contains(seat) {
+            return .selected
+        }
+
+        if layout.reservedSeats.contains(seat) {
+            return .reserved
+        }
+
+        if layout.unavailableSeats.contains(seat) {
+            return .unavailable
+        }
+
+        return .available
     }
 
     private func seatSortKey(_ seat: String) -> String {

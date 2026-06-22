@@ -69,6 +69,7 @@ final class BookingTableViewCell: UITableViewCell {
             stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -14),
             stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -12),
             statusLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 82),
+            statusLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 170),
             statusLabel.heightAnchor.constraint(equalToConstant: 21)
         ])
     }
@@ -77,9 +78,9 @@ final class BookingTableViewCell: UITableViewCell {
         titleLabel.text = booking.movie.title
         idLabel.text = booking.id
         statusLabel.text = booking.status.rawValue.uppercased()
-        statusLabel.textColor = booking.status == .confirmed ? .white : CineSeatTheme.secondaryText
-        statusLabel.backgroundColor = booking.status == .confirmed ? CineSeatTheme.primaryText : CineSeatTheme.border
-        detailsLabel.text = "\(booking.date) - \(booking.showtime)\nSEATS  \(booking.seats.joined(separator: ", "))"
+        statusLabel.textColor = booking.status.isConfirmed ? .white : CineSeatTheme.secondaryText
+        statusLabel.backgroundColor = booking.status.isConfirmed ? CineSeatTheme.primaryText : CineSeatTheme.border
+        detailsLabel.text = "\(booking.dateSummary) - \(booking.showtime)\nSEATS  \(booking.seats.joined(separator: ", "))"
         totalLabel.text = CineSeatTheme.money(booking.total)
         isAccessibilityElement = true
         accessibilityIdentifier = "bookingCell_\(booking.id)"

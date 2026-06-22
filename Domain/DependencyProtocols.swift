@@ -20,7 +20,31 @@ protocol BookingManaging: AnyObject {
     func addBooking(from draft: BookingDraft) -> Booking
 
     @discardableResult
-    func cancelBooking(id: String) -> Bool
+    func cancelBooking(id: String, reason: BookingCancellationReason) -> Bool
+}
+
+extension BookingManaging {
+    @discardableResult
+    func cancelBooking(id: String) -> Bool {
+        cancelBooking(id: id, reason: .user)
+    }
+}
+
+protocol BookingNotificationScheduling: AnyObject {
+    func scheduleReminders(for booking: Booking)
+    func cancelReminders(for bookingID: String)
+    func scheduleCancellationNotice(for booking: Booking, reason: BookingCancellationReason)
+    func scheduleDemoReminder(for booking: Booking, delay: TimeInterval, completion: @escaping (Bool) -> Void)
+}
+
+extension BookingNotificationScheduling {
+    func scheduleDemoReminder(
+        for booking: Booking,
+        delay: TimeInterval = AppConstants.Notifications.demoDelay,
+        completion: @escaping (Bool) -> Void = { _ in }
+    ) {
+        scheduleDemoReminder(for: booking, delay: delay, completion: completion)
+    }
 }
 
 protocol Authenticating: AnyObject {

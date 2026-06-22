@@ -10,6 +10,7 @@ final class SeatMapView: UIView {
     private var isInteractive = true
     private var showsSeatIDForHighlightedSeats = false
     private var accessibilityPrefix = "seat"
+    private var seatStateProvider: ((String, Bool) -> SeatVisualState)?
 
     var onSeatTapped: ((String) -> Void)?
 
@@ -29,7 +30,8 @@ final class SeatMapView: UIView {
         highlightedSeats: Set<String> = [],
         isInteractive: Bool = true,
         showsSeatIDForHighlightedSeats: Bool = false,
-        accessibilityPrefix: String = "seat"
+        accessibilityPrefix: String = "seat",
+        seatStateProvider: ((String, Bool) -> SeatVisualState)? = nil
     ) {
         self.layout = layout
         self.selectedSeats = selectedSeats
@@ -37,6 +39,7 @@ final class SeatMapView: UIView {
         self.isInteractive = isInteractive
         self.showsSeatIDForHighlightedSeats = showsSeatIDForHighlightedSeats
         self.accessibilityPrefix = accessibilityPrefix
+        self.seatStateProvider = seatStateProvider
         rebuildGrid()
     }
 
@@ -128,39 +131,40 @@ final class SeatMapView: UIView {
         let isReserved = layout.reservedSeats.contains(seatID)
         let isUnavailable = layout.unavailableSeats.contains(seatID)
         let isEnabled = isInteractive && (isHighlighted || layout.isSelectable(seatID))
-
-        button.isEnabled = isEnabled
-        button.alpha = isUnavailable ? 0.65 : 1
-        button.backgroundColor = seatColor(
+        let visualState = seatStateProvider?(seatID, isHighlighted) ?? defaultVisualState(
             isHighlighted: isHighlighted,
             isSelected: isSelected,
             isReserved: isReserved,
             isUnavailable: isUnavailable
         )
+
+        button.isEnabled = isEnabled
+        button.alpha = isUnavailable ? 0.65 : 1
+        button.backgroundColor = CineSeatTheme.seatColor(for: visualState)
         button.layer.borderColor = (isHighlighted || isSelected ? CineSeatTheme.primaryText : CineSeatTheme.border).cgColor
         button.setTitle(seatTitle(seatID: seatID, isHighlighted: isHighlighted, isSelected: isSelected), for: .normal)
         button.setTitleColor(.white, for: .normal)
     }
 
-    private func seatColor(
+    private func defaultVisualState(
         isHighlighted: Bool,
         isSelected: Bool,
         isReserved: Bool,
         isUnavailable: Bool
-    ) -> UIColor {
+    ) -> SeatVisualState {
         if isHighlighted || isSelected {
-            return CineSeatTheme.primaryText
+            return isHighlighted ? .highlighted : .selected
         }
 
         if isReserved {
-            return CineSeatTheme.reservedSeat
+            return .reserved
         }
 
         if isUnavailable {
-            return CineSeatTheme.unavailableSeat
+            return .unavailable
         }
 
-        return CineSeatTheme.card
+        return .available
     }
 
     private func seatTitle(seatID: String, isHighlighted: Bool, isSelected: Bool) -> String {

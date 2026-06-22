@@ -20,7 +20,10 @@ final class BookingFileRepository: BookingPersisting {
 
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        reader = JSONFileReader(fileManager: fileManager)
+        encoder.dateEncodingStrategy = .iso8601
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        reader = JSONFileReader(fileManager: fileManager, decoder: decoder)
         writer = JSONFileWriter(fileManager: fileManager, encoder: encoder)
     }
 

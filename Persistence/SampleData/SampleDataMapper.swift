@@ -8,16 +8,29 @@ enum SampleDataMapper {
         let movieByTitle = Dictionary(uniqueKeysWithValues: dto.movies.map { ($0.title, $0) })
 
         let mappedShowings = try dto.showings.map { showing -> MovieShowing in
-            guard let cinema = cinemaByID[showing.cinemaID] else {
-                throw SampleDataError.missingCinema(showing.cinemaID)
+            let schedules = try showing.schedules.map { schedule -> ShowingSchedule in
+                let times = try schedule.times.map { time -> ShowingTime in
+                    guard let cinema = cinemaByID[time.cinemaID] else {
+                        throw SampleDataError.missingCinema(time.cinemaID)
+                    }
+                    return ShowingTime(
+                        id: time.id,
+                        showtime: time.time,
+                        cinema: cinema
+                    )
+                }
+
+                return ShowingSchedule(
+                    id: schedule.id,
+                    date: CineSeatDateFormatters.dateFromToday(daysFromToday: schedule.daysFromToday),
+                    times: times
+                )
             }
+
             return MovieShowing(
                 id: showing.id,
                 movieTitle: showing.movieTitle,
-                dateTitle: showing.dateTitle,
-                date: showing.date,
-                showtime: showing.showtime,
-                cinema: cinema
+                schedules: schedules
             )
         }
 
@@ -25,14 +38,19 @@ enum SampleDataMapper {
             guard let movie = movieByTitle[booking.movieTitle] else {
                 throw SampleDataError.missingMovie(booking.movieTitle)
             }
-            guard let cinema = cinemaByID[booking.cinemaID] else {
-                throw SampleDataError.missingCinema(booking.cinemaID)
+            guard let cinema = cinemaByID[booking.schedule.time.cinemaID] else {
+                throw SampleDataError.missingCinema(booking.schedule.time.cinemaID)
             }
             return Booking(
-                id: booking.id,
+                id: booking.id ?? BookingNumberFormatter.makeID(sequence: booking.idSeed ?? 1),
                 movie: movie,
-                date: booking.date,
-                showtime: booking.showtime,
+                schedule: BookingSchedule(
+                    date: CineSeatDateFormatters.dateFromToday(daysFromToday: booking.schedule.daysFromToday),
+                    time: BookingTime(
+                        id: booking.schedule.time.id,
+                        showtime: booking.schedule.time.time
+                    )
+                ),
                 cinema: cinema.name,
                 cinemaID: cinema.id,
                 seats: booking.seats,

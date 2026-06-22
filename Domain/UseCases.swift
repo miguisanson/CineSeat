@@ -48,7 +48,7 @@ final class DefaultFetchBookingsUseCase: FetchBookingsUseCase {
 
     func execute(showCancelled: Bool) -> [Booking] {
         guard !showCancelled else { return bookingManager.bookings }
-        return bookingManager.bookings.filter { $0.status == .confirmed }
+        return bookingManager.bookings.filter(\.status.isConfirmed)
     }
 }
 
@@ -69,7 +69,13 @@ final class DefaultConfirmBookingUseCase: ConfirmBookingUseCase {
 }
 
 protocol CancelBookingUseCase {
-    func execute(id: String) -> Bool
+    func execute(id: String, reason: BookingCancellationReason) -> Bool
+}
+
+extension CancelBookingUseCase {
+    func execute(id: String) -> Bool {
+        execute(id: id, reason: .user)
+    }
 }
 
 final class DefaultCancelBookingUseCase: CancelBookingUseCase {
@@ -79,7 +85,7 @@ final class DefaultCancelBookingUseCase: CancelBookingUseCase {
         self.bookingManager = bookingManager
     }
 
-    func execute(id: String) -> Bool {
-        bookingManager.cancelBooking(id: id)
+    func execute(id: String, reason: BookingCancellationReason) -> Bool {
+        bookingManager.cancelBooking(id: id, reason: reason)
     }
 }

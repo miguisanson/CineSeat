@@ -13,6 +13,19 @@ enum CineSeatTheme {
     static let reservedSeat = UIColor(white: 0.75, alpha: 1)
     static let unavailableSeat = UIColor(white: 0.88, alpha: 1)
 
+    static func seatColor(for state: SeatVisualState) -> UIColor {
+        switch state {
+        case .highlighted, .selected:
+            return primaryText
+        case .reserved:
+            return reservedSeat
+        case .unavailable:
+            return unavailableSeat
+        case .available:
+            return card
+        }
+    }
+
     static func money(_ value: Double) -> String {
         String(format: "₱%.2f", value)
     }

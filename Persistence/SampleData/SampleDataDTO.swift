@@ -13,21 +13,40 @@ struct SampleDataDTO: Decodable {
 struct ShowingDTO: Decodable {
     let id: String
     let movieTitle: String
-    let dateTitle: String
-    let date: String
-    let showtime: String
+    let schedules: [ShowingScheduleDTO]
+}
+
+struct ShowingScheduleDTO: Decodable {
+    let id: String
+    let daysFromToday: Int
+    let times: [ShowingTimeDTO]
+}
+
+struct ShowingTimeDTO: Decodable {
+    let id: String
+    let time: String
     let cinemaID: Int
 }
 
 struct BookingDTO: Decodable {
-    let id: String
+    let id: String?
+    let idSeed: Int?
     let movieTitle: String
-    let date: String
-    let showtime: String
-    let cinemaID: Int
+    let schedule: BookingScheduleDTO
     let seats: [String]
     let bookingFee: Double
     let status: BookingStatus
+}
+
+struct BookingScheduleDTO: Decodable {
+    let daysFromToday: Int
+    let time: BookingTimeDTO
+}
+
+struct BookingTimeDTO: Decodable {
+    let id: String
+    let time: String
+    let cinemaID: Int
 }
 
 struct ProfileAccountDTO: Decodable {
