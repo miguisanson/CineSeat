@@ -7,7 +7,7 @@ final class MovieDetailViewController: ScrollableViewController {
     var factory = AppFactory.shared
 
     private lazy var scheduleViewModel = factory.makeMovieScheduleViewModel(movie: movie)
-    // beginner-style time button references like separate storyboard outlets
+    // time button references like separate storyboard outlets
     // each time already has the cinema assigned in sample data
     private let datePicker = UIDatePicker()
     private var firstTimeButton: UIButton!
