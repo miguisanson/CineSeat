@@ -1,0 +1,112 @@
+[
+  {
+    "title": "Star Wars: Episode IV - A New Hope",
+    "genre": "Sci-Fi / Adventure",
+    "duration": "2h 01m",
+    "rating": 4.7,
+    "synopsis": "Luke Skywalker joins Princess Leia, Han Solo, Obi-Wan Kenobi, and the Rebel Alliance in a mission to destroy the Empire's planet-killing battle station.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg",
+    "localPosterName": "star-wars-a-new-hope.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  },
+  {
+    "title": "Dune: Part Two",
+    "genre": "Sci-Fi / Adventure",
+    "duration": "2h 46m",
+    "rating": 4.6,
+    "synopsis": "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+    "localPosterName": "dune-part-two.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  },
+  {
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "genre": "Fantasy / Adventure",
+    "duration": "2h 58m",
+    "rating": 4.5,
+    "synopsis": "A young hobbit begins a dangerous journey to destroy the One Ring before the Dark Lord Sauron can reclaim it.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
+    "localPosterName": "lotr-fellowship.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  },
+  {
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "genre": "Fantasy / Family",
+    "duration": "2h 32m",
+    "rating": 4.3,
+    "synopsis": "Harry Potter discovers he is a wizard and begins his first year at Hogwarts, where he learns about friendship, magic, and his past.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg",
+    "localPosterName": "harry-potter-sorcerers-stone.jpg",
+    "isNowPlaying": false,
+    "isComingSoon": true
+  },
+  {
+    "title": "The Dark Knight",
+    "genre": "Action / Crime",
+    "duration": "2h 32m",
+    "rating": 4.8,
+    "synopsis": "Batman faces the Joker, a criminal mastermind who pushes Gotham City and its heroes into chaos.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+    "localPosterName": "the-dark-knight.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  },
+  {
+    "title": "Inception",
+    "genre": "Sci-Fi / Thriller",
+    "duration": "2h 28m",
+    "rating": 4.7,
+    "synopsis": "A skilled thief enters dreams to steal secrets and is offered a chance to erase his past through one final impossible job.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
+    "localPosterName": "inception.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  },
+  {
+    "title": "Spider-Man: No Way Home",
+    "genre": "Action / Adventure",
+    "duration": "2h 28m",
+    "rating": 4.4,
+    "synopsis": "Peter Parker asks Doctor Strange for help after his identity is revealed, opening the door to visitors from other worlds.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+    "localPosterName": "spider-man-no-way-home.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  },
+  {
+    "title": "Avatar: The Way of Water",
+    "genre": "Sci-Fi / Adventure",
+    "duration": "3h 12m",
+    "rating": 4.2,
+    "synopsis": "Jake Sully and Neytiri protect their family while discovering the ocean clans of Pandora.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+    "localPosterName": "avatar-way-of-water.jpg",
+    "isNowPlaying": false,
+    "isComingSoon": true
+  },
+  {
+    "title": "Inside Out 2",
+    "genre": "Animation / Family",
+    "duration": "1h 36m",
+    "rating": 4.5,
+    "synopsis": "Riley becomes a teenager as new emotions arrive and reshape the way her mind handles change.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
+    "localPosterName": "inside-out-2.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  },
+  {
+    "title": "Oppenheimer",
+    "genre": "Biography / Drama",
+    "duration": "3h 00m",
+    "rating": 4.6,
+    "synopsis": "J. Robert Oppenheimer leads the Manhattan Project and faces the consequences of creating the atomic bomb.",
+    "posterURLString": "https://image.tmdb.org/t/p/w342/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+    "localPosterName": "oppenheimer.jpg",
+    "isNowPlaying": true,
+    "isComingSoon": false
+  }
+]

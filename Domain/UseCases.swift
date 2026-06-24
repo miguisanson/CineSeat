@@ -9,7 +9,7 @@ protocol FetchMoviesUseCase {
 final class MockMovieAPIClient: MovieFetching {
     private let movies: [Movie]
 
-    init(movies: [Movie] = SampleData.movies) {
+    init(movies: [Movie] = SeedData.movies) {
         self.movies = movies
     }
 
@@ -53,7 +53,7 @@ final class DefaultFetchBookingsUseCase: FetchBookingsUseCase {
 }
 
 protocol ConfirmBookingUseCase {
-    func execute(draft: BookingDraft) -> Booking
+    func execute(draft: BookingDraft, owner: UserProfile) -> Booking
 }
 
 final class DefaultConfirmBookingUseCase: ConfirmBookingUseCase {
@@ -63,8 +63,76 @@ final class DefaultConfirmBookingUseCase: ConfirmBookingUseCase {
         self.bookingManager = bookingManager
     }
 
-    func execute(draft: BookingDraft) -> Booking {
-        bookingManager.addBooking(from: draft)
+    func execute(draft: BookingDraft, owner: UserProfile) -> Booking {
+        bookingManager.addBooking(from: draft, owner: owner)
+    }
+}
+
+enum TicketTransferError: LocalizedError {
+    case invalidEmail
+    case accountNotFound
+    case bookingNotFound
+    case bookingNotConfirmed
+    case seatNotFound
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidEmail:
+            return "Enter a valid account email address."
+        case .accountNotFound:
+            return "No CineSeat account uses that email yet."
+        case .bookingNotFound:
+            return "The booking could not be found."
+        case .bookingNotConfirmed:
+            return "Cancelled bookings cannot share tickets."
+        case .seatNotFound:
+            return "That seat ticket is not part of this booking."
+        }
+    }
+}
+
+protocol TransferTicketUseCase {
+    func execute(bookingID: String, seat: String, recipientEmail: String) throws -> Booking
+}
+
+final class DefaultTransferTicketUseCase: TransferTicketUseCase {
+    private let bookingManager: BookingManaging
+    private let authenticationService: Authenticating
+
+    init(
+        bookingManager: BookingManaging,
+        authenticationService: Authenticating
+    ) {
+        self.bookingManager = bookingManager
+        self.authenticationService = authenticationService
+    }
+
+    func execute(bookingID: String, seat: String, recipientEmail: String) throws -> Booking {
+        guard AccountValidation.isValidEmail(recipientEmail) else {
+            throw TicketTransferError.invalidEmail
+        }
+
+        guard let booking = bookingManager.bookings.first(where: { $0.id == bookingID }) else {
+            throw TicketTransferError.bookingNotFound
+        }
+
+        guard booking.status.isConfirmed else {
+            throw TicketTransferError.bookingNotConfirmed
+        }
+
+        guard let profile = authenticationService.profile(matchingEmail: recipientEmail) else {
+            throw TicketTransferError.accountNotFound
+        }
+
+        if let updatedBooking = bookingManager.transferTicket(
+            bookingID: bookingID,
+            seat: seat,
+            to: profile
+        ) {
+            return updatedBooking
+        }
+
+        throw TicketTransferError.seatNotFound
     }
 }
 

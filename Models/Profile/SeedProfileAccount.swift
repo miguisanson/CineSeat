@@ -1,8 +1,8 @@
 import Foundation
 
-// module 5 sample account bundle
+// module 5 seed account bundle
 // password is separate so json profile data does not own keychain behavior
-struct SampleProfileAccount {
+struct SeedProfileAccount {
     let profile: UserProfile
     let password: String
 }

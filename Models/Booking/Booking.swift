@@ -1,7 +1,27 @@
 import Foundation
 
+// module 5 saved ticket owner model
+// each purchased seat can be assigned to the buyer or shared to another account
+struct TicketAssignment: Codable, Equatable, Identifiable {
+    let id: String
+    let seat: String
+    var ownerEmail: String
+    var ownerName: String
+
+    init(id: String, seat: String, ownerEmail: String, ownerName: String) {
+        self.id = id
+        self.seat = seat
+        self.ownerEmail = AccountValidation.normalizedEmail(ownerEmail)
+        self.ownerName = ownerName.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    var ownerText: String {
+        ownerName.isEmpty ? ownerEmail : "\(ownerName) (\(ownerEmail))"
+    }
+}
+
 // module 5 saved booking model
-// cinemaID is optional so older saved json can still decode
+// cinemaID and ticketAssignments keep older saved json compatible
 struct Booking: Codable, Equatable {
     let id: String
     let movie: Movie
@@ -12,6 +32,7 @@ struct Booking: Codable, Equatable {
     let ticketPrice: Double
     let bookingFee: Double
     var status: BookingStatus
+    var ticketAssignments: [TicketAssignment]
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -25,6 +46,7 @@ struct Booking: Codable, Equatable {
         case ticketPrice
         case bookingFee
         case status
+        case ticketAssignments
     }
 
     init(
@@ -36,7 +58,10 @@ struct Booking: Codable, Equatable {
         seats: [String],
         ticketPrice: Double,
         bookingFee: Double,
-        status: BookingStatus
+        status: BookingStatus,
+        ownerEmail: String? = nil,
+        ownerName: String? = nil,
+        ticketAssignments: [TicketAssignment] = []
     ) {
         self.id = id
         self.movie = movie
@@ -47,6 +72,14 @@ struct Booking: Codable, Equatable {
         self.ticketPrice = ticketPrice
         self.bookingFee = bookingFee
         self.status = status
+        self.ticketAssignments = ticketAssignments.isEmpty
+            ? Self.makeTicketAssignments(
+                bookingID: id,
+                seats: seats,
+                ownerEmail: ownerEmail,
+                ownerName: ownerName
+            )
+            : ticketAssignments
     }
 
     init(
@@ -59,7 +92,10 @@ struct Booking: Codable, Equatable {
         seats: [String],
         ticketPrice: Double,
         bookingFee: Double,
-        status: BookingStatus
+        status: BookingStatus,
+        ownerEmail: String? = nil,
+        ownerName: String? = nil,
+        ticketAssignments: [TicketAssignment] = []
     ) {
         let bookingSchedule = BookingSchedule(
             date: CineSeatDateFormatters.date(fromDisplayText: date),
@@ -74,7 +110,10 @@ struct Booking: Codable, Equatable {
             seats: seats,
             ticketPrice: ticketPrice,
             bookingFee: bookingFee,
-            status: status
+            status: status,
+            ownerEmail: ownerEmail,
+            ownerName: ownerName,
+            ticketAssignments: ticketAssignments
         )
     }
 
@@ -88,6 +127,10 @@ struct Booking: Codable, Equatable {
         ticketPrice = try container.decode(Double.self, forKey: .ticketPrice)
         bookingFee = try container.decode(Double.self, forKey: .bookingFee)
         status = try container.decode(BookingStatus.self, forKey: .status)
+        ticketAssignments = try container.decodeIfPresent(
+            [TicketAssignment].self,
+            forKey: .ticketAssignments
+        ) ?? []
 
         if let savedSchedule = try container.decodeIfPresent(BookingSchedule.self, forKey: .schedule) {
             schedule = savedSchedule
@@ -112,6 +155,7 @@ struct Booking: Codable, Equatable {
         try container.encode(ticketPrice, forKey: .ticketPrice)
         try container.encode(bookingFee, forKey: .bookingFee)
         try container.encode(status, forKey: .status)
+        try container.encode(ticketAssignments, forKey: .ticketAssignments)
     }
 
     var date: String {
@@ -143,6 +187,45 @@ struct Booking: Codable, Equatable {
             forCinemaID: cinemaID ?? inferredCinemaID,
             type: ticketPrice >= 550 ? .vip : .standard
         )
+    }
+
+    var ticketAssignmentSummary: String {
+        guard !ticketAssignments.isEmpty else { return "Not assigned yet" }
+        return ticketAssignments
+            .sorted { $0.seat < $1.seat }
+            .map { "\($0.seat): \($0.ownerText)" }
+            .joined(separator: "\n")
+    }
+
+    func assignment(for seat: String) -> TicketAssignment? {
+        ticketAssignments.first { $0.seat == seat }
+    }
+
+    func isVisible(to email: String) -> Bool {
+        guard !ticketAssignments.isEmpty else { return true }
+        let normalizedEmail = AccountValidation.normalizedEmail(email)
+        return ticketAssignments.contains { $0.ownerEmail == normalizedEmail }
+    }
+
+    static func makeTicketAssignments(
+        bookingID: String,
+        seats: [String],
+        ownerEmail: String?,
+        ownerName: String?
+    ) -> [TicketAssignment] {
+        guard let ownerEmail,
+              AccountValidation.isValidEmail(ownerEmail) else {
+            return []
+        }
+
+        return seats.map { seat in
+            TicketAssignment(
+                id: "\(bookingID)-\(seat)",
+                seat: seat,
+                ownerEmail: ownerEmail,
+                ownerName: ownerName ?? ""
+            )
+        }
     }
 
     private var inferredCinemaID: Int {

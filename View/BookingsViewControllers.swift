@@ -120,6 +120,7 @@ final class BookingDetailViewController: ScrollableViewController {
     var cancelBookingUseCase: CancelBookingUseCase = DefaultCancelBookingUseCase(
         bookingManager: BookingStore.shared
     )
+    var transferTicketUseCase: TransferTicketUseCase?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,6 +162,7 @@ final class BookingDetailViewController: ScrollableViewController {
         details.addArrangedSubview(makeInfoRow(label: "Time", value: booking.showtime))
         details.addArrangedSubview(makeInfoRow(label: "Cinema", value: booking.cinema))
         details.addArrangedSubview(makeInfoRow(label: "Seats", value: booking.seats.joined(separator: ", ")))
+        details.addArrangedSubview(makeInfoRow(label: "Ticket owners", value: booking.ticketAssignmentSummary))
         details.addArrangedSubview(makeInfoRow(label: "Tickets", value: "\(booking.seats.count) x \(ticketTypeText)"))
         details.addArrangedSubview(makeInfoRow(label: "Subtotal", value: CineSeatTheme.money(booking.subtotal)))
         details.addArrangedSubview(makeInfoRow(label: "Booking fee", value: CineSeatTheme.money(booking.bookingFee)))
@@ -181,6 +183,12 @@ final class BookingDetailViewController: ScrollableViewController {
         note.textAlignment = .center
         contentStack.addArrangedSubview(makeCard(with: UIStackView(arrangedSubviews: [note]), padding: 12))
 
+        let shareTicketButton = CineSeatTheme.secondaryButton(title: "Share Ticket")
+        shareTicketButton.addTarget(self, action: #selector(shareTicketTapped), for: .touchUpInside)
+        shareTicketButton.isEnabled = canShareTicket
+        shareTicketButton.alpha = canShareTicket ? 1 : 0.45
+        contentStack.addArrangedSubview(shareTicketButton)
+
         if booking.status.isConfirmed {
             let cancelButton = CineSeatTheme.secondaryButton(title: "Cancel Booking")
             cancelButton.setTitleColor(.systemRed, for: .normal)
@@ -191,6 +199,10 @@ final class BookingDetailViewController: ScrollableViewController {
 
     private var ticketTypeText: String {
         booking.ticketPrice >= 550 ? "VIP" : "Standard"
+    }
+
+    private var canShareTicket: Bool {
+        booking.status.isConfirmed && !booking.ticketAssignments.isEmpty
     }
 
     private func makeScreenLabel() -> UIStackView {
@@ -227,9 +239,113 @@ final class BookingDetailViewController: ScrollableViewController {
     private func showBookedSeatAlert(_ seat: String) {
         let alert = UIAlertController(
             title: "Seat \(seat)",
-            message: "This highlighted seat is inside \(booking.cinema).",
+            message: seatAlertMessage(for: seat),
             preferredStyle: .alert
         )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+
+    private func seatAlertMessage(for seat: String) -> String {
+        if let assignment = booking.assignment(for: seat) {
+            return "This highlighted seat is inside \(booking.cinema).\nTicket owner: \(assignment.ownerText)."
+        }
+        return "This highlighted seat is inside \(booking.cinema)."
+    }
+
+    @objc private func shareTicketTapped() {
+        guard canShareTicket else {
+            showMessage(
+                title: "Ticket Sharing Unavailable",
+                message: "Only confirmed bookings with assigned ticket owners can share seats."
+            )
+            return
+        }
+
+        let assignments = booking.ticketAssignments.sorted { $0.seat < $1.seat }
+        if assignments.count == 1, let assignment = assignments.first {
+            promptForRecipientEmail(seat: assignment.seat)
+            return
+        }
+
+        let alert = UIAlertController(
+            title: "Share Which Seat?",
+            message: "Choose the seat ticket to send to another CineSeat account.",
+            preferredStyle: .actionSheet
+        )
+
+        for assignment in assignments {
+            alert.addAction(UIAlertAction(
+                title: "\(assignment.seat) - \(assignment.ownerText)",
+                style: .default
+            ) { [weak self] _ in
+                self?.promptForRecipientEmail(seat: assignment.seat)
+            })
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(
+            x: view.bounds.midX,
+            y: view.bounds.midY,
+            width: 1,
+            height: 1
+        )
+        present(alert, animated: true)
+    }
+
+    private func promptForRecipientEmail(seat: String) {
+        let alert = UIAlertController(
+            title: "Share Seat \(seat)",
+            message: "Enter the email of an existing CineSeat account.",
+            preferredStyle: .alert
+        )
+        alert.addTextField { textField in
+            textField.placeholder = "friend@example.com"
+            textField.keyboardType = .emailAddress
+            textField.autocapitalizationType = .none
+            textField.autocorrectionType = .no
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Send", style: .default) { [weak self, weak alert] _ in
+            let email = alert?.textFields?.first?.text ?? ""
+            self?.transferTicket(seat: seat, recipientEmail: email)
+        })
+        present(alert, animated: true)
+    }
+
+    private func transferTicket(seat: String, recipientEmail: String) {
+        guard let transferTicketUseCase else {
+            showMessage(title: "Sharing Unavailable", message: "Ticket sharing is not configured for this screen.")
+            return
+        }
+
+        do {
+            let updatedBooking = try transferTicketUseCase.execute(
+                bookingID: booking.id,
+                seat: seat,
+                recipientEmail: recipientEmail
+            )
+            booking = updatedBooking
+            reloadInterface()
+            showMessage(
+                title: "Ticket Shared",
+                message: "Seat \(seat) is now assigned to \(AccountValidation.normalizedEmail(recipientEmail))."
+            )
+        } catch {
+            showMessage(title: "Could Not Share Ticket", message: error.localizedDescription)
+        }
+    }
+
+    private func reloadInterface() {
+        contentStack.arrangedSubviews.forEach { view in
+            contentStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        buildInterface()
+    }
+
+    private func showMessage(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }

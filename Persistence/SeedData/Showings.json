@@ -1,0 +1,946 @@
+[
+  {
+    "id": "SW-SCHEDULE",
+    "movieTitle": "Star Wars: Episode IV - A New Hope",
+    "schedules": [
+      {
+        "id": "SW-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "SW-D0-1030AM-C1",
+            "time": "10:30 AM",
+            "cinemaID": 1
+          },
+          {
+            "id": "SW-D0-145PM-C4",
+            "time": "1:45 PM",
+            "cinemaID": 4
+          }
+        ]
+      },
+      {
+        "id": "SW-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "SW-D1-415PM-C4",
+            "time": "4:15 PM",
+            "cinemaID": 4
+          },
+          {
+            "id": "SW-D1-700PM-C6",
+            "time": "7:00 PM",
+            "cinemaID": 6
+          }
+        ]
+      },
+      {
+        "id": "SW-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "SW-D2-700PM-C6",
+            "time": "7:00 PM",
+            "cinemaID": 6
+          },
+          {
+            "id": "SW-D2-930PM-C1",
+            "time": "9:30 PM",
+            "cinemaID": 1
+          }
+        ]
+      },
+      {
+        "id": "SW-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "SW-D3-1030AM-C1",
+            "time": "10:30 AM",
+            "cinemaID": 1
+          },
+          {
+            "id": "SW-D3-415PM-C4",
+            "time": "4:15 PM",
+            "cinemaID": 4
+          }
+        ]
+      },
+      {
+        "id": "SW-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "SW-D4-145PM-C4",
+            "time": "1:45 PM",
+            "cinemaID": 4
+          },
+          {
+            "id": "SW-D4-700PM-C6",
+            "time": "7:00 PM",
+            "cinemaID": 6
+          }
+        ]
+      },
+      {
+        "id": "SW-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "SW-D5-415PM-C6",
+            "time": "4:15 PM",
+            "cinemaID": 6
+          },
+          {
+            "id": "SW-D5-930PM-C1",
+            "time": "9:30 PM",
+            "cinemaID": 1
+          }
+        ]
+      },
+      {
+        "id": "SW-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "SW-D6-1030AM-C1",
+            "time": "10:30 AM",
+            "cinemaID": 1
+          },
+          {
+            "id": "SW-D6-700PM-C4",
+            "time": "7:00 PM",
+            "cinemaID": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DUNE-SCHEDULE",
+    "movieTitle": "Dune: Part Two",
+    "schedules": [
+      {
+        "id": "DUNE-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "DUNE-D0-1030AM-C2",
+            "time": "10:30 AM",
+            "cinemaID": 2
+          },
+          {
+            "id": "DUNE-D0-145PM-C7",
+            "time": "1:45 PM",
+            "cinemaID": 7
+          }
+        ]
+      },
+      {
+        "id": "DUNE-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "DUNE-D1-415PM-C7",
+            "time": "4:15 PM",
+            "cinemaID": 7
+          },
+          {
+            "id": "DUNE-D1-700PM-C8",
+            "time": "7:00 PM",
+            "cinemaID": 8
+          }
+        ]
+      },
+      {
+        "id": "DUNE-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "DUNE-D2-700PM-C8",
+            "time": "7:00 PM",
+            "cinemaID": 8
+          },
+          {
+            "id": "DUNE-D2-930PM-C2",
+            "time": "9:30 PM",
+            "cinemaID": 2
+          }
+        ]
+      },
+      {
+        "id": "DUNE-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "DUNE-D3-1030AM-C2",
+            "time": "10:30 AM",
+            "cinemaID": 2
+          },
+          {
+            "id": "DUNE-D3-415PM-C7",
+            "time": "4:15 PM",
+            "cinemaID": 7
+          }
+        ]
+      },
+      {
+        "id": "DUNE-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "DUNE-D4-145PM-C7",
+            "time": "1:45 PM",
+            "cinemaID": 7
+          },
+          {
+            "id": "DUNE-D4-700PM-C8",
+            "time": "7:00 PM",
+            "cinemaID": 8
+          }
+        ]
+      },
+      {
+        "id": "DUNE-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "DUNE-D5-415PM-C8",
+            "time": "4:15 PM",
+            "cinemaID": 8
+          },
+          {
+            "id": "DUNE-D5-930PM-C2",
+            "time": "9:30 PM",
+            "cinemaID": 2
+          }
+        ]
+      },
+      {
+        "id": "DUNE-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "DUNE-D6-1030AM-C2",
+            "time": "10:30 AM",
+            "cinemaID": 2
+          },
+          {
+            "id": "DUNE-D6-700PM-C7",
+            "time": "7:00 PM",
+            "cinemaID": 7
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "LOTR-SCHEDULE",
+    "movieTitle": "The Lord of the Rings: The Fellowship of the Ring",
+    "schedules": [
+      {
+        "id": "LOTR-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "LOTR-D0-1030AM-C3",
+            "time": "10:30 AM",
+            "cinemaID": 3
+          },
+          {
+            "id": "LOTR-D0-145PM-C5",
+            "time": "1:45 PM",
+            "cinemaID": 5
+          }
+        ]
+      },
+      {
+        "id": "LOTR-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "LOTR-D1-415PM-C5",
+            "time": "4:15 PM",
+            "cinemaID": 5
+          },
+          {
+            "id": "LOTR-D1-700PM-C1",
+            "time": "7:00 PM",
+            "cinemaID": 1
+          }
+        ]
+      },
+      {
+        "id": "LOTR-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "LOTR-D2-700PM-C1",
+            "time": "7:00 PM",
+            "cinemaID": 1
+          },
+          {
+            "id": "LOTR-D2-930PM-C3",
+            "time": "9:30 PM",
+            "cinemaID": 3
+          }
+        ]
+      },
+      {
+        "id": "LOTR-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "LOTR-D3-1030AM-C3",
+            "time": "10:30 AM",
+            "cinemaID": 3
+          },
+          {
+            "id": "LOTR-D3-415PM-C5",
+            "time": "4:15 PM",
+            "cinemaID": 5
+          }
+        ]
+      },
+      {
+        "id": "LOTR-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "LOTR-D4-145PM-C5",
+            "time": "1:45 PM",
+            "cinemaID": 5
+          },
+          {
+            "id": "LOTR-D4-700PM-C1",
+            "time": "7:00 PM",
+            "cinemaID": 1
+          }
+        ]
+      },
+      {
+        "id": "LOTR-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "LOTR-D5-415PM-C1",
+            "time": "4:15 PM",
+            "cinemaID": 1
+          },
+          {
+            "id": "LOTR-D5-930PM-C3",
+            "time": "9:30 PM",
+            "cinemaID": 3
+          }
+        ]
+      },
+      {
+        "id": "LOTR-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "LOTR-D6-1030AM-C3",
+            "time": "10:30 AM",
+            "cinemaID": 3
+          },
+          {
+            "id": "LOTR-D6-700PM-C5",
+            "time": "7:00 PM",
+            "cinemaID": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DK-SCHEDULE",
+    "movieTitle": "The Dark Knight",
+    "schedules": [
+      {
+        "id": "DK-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "DK-D0-1030AM-C4",
+            "time": "10:30 AM",
+            "cinemaID": 4
+          },
+          {
+            "id": "DK-D0-145PM-C8",
+            "time": "1:45 PM",
+            "cinemaID": 8
+          }
+        ]
+      },
+      {
+        "id": "DK-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "DK-D1-415PM-C8",
+            "time": "4:15 PM",
+            "cinemaID": 8
+          },
+          {
+            "id": "DK-D1-700PM-C7",
+            "time": "7:00 PM",
+            "cinemaID": 7
+          }
+        ]
+      },
+      {
+        "id": "DK-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "DK-D2-700PM-C7",
+            "time": "7:00 PM",
+            "cinemaID": 7
+          },
+          {
+            "id": "DK-D2-930PM-C4",
+            "time": "9:30 PM",
+            "cinemaID": 4
+          }
+        ]
+      },
+      {
+        "id": "DK-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "DK-D3-1030AM-C4",
+            "time": "10:30 AM",
+            "cinemaID": 4
+          },
+          {
+            "id": "DK-D3-415PM-C8",
+            "time": "4:15 PM",
+            "cinemaID": 8
+          }
+        ]
+      },
+      {
+        "id": "DK-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "DK-D4-145PM-C8",
+            "time": "1:45 PM",
+            "cinemaID": 8
+          },
+          {
+            "id": "DK-D4-700PM-C7",
+            "time": "7:00 PM",
+            "cinemaID": 7
+          }
+        ]
+      },
+      {
+        "id": "DK-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "DK-D5-415PM-C7",
+            "time": "4:15 PM",
+            "cinemaID": 7
+          },
+          {
+            "id": "DK-D5-930PM-C4",
+            "time": "9:30 PM",
+            "cinemaID": 4
+          }
+        ]
+      },
+      {
+        "id": "DK-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "DK-D6-1030AM-C4",
+            "time": "10:30 AM",
+            "cinemaID": 4
+          },
+          {
+            "id": "DK-D6-700PM-C8",
+            "time": "7:00 PM",
+            "cinemaID": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "INC-SCHEDULE",
+    "movieTitle": "Inception",
+    "schedules": [
+      {
+        "id": "INC-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "INC-D0-1030AM-C6",
+            "time": "10:30 AM",
+            "cinemaID": 6
+          },
+          {
+            "id": "INC-D0-145PM-C2",
+            "time": "1:45 PM",
+            "cinemaID": 2
+          }
+        ]
+      },
+      {
+        "id": "INC-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "INC-D1-415PM-C2",
+            "time": "4:15 PM",
+            "cinemaID": 2
+          },
+          {
+            "id": "INC-D1-700PM-C4",
+            "time": "7:00 PM",
+            "cinemaID": 4
+          }
+        ]
+      },
+      {
+        "id": "INC-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "INC-D2-700PM-C4",
+            "time": "7:00 PM",
+            "cinemaID": 4
+          },
+          {
+            "id": "INC-D2-930PM-C6",
+            "time": "9:30 PM",
+            "cinemaID": 6
+          }
+        ]
+      },
+      {
+        "id": "INC-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "INC-D3-1030AM-C6",
+            "time": "10:30 AM",
+            "cinemaID": 6
+          },
+          {
+            "id": "INC-D3-415PM-C2",
+            "time": "4:15 PM",
+            "cinemaID": 2
+          }
+        ]
+      },
+      {
+        "id": "INC-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "INC-D4-145PM-C2",
+            "time": "1:45 PM",
+            "cinemaID": 2
+          },
+          {
+            "id": "INC-D4-700PM-C4",
+            "time": "7:00 PM",
+            "cinemaID": 4
+          }
+        ]
+      },
+      {
+        "id": "INC-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "INC-D5-415PM-C4",
+            "time": "4:15 PM",
+            "cinemaID": 4
+          },
+          {
+            "id": "INC-D5-930PM-C6",
+            "time": "9:30 PM",
+            "cinemaID": 6
+          }
+        ]
+      },
+      {
+        "id": "INC-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "INC-D6-1030AM-C6",
+            "time": "10:30 AM",
+            "cinemaID": 6
+          },
+          {
+            "id": "INC-D6-700PM-C2",
+            "time": "7:00 PM",
+            "cinemaID": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SM-SCHEDULE",
+    "movieTitle": "Spider-Man: No Way Home",
+    "schedules": [
+      {
+        "id": "SM-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "SM-D0-1030AM-C5",
+            "time": "10:30 AM",
+            "cinemaID": 5
+          },
+          {
+            "id": "SM-D0-145PM-C3",
+            "time": "1:45 PM",
+            "cinemaID": 3
+          }
+        ]
+      },
+      {
+        "id": "SM-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "SM-D1-415PM-C3",
+            "time": "4:15 PM",
+            "cinemaID": 3
+          },
+          {
+            "id": "SM-D1-700PM-C2",
+            "time": "7:00 PM",
+            "cinemaID": 2
+          }
+        ]
+      },
+      {
+        "id": "SM-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "SM-D2-700PM-C2",
+            "time": "7:00 PM",
+            "cinemaID": 2
+          },
+          {
+            "id": "SM-D2-930PM-C5",
+            "time": "9:30 PM",
+            "cinemaID": 5
+          }
+        ]
+      },
+      {
+        "id": "SM-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "SM-D3-1030AM-C5",
+            "time": "10:30 AM",
+            "cinemaID": 5
+          },
+          {
+            "id": "SM-D3-415PM-C3",
+            "time": "4:15 PM",
+            "cinemaID": 3
+          }
+        ]
+      },
+      {
+        "id": "SM-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "SM-D4-145PM-C3",
+            "time": "1:45 PM",
+            "cinemaID": 3
+          },
+          {
+            "id": "SM-D4-700PM-C2",
+            "time": "7:00 PM",
+            "cinemaID": 2
+          }
+        ]
+      },
+      {
+        "id": "SM-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "SM-D5-415PM-C2",
+            "time": "4:15 PM",
+            "cinemaID": 2
+          },
+          {
+            "id": "SM-D5-930PM-C5",
+            "time": "9:30 PM",
+            "cinemaID": 5
+          }
+        ]
+      },
+      {
+        "id": "SM-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "SM-D6-1030AM-C5",
+            "time": "10:30 AM",
+            "cinemaID": 5
+          },
+          {
+            "id": "SM-D6-700PM-C3",
+            "time": "7:00 PM",
+            "cinemaID": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "IO2-SCHEDULE",
+    "movieTitle": "Inside Out 2",
+    "schedules": [
+      {
+        "id": "IO2-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "IO2-D0-1030AM-C5",
+            "time": "10:30 AM",
+            "cinemaID": 5
+          },
+          {
+            "id": "IO2-D0-145PM-C1",
+            "time": "1:45 PM",
+            "cinemaID": 1
+          }
+        ]
+      },
+      {
+        "id": "IO2-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "IO2-D1-415PM-C1",
+            "time": "4:15 PM",
+            "cinemaID": 1
+          },
+          {
+            "id": "IO2-D1-700PM-C3",
+            "time": "7:00 PM",
+            "cinemaID": 3
+          }
+        ]
+      },
+      {
+        "id": "IO2-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "IO2-D2-700PM-C3",
+            "time": "7:00 PM",
+            "cinemaID": 3
+          },
+          {
+            "id": "IO2-D2-930PM-C5",
+            "time": "9:30 PM",
+            "cinemaID": 5
+          }
+        ]
+      },
+      {
+        "id": "IO2-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "IO2-D3-1030AM-C5",
+            "time": "10:30 AM",
+            "cinemaID": 5
+          },
+          {
+            "id": "IO2-D3-415PM-C1",
+            "time": "4:15 PM",
+            "cinemaID": 1
+          }
+        ]
+      },
+      {
+        "id": "IO2-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "IO2-D4-145PM-C1",
+            "time": "1:45 PM",
+            "cinemaID": 1
+          },
+          {
+            "id": "IO2-D4-700PM-C3",
+            "time": "7:00 PM",
+            "cinemaID": 3
+          }
+        ]
+      },
+      {
+        "id": "IO2-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "IO2-D5-415PM-C3",
+            "time": "4:15 PM",
+            "cinemaID": 3
+          },
+          {
+            "id": "IO2-D5-930PM-C5",
+            "time": "9:30 PM",
+            "cinemaID": 5
+          }
+        ]
+      },
+      {
+        "id": "IO2-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "IO2-D6-1030AM-C5",
+            "time": "10:30 AM",
+            "cinemaID": 5
+          },
+          {
+            "id": "IO2-D6-700PM-C1",
+            "time": "7:00 PM",
+            "cinemaID": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "OPP-SCHEDULE",
+    "movieTitle": "Oppenheimer",
+    "schedules": [
+      {
+        "id": "OPP-D0",
+        "daysFromToday": 0,
+        "times": [
+          {
+            "id": "OPP-D0-1030AM-C6",
+            "time": "10:30 AM",
+            "cinemaID": 6
+          },
+          {
+            "id": "OPP-D0-145PM-C8",
+            "time": "1:45 PM",
+            "cinemaID": 8
+          }
+        ]
+      },
+      {
+        "id": "OPP-D1",
+        "daysFromToday": 1,
+        "times": [
+          {
+            "id": "OPP-D1-415PM-C8",
+            "time": "4:15 PM",
+            "cinemaID": 8
+          },
+          {
+            "id": "OPP-D1-700PM-C7",
+            "time": "7:00 PM",
+            "cinemaID": 7
+          }
+        ]
+      },
+      {
+        "id": "OPP-D2",
+        "daysFromToday": 2,
+        "times": [
+          {
+            "id": "OPP-D2-700PM-C7",
+            "time": "7:00 PM",
+            "cinemaID": 7
+          },
+          {
+            "id": "OPP-D2-930PM-C6",
+            "time": "9:30 PM",
+            "cinemaID": 6
+          }
+        ]
+      },
+      {
+        "id": "OPP-D3",
+        "daysFromToday": 3,
+        "times": [
+          {
+            "id": "OPP-D3-1030AM-C6",
+            "time": "10:30 AM",
+            "cinemaID": 6
+          },
+          {
+            "id": "OPP-D3-415PM-C8",
+            "time": "4:15 PM",
+            "cinemaID": 8
+          }
+        ]
+      },
+      {
+        "id": "OPP-D4",
+        "daysFromToday": 4,
+        "times": [
+          {
+            "id": "OPP-D4-145PM-C8",
+            "time": "1:45 PM",
+            "cinemaID": 8
+          },
+          {
+            "id": "OPP-D4-700PM-C7",
+            "time": "7:00 PM",
+            "cinemaID": 7
+          }
+        ]
+      },
+      {
+        "id": "OPP-D5",
+        "daysFromToday": 5,
+        "times": [
+          {
+            "id": "OPP-D5-415PM-C7",
+            "time": "4:15 PM",
+            "cinemaID": 7
+          },
+          {
+            "id": "OPP-D5-930PM-C6",
+            "time": "9:30 PM",
+            "cinemaID": 6
+          }
+        ]
+      },
+      {
+        "id": "OPP-D6",
+        "daysFromToday": 6,
+        "times": [
+          {
+            "id": "OPP-D6-1030AM-C6",
+            "time": "10:30 AM",
+            "cinemaID": 6
+          },
+          {
+            "id": "OPP-D6-700PM-C8",
+            "time": "7:00 PM",
+            "cinemaID": 8
+          }
+        ]
+      }
+    ]
+  }
+]

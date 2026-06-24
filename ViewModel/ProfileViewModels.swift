@@ -79,11 +79,11 @@ final class ProfileViewModel {
     }
 
     var confirmedBookingsCount: Int {
-        fetchBookingsUseCase.execute(showCancelled: false).count
+        accountBookings(showCancelled: false).count
     }
 
     var totalBookingsCount: Int {
-        fetchBookingsUseCase.execute(showCancelled: true).count
+        accountBookings(showCancelled: true).count
     }
 
     func updateProfile(fullName: String, email: String, phoneNumber: String) throws {
@@ -102,5 +102,12 @@ final class ProfileViewModel {
 
     func logOut() {
         authenticationService.logOut()
+    }
+
+    private func accountBookings(showCancelled: Bool) -> [Booking] {
+        guard let profile = authenticationService.currentProfile else { return [] }
+        return fetchBookingsUseCase
+            .execute(showCancelled: showCancelled)
+            .filter { $0.isVisible(to: profile.email) }
     }
 }

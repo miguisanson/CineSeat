@@ -29,7 +29,7 @@ final class BookingStore: BookingManaging {
             self.bookings = bookings
         } else if let persistence,
                   let savedBookings = try? persistence.loadBookings() {
-            let realBookings = savedBookings.filter { !SampleData.sampleBookingIDs.contains($0.id) }
+            let realBookings = savedBookings.filter { !SeedData.seedBookingIDs.contains($0.id) }
             self.bookings = realBookings
             if realBookings.count != savedBookings.count {
                 try? persistence.saveBookings(realBookings)
@@ -40,7 +40,7 @@ final class BookingStore: BookingManaging {
     }
 
     @discardableResult
-    func addBooking(from draft: BookingDraft) -> Booking {
+    func addBooking(from draft: BookingDraft, owner: UserProfile? = nil) -> Booking {
         let booking = Booking(
             id: BookingNumberFormatter.makeID(sequence: nextBookingSequence),
             movie: draft.movie,
@@ -50,7 +50,9 @@ final class BookingStore: BookingManaging {
             seats: draft.seats,
             ticketPrice: draft.ticketPrice,
             bookingFee: draft.bookingFee,
-            status: .confirmed
+            status: .confirmed,
+            ownerEmail: owner?.email,
+            ownerName: owner?.fullName
         )
         bookings.insert(booking, at: 0)
         saveChanges()
@@ -82,6 +84,26 @@ final class BookingStore: BookingManaging {
                     booking.showtime == draft.showtime
             }
             .flatMap(\.seats))
+    }
+
+    @discardableResult
+    func transferTicket(bookingID: String, seat: String, to profile: UserProfile) -> Booking? {
+        guard let bookingIndex = bookings.firstIndex(where: { $0.id == bookingID }) else {
+            return nil
+        }
+
+        guard !bookings[bookingIndex].ticketAssignments.isEmpty else {
+            return nil
+        }
+
+        guard let assignmentIndex = bookings[bookingIndex].ticketAssignments.firstIndex(where: { $0.seat == seat }) else {
+            return nil
+        }
+
+        bookings[bookingIndex].ticketAssignments[assignmentIndex].ownerEmail = profile.email
+        bookings[bookingIndex].ticketAssignments[assignmentIndex].ownerName = profile.fullName
+        saveChanges()
+        return bookings[bookingIndex]
     }
 
     @discardableResult

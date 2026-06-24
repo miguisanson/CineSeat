@@ -26,7 +26,7 @@ protocol BookingManaging: AnyObject {
     var didChangeNotification: Notification.Name { get }
 
     @discardableResult
-    func addBooking(from draft: BookingDraft) -> Booking
+    func addBooking(from draft: BookingDraft, owner: UserProfile?) -> Booking
 
     @discardableResult
     func cancelBooking(id: String, reason: BookingCancellationReason) -> Bool
@@ -34,10 +34,18 @@ protocol BookingManaging: AnyObject {
     func bookedSeats(for draft: BookingDraft) -> Set<String>
 
     @discardableResult
+    func transferTicket(bookingID: String, seat: String, to profile: UserProfile) -> Booking?
+
+    @discardableResult
     func clearBookings() -> Int
 }
 
 extension BookingManaging {
+    @discardableResult
+    func addBooking(from draft: BookingDraft) -> Booking {
+        addBooking(from: draft, owner: nil)
+    }
+
     @discardableResult
     func cancelBooking(id: String) -> Bool {
         cancelBooking(id: id, reason: .user)
@@ -78,6 +86,8 @@ protocol Authenticating: AnyObject {
     func logIn(email: String, password: String) throws -> UserProfile
 
     func logOut()
+
+    func profile(matchingEmail email: String) -> UserProfile?
 
     @discardableResult
     func updateCurrentProfile(

@@ -23,7 +23,7 @@ final class MoviesViewModel {
     }
 
     convenience init(
-        movies: [Movie] = SampleData.movies,
+        movies: [Movie] = SeedData.movies,
         preferences: AppPreferencesManaging? = nil
     ) {
         self.init(

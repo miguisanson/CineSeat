@@ -75,7 +75,7 @@ final class SettingsViewModel {
             SettingsChangelogEntry(
                 day: "June 17, 2026 (Wednesday)",
                 title: "Data persistence",
-                details: "Added FileManager-backed JSON persistence for profiles and bookings, separated reader/writer helpers, moved sample data into JSON, and kept poster images available offline"
+                details: "Added FileManager-backed JSON persistence for profiles and bookings, separated reader/writer helpers, moved seed data into JSON, and kept poster images available offline"
             ),
             SettingsChangelogEntry(
                 day: "June 19, 2026 (Friday)",
@@ -106,6 +106,16 @@ final class SettingsViewModel {
                 day: "June 23, 2026 (Tuesday)",
                 title: "Demo reset and UI polish",
                 details: "Hid technical file paths, increased small font sizes proportionally, fixed compiler warnings, made confirmed booking seats reserved for the same showing, and added Clear Demo Bookings"
+            ),
+            SettingsChangelogEntry(
+                day: "June 24, 2026 (Wednesday)",
+                title: "Split JSON, cinema map, and ticket sharing",
+                details: "Separated seed data into category JSON files, added a dedicated Locations tab with MapKit cinema pins, improved compact booking and seat legend text, and added per-seat ticket sharing to another account by email"
+            ),
+            SettingsChangelogEntry(
+                day: "June 24, 2026 (Wednesday)",
+                title: "Launch data cleanup",
+                details: "Cleared starter booking data, kept only the Michael starter profile, removed obsolete sample data files, and kept user-created bookings and profiles in device storage"
             )
         ]
     }

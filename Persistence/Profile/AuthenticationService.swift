@@ -8,13 +8,16 @@ final class AuthenticationService: Authenticating {
         profileRepository: ProfileFileRepository(),
         passwordStore: KeychainPasswordStore(),
         sessionStore: AccountSessionStore(),
-        seedAccounts: SampleData.profileAccounts
+        seedAccounts: SeedData.profileAccounts
     )
 
     private let profileRepository: ProfilePersisting
     private let passwordStore: PasswordStoring
     private let sessionStore: AccountSessionStore
     private(set) var profiles: [UserProfile]
+    private static let legacySeedProfileIDs: Set<UUID> = Set((1...20).compactMap {
+        UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", $0))
+    })
 
     var didChangeNotification: Notification.Name {
         Self.authenticationDidChange
@@ -24,17 +27,26 @@ final class AuthenticationService: Authenticating {
         profileRepository: ProfilePersisting,
         passwordStore: PasswordStoring,
         sessionStore: AccountSessionStore,
-        seedAccounts: [SampleProfileAccount] = []
+        seedAccounts: [SeedProfileAccount] = []
     ) {
         self.profileRepository = profileRepository
         self.passwordStore = passwordStore
         self.sessionStore = sessionStore
         let loadedProfiles = (try? profileRepository.loadProfiles()) ?? []
-        if loadedProfiles.isEmpty && !seedAccounts.isEmpty {
-            profiles = seedAccounts.map(\.profile)
+        profiles = Self.cleanedProfiles(from: loadedProfiles)
+        let removedProfileIDs = Set(loadedProfiles.map(\.id)).subtracting(profiles.map(\.id))
+        for profileID in removedProfileIDs {
+            try? passwordStore.deletePassword(accountID: profileID)
+        }
+        var shouldSaveProfiles = profiles.count != loadedProfiles.count
+
+        for seedAccount in seedAccounts where !profiles.contains(where: { $0.email == seedAccount.profile.email }) {
+            profiles.append(seedAccount.profile)
+            shouldSaveProfiles = true
+        }
+
+        if shouldSaveProfiles {
             try? profileRepository.saveProfiles(profiles)
-        } else {
-            profiles = loadedProfiles
         }
         seedMissingPasswords(for: seedAccounts)
 
@@ -116,6 +128,11 @@ final class AuthenticationService: Authenticating {
         postAuthenticationChange()
     }
 
+    func profile(matchingEmail email: String) -> UserProfile? {
+        let normalizedEmail = AccountValidation.normalizedEmail(email)
+        return profiles.first { $0.email == normalizedEmail }
+    }
+
     @discardableResult
     func updateCurrentProfile(
         fullName: String,
@@ -154,7 +171,11 @@ final class AuthenticationService: Authenticating {
         NotificationCenter.default.post(name: Self.authenticationDidChange, object: nil)
     }
 
-    private func seedMissingPasswords(for seedAccounts: [SampleProfileAccount]) {
+    private static func cleanedProfiles(from profiles: [UserProfile]) -> [UserProfile] {
+        profiles.filter { !legacySeedProfileIDs.contains($0.id) }
+    }
+
+    private func seedMissingPasswords(for seedAccounts: [SeedProfileAccount]) {
         for account in seedAccounts where profiles.contains(where: { $0.id == account.profile.id }) {
             if (try? passwordStore.password(accountID: account.profile.id)) == nil {
                 try? passwordStore.savePassword(account.password, accountID: account.profile.id)

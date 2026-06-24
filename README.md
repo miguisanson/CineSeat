@@ -13,7 +13,9 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 - Select available seats from cinema-specific seat maps
 - Review ticket price, booking fee, and total
 - Confirm a booking and receive a booking ID
+- Share a purchased seat ticket to another local account by email
 - View booking history after login and cancel confirmed bookings
+- View cinema locations with a dedicated native MapKit tab
 - Keep bookings after the app is closed and reopened
 - Save movie and booking-filter preferences
 - Create an account, log in, edit a profile, and log out
@@ -22,17 +24,21 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 ## Project Structure
 
 - `Models/Movies/`: movie, cinema, showing, category, rating sort, and cinema type structs/enums
-- `Models/Booking/`: booking, draft, status, and seat layout structs/enums
-- `Models/Profile/`: profile, sample account, authentication error, and account validation structs/enums
-- `Persistence/SampleData/SampleDataJson.json`: seeded movies, cinema schedules, bookings, and profile accounts used by the local demo data source
+- `Models/Booking/`: booking, ticket assignment, draft, status, and seat layout structs/enums
+- `Models/Profile/`: profile, seed account, authentication error, and account validation structs/enums
+- `Persistence/SeedData/Cinemas.json`: cinema names, prices, types, and MapKit coordinates
+- `Persistence/SeedData/Movies.json`: movie details, ratings, categories, posters, and poster URLs
+- `Persistence/SeedData/Showings.json`: nested movie schedule dates and assigned cinema times
+- `Persistence/SeedData/Bookings.json`: intentionally empty launch booking file so the app starts without fake booking history
+- `Persistence/SeedData/ProfileAccounts.json`: the single starter profile used for local login
 - `PosterImages/`: bundled poster image files used for offline display
-- `Persistence/SampleData/`: JSON DTOs, decoder loader, mapper, and sample data entry point
+- `Persistence/SeedData/`: JSON DTOs, decoder loader, mapper, and seed data entry point
 - `Persistence/Shared/`: reusable JSON FileManager reader/writer helpers
 - `Persistence/Booking/`: booking JSON repository and booking store
 - `Persistence/Profile/`: profile JSON repository, Keychain passwords, authentication service, and session storage
 - `Persistence/AppPreferences.swift`: UserDefaults preferences and flags
 - `Domain/DependencyProtocols.swift`: protocol-based DI contracts for API fetch, preferences, bookings, and auth
-- `Domain/UseCases.swift`: movie, booking, confirmation, and cancellation use cases
+- `Domain/UseCases.swift`: movie, booking, confirmation, ticket sharing, and cancellation use cases
 - `ViewModel/MoviesViewModels.swift`: movie search, category filtering, rating sorting, and movie count text
 - `ViewModel/BookingViewModels.swift`: booking filtering, fixed showing selection, and seat-selection business logic
 - `ViewModel/ProfileViewModels.swift`: login, registration, and profile business logic
@@ -90,9 +96,19 @@ The project follows a small MVVM and clean architecture structure:
 - `BookingFileRepository` gets the Documents directory with `FileManager`.
 - Bookings are encoded to `bookings.json` and decoded when the app starts.
 - Creating a booking inserts and saves it. Cancelling a booking updates and saves it.
+- Each saved booking can include `TicketAssignment` rows so one seat can be transferred to another account by email.
 - New installs start with no booking history, so My Bookings stays empty until a signed-in user confirms a booking.
 
 Core Data is not used because the current data is small and the Codable/FileManager approach is sufficient. Account passwords use Keychain because they are sensitive and must not be stored in UserDefaults or plain JSON.
+
+## Runtime Data
+
+- Bundled JSON files in `Persistence/SeedData` are read-only starter data copied into the app bundle.
+- New bookings are written to the app container Documents file `bookings.json`.
+- New profile metadata is written to the app container Documents file `profiles.json`.
+- Passwords are written to Keychain, not JSON.
+- Settings are written to the app container Documents file `CineSeatSettings.plist`.
+- Seat layouts are copied from the bundled plist into the app container Documents area so the app can treat them like an editable local database.
 
 ## Profile Accounts
 

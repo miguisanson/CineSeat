@@ -47,8 +47,10 @@ final class BookingsViewModel {
     }
 
     var bookings: [Booking] {
-        guard isLoggedIn else { return [] }
-        return fetchBookingsUseCase.execute(showCancelled: showCancelledBookings)
+        guard let profile = authenticationService.currentProfile else { return [] }
+        return fetchBookingsUseCase
+            .execute(showCancelled: showCancelledBookings)
+            .filter { $0.isVisible(to: profile.email) }
     }
 
     var countText: String {
@@ -79,7 +81,7 @@ final class MovieScheduleViewModel {
 
     init(movie: Movie, showings: [MovieShowing]? = nil) {
         self.movie = movie
-        self.showings = showings ?? SampleData.showings(for: movie)
+        self.showings = showings ?? SeedData.showings(for: movie)
         let hasSchedule = self.showings.first?.schedules.isEmpty == false
         selectedScheduleIndex = movie.isNowPlaying && hasSchedule ? 0 : nil
         selectedTimeIndex = movie.isNowPlaying && selectedSchedule?.times.isEmpty == false ? 0 : nil

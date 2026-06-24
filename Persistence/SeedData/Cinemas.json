@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Cinema 1 - North Hall",
+    "type": "Standard",
+    "ticketPrice": 350,
+    "location": {
+      "address": "SM North EDSA, Quezon City",
+      "latitude": 14.6562,
+      "longitude": 121.0309
+    }
+  },
+  {
+    "id": 2,
+    "name": "Cinema 2 - East Hall",
+    "type": "Standard",
+    "ticketPrice": 350,
+    "location": {
+      "address": "Eastwood City, Quezon City",
+      "latitude": 14.6091,
+      "longitude": 121.0804
+    }
+  },
+  {
+    "id": 3,
+    "name": "Cinema 3 - Main Hall",
+    "type": "Standard",
+    "ticketPrice": 350,
+    "location": {
+      "address": "Bonifacio Global City, Taguig",
+      "latitude": 14.5503,
+      "longitude": 121.0543
+    }
+  },
+  {
+    "id": 4,
+    "name": "Cinema 4 - South Hall",
+    "type": "Standard",
+    "ticketPrice": 350,
+    "location": {
+      "address": "Alabang Town Center, Muntinlupa",
+      "latitude": 14.4236,
+      "longitude": 121.0387
+    }
+  },
+  {
+    "id": 5,
+    "name": "Cinema 5 - City Hall",
+    "type": "Standard",
+    "ticketPrice": 350,
+    "location": {
+      "address": "Glorietta, Makati",
+      "latitude": 14.551,
+      "longitude": 121.026
+    }
+  },
+  {
+    "id": 6,
+    "name": "Cinema 6 - Garden Hall",
+    "type": "Standard",
+    "ticketPrice": 350,
+    "location": {
+      "address": "Greenbelt, Makati",
+      "latitude": 14.5512,
+      "longitude": 121.0219
+    }
+  },
+  {
+    "id": 7,
+    "name": "Cinema 7 - VIP Lounge",
+    "type": "VIP",
+    "ticketPrice": 550,
+    "location": {
+      "address": "Newport World Resorts, Pasay",
+      "latitude": 14.5191,
+      "longitude": 121.0198
+    }
+  },
+  {
+    "id": 8,
+    "name": "Cinema 8 - VIP Director's Club",
+    "type": "VIP",
+    "ticketPrice": 550,
+    "location": {
+      "address": "SM Mall of Asia, Pasay",
+      "latitude": 14.5355,
+      "longitude": 120.9821
+    }
+  }
+]

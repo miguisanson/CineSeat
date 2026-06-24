@@ -8,7 +8,7 @@ final class MovieDetailViewController: ScrollableViewController {
 
     private lazy var scheduleViewModel = factory.makeMovieScheduleViewModel(movie: movie)
     // time button references like separate storyboard outlets
-    // each time already has the cinema assigned in sample data
+    // each time already has the cinema assigned in seed data
     private let datePicker = UIDatePicker()
     private var firstTimeButton: UIButton!
     private var secondTimeButton: UIButton!
@@ -259,15 +259,26 @@ final class SeatSelectionViewController: ScrollableViewController {
         }
         contentStack.addArrangedSubview(seatMapView)
 
-        let legendStack = UIStackView(arrangedSubviews: [
+        let firstLegendRow = UIStackView(arrangedSubviews: [
             makeLegendItem(title: "Available", color: CineSeatTheme.seatColor(for: .available)),
-            makeLegendItem(title: "Selected", color: CineSeatTheme.seatColor(for: .selected)),
+            makeLegendItem(title: "Selected", color: CineSeatTheme.seatColor(for: .selected))
+        ])
+        firstLegendRow.axis = .horizontal
+        firstLegendRow.distribution = .fillEqually
+        firstLegendRow.spacing = CineSeatSpacing.small
+
+        let secondLegendRow = UIStackView(arrangedSubviews: [
             makeLegendItem(title: "Reserved", color: CineSeatTheme.seatColor(for: .reserved)),
             makeLegendItem(title: "Unavailable", color: CineSeatTheme.seatColor(for: .unavailable))
         ])
-        legendStack.axis = .horizontal
-        legendStack.distribution = .equalSpacing
-        legendStack.alignment = .center
+        secondLegendRow.axis = .horizontal
+        secondLegendRow.distribution = .fillEqually
+        secondLegendRow.spacing = CineSeatSpacing.small
+
+        let legendStack = UIStackView(arrangedSubviews: [firstLegendRow, secondLegendRow])
+        legendStack.axis = .vertical
+        legendStack.spacing = CineSeatSpacing.small
+        legendStack.alignment = .fill
         contentStack.addArrangedSubview(makeCard(with: legendStack, padding: 12))
 
         selectedSeatsLabel.font = CineSeatFont.infoValue
@@ -302,6 +313,8 @@ final class SeatSelectionViewController: ScrollableViewController {
         label.text = title
         label.font = CineSeatFont.status
         label.textColor = CineSeatTheme.secondaryText
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.85
 
         let stack = UIStackView(arrangedSubviews: [square, label])
         stack.axis = .horizontal
@@ -394,7 +407,7 @@ final class BookingSummaryViewController: ScrollableViewController {
     }
 
     @objc private func confirmTapped(_ sender: UIButton) {
-        guard authenticationService.currentProfile != nil else {
+        guard let currentProfile = authenticationService.currentProfile else {
             let alert = UIAlertController(
                 title: "Log In Required",
                 message: "Please log in or create an account before confirming your booking.",
@@ -410,7 +423,7 @@ final class BookingSummaryViewController: ScrollableViewController {
         }
 
         sender.isEnabled = false
-        let booking = confirmBookingUseCase.execute(draft: draft)
+        let booking = confirmBookingUseCase.execute(draft: draft, owner: currentProfile)
         let confirmationViewController = factory.makeConfirmationViewController(booking: booking)
         navigationController?.pushViewController(confirmationViewController, animated: true)
     }
@@ -425,6 +438,7 @@ final class BookingSummaryViewController: ScrollableViewController {
 final class ConfirmationViewController: ScrollableViewController {
     var booking: Booking!
     var notificationScheduler: BookingNotificationScheduling?
+    var transferTicketUseCase: TransferTicketUseCase?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -466,8 +480,15 @@ final class ConfirmationViewController: ScrollableViewController {
         details.addArrangedSubview(makeInfoRow(label: "Showtime", value: booking.showtime))
         details.addArrangedSubview(makeInfoRow(label: "Cinema", value: booking.cinema))
         details.addArrangedSubview(makeInfoRow(label: "Seats", value: booking.seats.joined(separator: ", ")))
+        details.addArrangedSubview(makeInfoRow(label: "Ticket owners", value: booking.ticketAssignmentSummary))
         details.addArrangedSubview(makeInfoRow(label: "Total paid", value: CineSeatTheme.money(booking.total)))
         contentStack.addArrangedSubview(makeCard(with: details))
+
+        let shareTicketButton = CineSeatTheme.secondaryButton(title: "Share Ticket")
+        shareTicketButton.addTarget(self, action: #selector(shareTicketTapped), for: .touchUpInside)
+        shareTicketButton.isEnabled = !booking.ticketAssignments.isEmpty
+        shareTicketButton.alpha = booking.ticketAssignments.isEmpty ? 0.45 : 1
+        contentStack.addArrangedSubview(shareTicketButton)
 
         let demoReminderButton = CineSeatTheme.secondaryButton(title: "Demo Local Reminder")
         demoReminderButton.addTarget(self, action: #selector(demoReminderTapped), for: .touchUpInside)
@@ -498,6 +519,100 @@ final class ConfirmationViewController: ScrollableViewController {
                 self.present(alert, animated: true)
             }
         }
+    }
+
+    @objc private func shareTicketTapped() {
+        let assignments = booking.ticketAssignments.sorted { $0.seat < $1.seat }
+        guard !assignments.isEmpty else {
+            showMessage(title: "No Ticket Owners", message: "This booking does not have seat assignments yet.")
+            return
+        }
+
+        if assignments.count == 1, let assignment = assignments.first {
+            promptForRecipientEmail(seat: assignment.seat)
+            return
+        }
+
+        let alert = UIAlertController(
+            title: "Share Which Seat?",
+            message: "Choose the seat ticket to send to another CineSeat account.",
+            preferredStyle: .actionSheet
+        )
+
+        for assignment in assignments {
+            alert.addAction(UIAlertAction(
+                title: "\(assignment.seat) - \(assignment.ownerText)",
+                style: .default
+            ) { [weak self] _ in
+                self?.promptForRecipientEmail(seat: assignment.seat)
+            })
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(
+            x: view.bounds.midX,
+            y: view.bounds.midY,
+            width: 1,
+            height: 1
+        )
+        present(alert, animated: true)
+    }
+
+    private func promptForRecipientEmail(seat: String) {
+        let alert = UIAlertController(
+            title: "Share Seat \(seat)",
+            message: "Enter the email of an existing CineSeat account.",
+            preferredStyle: .alert
+        )
+        alert.addTextField { textField in
+            textField.placeholder = "friend@example.com"
+            textField.keyboardType = .emailAddress
+            textField.autocapitalizationType = .none
+            textField.autocorrectionType = .no
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Send", style: .default) { [weak self, weak alert] _ in
+            let email = alert?.textFields?.first?.text ?? ""
+            self?.transferTicket(seat: seat, recipientEmail: email)
+        })
+        present(alert, animated: true)
+    }
+
+    private func transferTicket(seat: String, recipientEmail: String) {
+        guard let transferTicketUseCase else {
+            showMessage(title: "Sharing Unavailable", message: "Ticket sharing is not configured for this screen.")
+            return
+        }
+
+        do {
+            let updatedBooking = try transferTicketUseCase.execute(
+                bookingID: booking.id,
+                seat: seat,
+                recipientEmail: recipientEmail
+            )
+            booking = updatedBooking
+            reloadInterface()
+            showMessage(
+                title: "Ticket Shared",
+                message: "Seat \(seat) is now assigned to \(AccountValidation.normalizedEmail(recipientEmail))."
+            )
+        } catch {
+            showMessage(title: "Could Not Share Ticket", message: error.localizedDescription)
+        }
+    }
+
+    private func reloadInterface() {
+        contentStack.arrangedSubviews.forEach { view in
+            contentStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        buildInterface()
+    }
+
+    private func showMessage(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 
     @objc private func viewBookingsTapped() {

@@ -2,7 +2,7 @@ import Foundation
 
 // module 5 decodable json shapes
 // dto structs match the json file and are mapped into app models separately
-struct SampleDataDTO: Decodable {
+struct SeedDataDTO: Decodable {
     let cinemas: [Cinema]
     let movies: [Movie]
     let showings: [ShowingDTO]
@@ -36,6 +36,9 @@ struct BookingDTO: Decodable {
     let seats: [String]
     let bookingFee: Double
     let status: BookingStatus
+    let ownerEmail: String?
+    let ownerName: String?
+    let ticketAssignments: [TicketAssignment]?
 }
 
 struct BookingScheduleDTO: Decodable {

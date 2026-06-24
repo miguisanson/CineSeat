@@ -20,6 +20,7 @@
                     <connections>
                         <segue destination="nav-movies" kind="relationship" relationship="viewControllers" id="segue-tab-movies"/>
                         <segue destination="nav-bookings" kind="relationship" relationship="viewControllers" id="segue-tab-bookings"/>
+                        <segue destination="nav-locations" kind="relationship" relationship="viewControllers" id="segue-tab-locations"/>
                         <segue destination="nav-profile" kind="relationship" relationship="viewControllers" id="segue-tab-profile"/>
                     </connections>
                 </tabBarController>
@@ -216,6 +217,39 @@
             </objects>
             <point key="canvasLocation" x="420" y="125"/>
         </scene>
+        <!--Locations Navigation Controller-->
+        <scene sceneID="scene-nav-locations">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-locations" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Locations" image="mappin.and.ellipse" catalog="system" id="tab-locations"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-locations">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="locations-vc" kind="relationship" relationship="rootViewController" id="root-locations"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-locations" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-410" y="850"/>
+        </scene>
+        <!--Locations-->
+        <scene sceneID="scene-locations">
+            <objects>
+                <viewController id="locations-vc" customClass="CinemaLocationsViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="locations-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="locations-safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="locations-navigation-item"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-locations" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="420" y="850"/>
+        </scene>
         <!--Profile Navigation Controller-->
         <scene sceneID="scene-nav-profile">
             <objects>
@@ -231,7 +265,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-profile" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-410" y="850"/>
+            <point key="canvasLocation" x="-410" y="1575"/>
         </scene>
         <!--Profile-->
         <scene sceneID="scene-profile">
@@ -349,11 +383,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-profile" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="420" y="850"/>
+            <point key="canvasLocation" x="420" y="1575"/>
         </scene>
     </scenes>
     <resources>
         <image name="film" catalog="system" width="128" height="93"/>
+        <image name="mappin.and.ellipse" catalog="system" width="128" height="124"/>
         <image name="person.crop.circle" catalog="system" width="128" height="123"/>
         <image name="ticket" catalog="system" width="128" height="102"/>
         <systemColor name="systemBackgroundColor">

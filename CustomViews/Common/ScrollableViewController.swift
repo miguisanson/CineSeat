@@ -61,16 +61,16 @@ class ScrollableViewController: UIViewController {
         let labelView = CineSeatTheme.captionLabel(label)
         let valueView = UILabel()
         valueView.text = value
-        valueView.textAlignment = .right
+        valueView.textAlignment = .left
         valueView.font = CineSeatFont.infoValue
         valueView.textColor = CineSeatTheme.primaryText
         valueView.numberOfLines = 0
         valueView.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         let row = UIStackView(arrangedSubviews: [labelView, valueView])
-        row.axis = .horizontal
-        row.alignment = .center
-        row.spacing = CineSeatSpacing.medium
+        row.axis = .vertical
+        row.alignment = .fill
+        row.spacing = CineSeatSpacing.tiny
         row.isLayoutMarginsRelativeArrangement = true
         row.directionalLayoutMargins = .init(top: 7, leading: 0, bottom: 7, trailing: 0)
         return row

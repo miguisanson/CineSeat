@@ -30,11 +30,11 @@ final class JSONFileReader {
         extension fileExtension: String,
         bundle: Bundle = .main
     ) -> URL? {
-        let bundles = [bundle, Bundle.main, Bundle(for: SampleDataBundleToken.self)]
+        let bundles = [bundle, Bundle.main, Bundle(for: SeedDataBundleToken.self)]
         return bundles.compactMap {
             $0.url(forResource: name, withExtension: fileExtension)
         }.first
     }
 }
 
-final class SampleDataBundleToken {}
+final class SeedDataBundleToken {}

@@ -9,6 +9,7 @@ struct AppDependencies {
     let fetchMoviesUseCase: FetchMoviesUseCase
     let fetchBookingsUseCase: FetchBookingsUseCase
     let confirmBookingUseCase: ConfirmBookingUseCase
+    let transferTicketUseCase: TransferTicketUseCase
     let cancelBookingUseCase: CancelBookingUseCase
     let fetchBookedSeatsUseCase: FetchBookedSeatsUseCase
     let clearBookingsUseCase: ClearBookingsUseCase
@@ -28,6 +29,10 @@ struct AppDependencies {
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: movieFetcher),
             fetchBookingsUseCase: DefaultFetchBookingsUseCase(bookingManager: bookingManager),
             confirmBookingUseCase: DefaultConfirmBookingUseCase(bookingManager: bookingManager),
+            transferTicketUseCase: DefaultTransferTicketUseCase(
+                bookingManager: bookingManager,
+                authenticationService: authenticationService
+            ),
             cancelBookingUseCase: DefaultCancelBookingUseCase(bookingManager: bookingManager),
             fetchBookedSeatsUseCase: DefaultFetchBookedSeatsUseCase(bookingManager: bookingManager),
             clearBookingsUseCase: DefaultClearBookingsUseCase(bookingManager: bookingManager),
@@ -150,6 +155,7 @@ final class AppFactory {
         let viewController = ConfirmationViewController()
         viewController.booking = booking
         viewController.notificationScheduler = dependencies.notificationScheduler
+        viewController.transferTicketUseCase = dependencies.transferTicketUseCase
         return viewController
     }
 
@@ -157,6 +163,7 @@ final class AppFactory {
         let viewController = BookingDetailViewController()
         viewController.booking = booking
         viewController.cancelBookingUseCase = dependencies.cancelBookingUseCase
+        viewController.transferTicketUseCase = dependencies.transferTicketUseCase
         return viewController
     }
 }

@@ -1,8 +1,8 @@
 import Foundation
 
-// module 5 sample data entry point
-// the actual seed values live in SampleDataJson instead of swift arrays
-enum SampleData {
+// module 5 seed data entry point
+// the actual seed values live in separate json files instead of swift arrays
+enum SeedData {
     static var cinemas: [Cinema] {
         store.cinemas
     }
@@ -15,7 +15,7 @@ enum SampleData {
         store.showings
     }
 
-    static var sampleBookingIDs: Set<String> {
+    static var seedBookingIDs: Set<String> {
         Set(store.bookings.map(\.id))
     }
 
@@ -23,7 +23,7 @@ enum SampleData {
         store.bookings
     }
 
-    static var profileAccounts: [SampleProfileAccount] {
+    static var profileAccounts: [SeedProfileAccount] {
         store.profileAccounts
     }
 
@@ -35,5 +35,5 @@ enum SampleData {
         showings.filter { $0.movieTitle == movie.title }
     }
 
-    private static let store = SampleDataStore.load()
+    private static let store = SeedDataStore.load()
 }

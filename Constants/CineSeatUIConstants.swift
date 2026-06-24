@@ -49,7 +49,7 @@ enum CineSeatSize {
     static let posterDetailHeight: CGFloat = 220
     static let moviePosterWidth: CGFloat = 68
     static let moviePosterHeight: CGFloat = 92
-    static let statusHeight: CGFloat = 22
+    static let statusHeight: CGFloat = 28
     static let legendWidth: CGFloat = 18
     static let legendHeight: CGFloat = 16
     static let screenHeight: CGFloat = 6
