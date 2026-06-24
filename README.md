@@ -1,10 +1,12 @@
 # CineSeat
 
-CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wireframe. It uses local movie, account, and booking data for the class build.
+CineSeat is a UIKit showing and cinema-seat booking app based on the supplied Figma wireframe. It uses local movie, event, account, and booking data for the class build.
 
 ## Features
 
+- Choose between Movies, Concerts, and Seminars from the Showings tab
 - Search and filter the movie table view
+- Browse concert, theater, festival, orchestra, conference, and seminar examples
 - Sort All, Now Playing, and Coming Soon movies by highest or lowest rating
 - Load bundled movie poster images offline, with online cache fallback when needed
 - View movie details and scheduled showings
@@ -23,11 +25,15 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 
 ## Project Structure
 
+- `Models/Showings/`: category enum for the Showings landing screen
 - `Models/Movies/`: movie, cinema, showing, category, rating sort, and cinema type structs/enums
+- `Models/Events/`: concert and seminar event structs/enums
 - `Models/Booking/`: booking, ticket assignment, draft, status, and seat layout structs/enums
 - `Models/Profile/`: profile, seed account, authentication error, and account validation structs/enums
 - `Persistence/SeedData/Cinemas.json`: cinema names, prices, types, and MapKit coordinates
 - `Persistence/SeedData/Movies.json`: movie details, ratings, categories, posters, and poster URLs
+- `Persistence/SeedData/Concerts.json`: concert, festival, orchestra, and theater examples with online poster URLs
+- `Persistence/SeedData/Seminars.json`: seminar and conference examples with online poster URLs
 - `Persistence/SeedData/Showings.json`: nested movie schedule dates and assigned cinema times
 - `Persistence/SeedData/Bookings.json`: intentionally empty launch booking file so the app starts without fake booking history
 - `Persistence/SeedData/ProfileAccounts.json`: the single starter profile used for local login
@@ -37,12 +43,17 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 - `Persistence/Booking/`: booking JSON repository and booking store
 - `Persistence/Profile/`: profile JSON repository, Keychain passwords, authentication service, and session storage
 - `Persistence/AppPreferences.swift`: UserDefaults preferences and flags
-- `Domain/DependencyProtocols.swift`: protocol-based DI contracts for API fetch, preferences, bookings, and auth
-- `Domain/UseCases.swift`: movie, booking, confirmation, ticket sharing, and cancellation use cases
+- `Domain/DependencyProtocols.swift`: protocol-based DI contracts for movie/event fetch, preferences, bookings, and auth
+- `Domain/UseCases.swift`: movie/event browsing, booking, confirmation, ticket sharing, and cancellation use cases
+- `ViewModel/ShowingsViewModel.swift`: Showings landing category counts
 - `ViewModel/MoviesViewModels.swift`: movie search, category filtering, rating sorting, and movie count text
+- `ViewModel/EventViewModels.swift`: event search/filtering for concerts and seminars
 - `ViewModel/BookingViewModels.swift`: booking filtering, fixed showing selection, and seat-selection business logic
 - `ViewModel/ProfileViewModels.swift`: login, registration, and profile business logic
+- `View/ShowingsViewController.swift`: Showings landing screen
 - `View/MoviesViewController.swift`: Movies table view screen
+- `View/EventListViewController.swift`: Concerts and Seminars list screen
+- `View/EventDetailViewController.swift`: Event detail screen
 - `View/BookingFlowViewControllers.swift`: detail, seat, summary, and confirmation screens
 - `View/BookingsViewControllers.swift`: booking list and booking detail screens
 - `View/ProfileViewControllers.swift`: Profile tab and account screens
@@ -52,7 +63,13 @@ CineSeat is a UIKit cinema-seat booking app based on the supplied Figma wirefram
 
 ## Storyboard Connections
 
-`Main.storyboard` owns the Movies, Bookings, and Profile navigation tabs.
+`Main.storyboard` owns the Showings, Bookings, Locations, and Profile navigation tabs.
+
+The Showings scene is the root of the first tab. It opens:
+
+- Movies
+- Concerts
+- Seminars
 
 The Movies scene connects:
 
@@ -85,9 +102,9 @@ All storyboard views use Auto Layout. The booking-flow screens use `UIStackView`
 The project follows a small MVVM and clean architecture structure:
 
 - Presentation: storyboard scenes, view controllers, view models, table cells, buttons, labels, and stack views
-- Domain: protocol-based DI contracts and use cases for fetching movies, filtering bookings, confirming bookings, cancelling bookings, and authentication access
+- Domain: protocol-based DI contracts and use cases for fetching movies/events, filtering bookings, confirming bookings, cancelling bookings, and authentication access
 - Design: shared UI theme, reusable custom views, layout helpers, and the factory that composes dependencies
-- Model/Data: movie, booking, draft, profile, storage repository, and authentication service
+- Model/Data: movie, event, booking, draft, profile, storage repository, and authentication service
 
 ## Module 5 Persistence
 

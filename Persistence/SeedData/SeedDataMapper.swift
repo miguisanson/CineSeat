@@ -70,6 +70,8 @@ enum SeedDataMapper {
         return SeedDataStore(
             cinemas: dto.cinemas,
             movies: dto.movies,
+            concerts: dto.concerts,
+            seminars: dto.seminars,
             showings: mappedShowings,
             bookings: mappedBookings,
             profileAccounts: mappedAccounts

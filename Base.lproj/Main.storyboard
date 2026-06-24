@@ -28,27 +28,43 @@
             </objects>
             <point key="canvasLocation" x="-1270" y="125"/>
         </scene>
-        <!--Movies Navigation Controller-->
+        <!--Showings Navigation Controller-->
         <scene sceneID="scene-nav-movies">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-movies" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Movies" image="film" catalog="system" id="tab-movies"/>
+                    <tabBarItem key="tabBarItem" title="Showings" image="ticket" catalog="system" id="tab-movies"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-movies">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="movies-vc" kind="relationship" relationship="rootViewController" id="root-movies"/>
+                        <segue destination="showings-vc" kind="relationship" relationship="rootViewController" id="root-showings"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-nav-movies" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-410" y="-600"/>
         </scene>
+        <!--Showings-->
+        <scene sceneID="scene-showings">
+            <objects>
+                <viewController storyboardIdentifier="showings-vc" id="showings-vc" customClass="ShowingsViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="showings-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="showings-safe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Showings" id="showings-navigation-item"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-showings" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="420" y="-1040"/>
+        </scene>
         <!--Movies-->
         <scene sceneID="scene-movies">
             <objects>
-                <viewController id="movies-vc" customClass="MoviesViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="movies-vc" id="movies-vc" customClass="MoviesViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="movies-view">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -138,7 +154,7 @@
         <scene sceneID="scene-nav-bookings">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-bookings" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Bookings" image="ticket" catalog="system" id="tab-bookings"/>
+                    <tabBarItem key="tabBarItem" title="Bookings" image="list.bullet.rectangle" catalog="system" id="tab-bookings"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-bookings">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -388,6 +404,7 @@
     </scenes>
     <resources>
         <image name="film" catalog="system" width="128" height="93"/>
+        <image name="list.bullet.rectangle" catalog="system" width="128" height="93"/>
         <image name="mappin.and.ellipse" catalog="system" width="128" height="124"/>
         <image name="person.crop.circle" catalog="system" width="128" height="123"/>
         <image name="ticket" catalog="system" width="128" height="102"/>

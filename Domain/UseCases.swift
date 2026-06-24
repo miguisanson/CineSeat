@@ -30,6 +30,44 @@ final class DefaultFetchMoviesUseCase: FetchMoviesUseCase {
     }
 }
 
+protocol FetchEventsUseCase {
+    func execute(category: EventCategory) -> [EventListing]
+}
+
+final class MockEventAPIClient: EventFetching {
+    private let concerts: [EventListing]
+    private let seminars: [EventListing]
+
+    init(
+        concerts: [EventListing] = SeedData.concerts,
+        seminars: [EventListing] = SeedData.seminars
+    ) {
+        self.concerts = concerts
+        self.seminars = seminars
+    }
+
+    func fetchEvents(category: EventCategory) -> [EventListing] {
+        switch category {
+        case .concert:
+            return concerts
+        case .seminar:
+            return seminars
+        }
+    }
+}
+
+final class DefaultFetchEventsUseCase: FetchEventsUseCase {
+    private let eventFetcher: EventFetching
+
+    init(eventFetcher: EventFetching) {
+        self.eventFetcher = eventFetcher
+    }
+
+    func execute(category: EventCategory) -> [EventListing] {
+        eventFetcher.fetchEvents(category: category)
+    }
+}
+
 protocol FetchBookingsUseCase {
     var didChangeNotification: Notification.Name { get }
     func execute(showCancelled: Bool) -> [Booking]

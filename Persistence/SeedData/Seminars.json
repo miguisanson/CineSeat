@@ -1,0 +1,72 @@
+[
+  {
+    "id": "seminar-001",
+    "title": "Swift UIKit Practical Workshop",
+    "category": "Seminar",
+    "eventType": "Developer workshop",
+    "venue": "Ateneo Innovation Center",
+    "duration": "3h 00m",
+    "rating": 4.7,
+    "summary": "A hands-on iOS seminar covering UIKit screens, storyboard connections, Auto Layout, and MVVM basics.",
+    "posterURLString": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=500&q=80",
+    "localPosterName": null,
+    "isFeatured": true,
+    "isComingSoon": false
+  },
+  {
+    "id": "seminar-002",
+    "title": "Startup Funding and Pitching Seminar",
+    "category": "Seminar",
+    "eventType": "Business seminar",
+    "venue": "BGC Corporate Center",
+    "duration": "2h 30m",
+    "rating": 4.5,
+    "summary": "A business seminar about pitching, investor decks, startup budgeting, and early-stage funding strategy.",
+    "posterURLString": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=500&q=80",
+    "localPosterName": null,
+    "isFeatured": false,
+    "isComingSoon": false
+  },
+  {
+    "id": "seminar-003",
+    "title": "Cybersecurity Awareness Conference",
+    "category": "Seminar",
+    "eventType": "Technology conference",
+    "venue": "SMX Convention Center",
+    "duration": "4h 00m",
+    "rating": 4.6,
+    "summary": "A conference session about password safety, phishing, device security, and secure account handling.",
+    "posterURLString": "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=500&q=80",
+    "localPosterName": null,
+    "isFeatured": true,
+    "isComingSoon": false
+  },
+  {
+    "id": "seminar-004",
+    "title": "Digital Marketing Growth Summit",
+    "category": "Seminar",
+    "eventType": "Marketing summit",
+    "venue": "Makati Conference Hall",
+    "duration": "3h 30m",
+    "rating": 4.4,
+    "summary": "A marketing event about content planning, social media campaigns, analytics, and brand growth.",
+    "posterURLString": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=500&q=80",
+    "localPosterName": null,
+    "isFeatured": false,
+    "isComingSoon": true
+  },
+  {
+    "id": "seminar-005",
+    "title": "AI Tools for Business Productivity",
+    "category": "Seminar",
+    "eventType": "Productivity seminar",
+    "venue": "Ortigas Tech Hub",
+    "duration": "2h 45m",
+    "rating": 4.6,
+    "summary": "A practical seminar about using AI tools for writing, planning, customer support, and daily workflows.",
+    "posterURLString": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=500&q=80",
+    "localPosterName": null,
+    "isFeatured": true,
+    "isComingSoon": false
+  }
+]

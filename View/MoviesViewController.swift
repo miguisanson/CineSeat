@@ -17,6 +17,7 @@ final class MoviesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Movies"
         configureTableView()
         configureSearchBar()
         categorySegmentedControl.selectedSegmentIndex = viewModel.selectedCategory.rawValue
@@ -25,7 +26,8 @@ final class MoviesViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        let isRootScreen = navigationController?.viewControllers.first === self
+        navigationController?.setNavigationBarHidden(isRootScreen, animated: animated)
     }
 
     private func configureTableView() {

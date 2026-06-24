@@ -5,6 +5,8 @@ import Foundation
 struct SeedDataDTO: Decodable {
     let cinemas: [Cinema]
     let movies: [Movie]
+    let concerts: [EventListing]
+    let seminars: [EventListing]
     let showings: [ShowingDTO]
     let bookings: [BookingDTO]
     let profileAccounts: [ProfileAccountDTO]

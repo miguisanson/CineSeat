@@ -6,6 +6,10 @@ protocol MovieFetching {
     func fetchMovies() -> [Movie]
 }
 
+protocol EventFetching {
+    func fetchEvents(category: EventCategory) -> [EventListing]
+}
+
 protocol AppPreferencesManaging: AnyObject {
     var hasLaunchedBefore: Bool { get set }
     var selectedMovieCategory: MovieCategory { get set }

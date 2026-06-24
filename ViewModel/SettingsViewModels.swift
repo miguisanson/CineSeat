@@ -64,58 +64,28 @@ final class SettingsViewModel {
             ),
             SettingsChangelogEntry(
                 day: "June 17, 2026 (Wednesday)",
-                title: "Booking flow",
-                details: "Added movie detail, assigned showings, peso pricing, seat selection, booking summary, and confirmation flow"
-            ),
-            SettingsChangelogEntry(
-                day: "June 17, 2026 (Wednesday)",
-                title: "Profile and account flow",
-                details: "Added account creation, login, logout, profile editing, session restore, validation rules, duplicate email checks, and Keychain password storage"
-            ),
-            SettingsChangelogEntry(
-                day: "June 17, 2026 (Wednesday)",
-                title: "Data persistence",
-                details: "Added FileManager-backed JSON persistence for profiles and bookings, separated reader/writer helpers, moved seed data into JSON, and kept poster images available offline"
+                title: "Booking, profile, and persistence",
+                details: "Added movie detail, assigned showings, peso pricing, seat selection, confirmation, account creation/login/logout/editing, session restore, validation, Keychain passwords, and FileManager JSON persistence"
             ),
             SettingsChangelogEntry(
                 day: "June 19, 2026 (Friday)",
-                title: "Movie data and posters",
-                details: "Expanded to real movie names, ratings, categories, schedules, offline posters, URL/cache fallback image loading, and rating sort controls"
-            ),
-            SettingsChangelogEntry(
-                day: "June 19, 2026 (Friday)",
-                title: "Cinema rules and seating",
-                details: "Changed booking to predetermined showings, added eight cinemas, standard/VIP pricing, varied seat layouts, reserved/unavailable seats, and booking detail seat maps"
+                title: "Movie data, posters, cinema rules, and seating",
+                details: "Expanded real movie data, ratings, schedules, offline posters, URL/cache fallback images, rating sort, predetermined showings, eight cinemas, standard/VIP pricing, varied seat layouts, and booking detail seat maps"
             ),
             SettingsChangelogEntry(
                 day: "June 22, 2026 (Monday)",
-                title: "Schedules and local reminders",
-                details: "Changed schedules into nested date/time structs, extended booking dates to one week, added multiple daily showtimes, current date labels, and local reminder notifications without APNs"
-            ),
-            SettingsChangelogEntry(
-                day: "June 22, 2026 (Monday)",
-                title: "Architecture cleanup",
-                details: "Separated presentation, domain, design, model, and persistence layers, then added protocol-based dependency injection, use cases, AppFactory, DTOs, and mappers"
+                title: "Schedule, notifications, and architecture cleanup",
+                details: "Added nested schedules, one-week dates, multiple showtimes, current date labels, local reminders without APNs, Clean Architecture folders, protocol DI, use cases, AppFactory, DTOs, and mappers"
             ),
             SettingsChangelogEntry(
                 day: "June 23, 2026 (Tuesday)",
-                title: "Plist settings and seat database",
-                details: "Added plist-backed settings, Settings menu, plist-backed seat layouts, shared UI constants, updated comments, and extra tests"
-            ),
-            SettingsChangelogEntry(
-                day: "June 23, 2026 (Tuesday)",
-                title: "Demo reset and UI polish",
-                details: "Hid technical file paths, increased small font sizes proportionally, fixed compiler warnings, made confirmed booking seats reserved for the same showing, and added Clear Demo Bookings"
+                title: "Plist settings, seat database, and UI polish",
+                details: "Added plist settings, Settings menu, plist-backed seat layouts, shared UI constants, comments, tests, hidden technical paths, larger small fonts, warning fixes, reserved confirmed seats, and Clear Demo Bookings"
             ),
             SettingsChangelogEntry(
                 day: "June 24, 2026 (Wednesday)",
-                title: "Split JSON, cinema map, and ticket sharing",
-                details: "Separated seed data into category JSON files, added a dedicated Locations tab with MapKit cinema pins, improved compact booking and seat legend text, and added per-seat ticket sharing to another account by email"
-            ),
-            SettingsChangelogEntry(
-                day: "June 24, 2026 (Wednesday)",
-                title: "Launch data cleanup",
-                details: "Cleared starter booking data, kept only the Michael starter profile, removed obsolete sample data files, and kept user-created bookings and profiles in device storage"
+                title: "Showings expansion, map, sharing, and launch cleanup",
+                details: "Renamed Movies tab to Showings, added Movies/Concerts/Seminars selection, added event JSON and event browsing screens, added Locations MapKit pins and zoom buttons, added ticket sharing, cleared starter bookings, and kept runtime data in device storage"
             )
         ]
     }

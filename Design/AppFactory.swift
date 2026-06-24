@@ -7,6 +7,7 @@ struct AppDependencies {
     let settingsStore: AppSettingsManaging
     let authenticationService: Authenticating
     let fetchMoviesUseCase: FetchMoviesUseCase
+    let fetchEventsUseCase: FetchEventsUseCase
     let fetchBookingsUseCase: FetchBookingsUseCase
     let confirmBookingUseCase: ConfirmBookingUseCase
     let transferTicketUseCase: TransferTicketUseCase
@@ -21,12 +22,14 @@ struct AppDependencies {
         let bookingManager = BookingStore.shared
         let authenticationService = AuthenticationService.shared
         let movieFetcher = MockMovieAPIClient()
+        let eventFetcher = MockEventAPIClient()
 
         return AppDependencies(
             preferences: preferences,
             settingsStore: settingsStore,
             authenticationService: authenticationService,
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: movieFetcher),
+            fetchEventsUseCase: DefaultFetchEventsUseCase(eventFetcher: eventFetcher),
             fetchBookingsUseCase: DefaultFetchBookingsUseCase(bookingManager: bookingManager),
             confirmBookingUseCase: DefaultConfirmBookingUseCase(bookingManager: bookingManager),
             transferTicketUseCase: DefaultTransferTicketUseCase(
@@ -54,6 +57,17 @@ final class AppFactory {
         MoviesViewModel(
             fetchMoviesUseCase: dependencies.fetchMoviesUseCase,
             preferences: dependencies.preferences
+        )
+    }
+
+    func makeShowingsViewModel() -> ShowingsViewModel {
+        ShowingsViewModel()
+    }
+
+    func makeEventListViewModel(category: EventCategory) -> EventListViewModel {
+        EventListViewModel(
+            category: category,
+            fetchEventsUseCase: dependencies.fetchEventsUseCase
         )
     }
 
@@ -118,6 +132,19 @@ final class AppFactory {
     func makeSettingsViewController() -> SettingsViewController {
         let viewController = SettingsViewController()
         viewController.viewModel = makeSettingsViewModel()
+        return viewController
+    }
+
+    func makeEventListViewController(category: EventCategory) -> EventListViewController {
+        let viewController = EventListViewController()
+        viewController.factory = self
+        viewController.viewModel = makeEventListViewModel(category: category)
+        return viewController
+    }
+
+    func makeEventDetailViewController(event: EventListing) -> EventDetailViewController {
+        let viewController = EventDetailViewController()
+        viewController.event = event
         return viewController
     }
 

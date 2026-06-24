@@ -11,6 +11,14 @@ enum SeedData {
         store.movies
     }
 
+    static var concerts: [EventListing] {
+        store.concerts
+    }
+
+    static var seminars: [EventListing] {
+        store.seminars
+    }
+
     static var showings: [MovieShowing] {
         store.showings
     }
@@ -33,6 +41,15 @@ enum SeedData {
 
     static func showings(for movie: Movie) -> [MovieShowing] {
         showings.filter { $0.movieTitle == movie.title }
+    }
+
+    static func events(for category: EventCategory) -> [EventListing] {
+        switch category {
+        case .concert:
+            return concerts
+        case .seminar:
+            return seminars
+        }
     }
 
     private static let store = SeedDataStore.load()
