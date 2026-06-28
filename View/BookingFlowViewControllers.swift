@@ -4,15 +4,17 @@ import UIKit
 // the user picks a fixed showing instead of choosing any cinema
 final class MovieDetailViewController: ScrollableViewController {
     var movie: Movie!
+    var preselectedTimeID: String?
     var factory = AppFactory.shared
 
-    private lazy var scheduleViewModel = factory.makeMovieScheduleViewModel(movie: movie)
-    // time button references like separate storyboard outlets
+    private lazy var scheduleViewModel = factory.makeMovieScheduleViewModel(
+        movie: movie,
+        preselectedTimeID: preselectedTimeID
+    )
+    // time buttons are generated from the schedule so every showtime is listed
     // each time already has the cinema assigned in seed data
     private let datePicker = UIDatePicker()
-    private var firstTimeButton: UIButton!
-    private var secondTimeButton: UIButton!
-    private var thirdTimeButton: UIButton!
+    private let timesStack = UIStackView()
     private let assignedCinemaLabel = UILabel()
     private var selectSeatsButton: UIButton!
 
@@ -70,15 +72,6 @@ final class MovieDetailViewController: ScrollableViewController {
 
         contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Select time"))
 
-        firstTimeButton = makeTimeButton(index: 0)
-        secondTimeButton = makeTimeButton(index: 1)
-        thirdTimeButton = makeTimeButton(index: 2)
-
-        let timesStack = UIStackView(arrangedSubviews: [
-            firstTimeButton,
-            secondTimeButton,
-            thirdTimeButton
-        ])
         timesStack.axis = .vertical
         timesStack.spacing = CineSeatSpacing.regular
         contentStack.addArrangedSubview(timesStack)
@@ -131,9 +124,7 @@ final class MovieDetailViewController: ScrollableViewController {
     }
 
     private func updateScheduleViews() {
-        update(button: firstTimeButton, at: 0)
-        update(button: secondTimeButton, at: 1)
-        update(button: thirdTimeButton, at: 2)
+        rebuildTimeButtons()
 
         if let selectedDate = scheduleViewModel.selectedSchedule?.date,
            !CineSeatDateFormatters.isSameDay(datePicker.date, selectedDate) {
@@ -153,21 +144,26 @@ final class MovieDetailViewController: ScrollableViewController {
         selectSeatsButton.setTitle(movie.isComingSoon ? "COMING SOON" : "SELECT SEATS", for: .normal)
     }
 
-    private func update(button: UIButton?, at index: Int) {
-        guard let time = scheduleViewModel.time(at: index) else {
-            button?.isHidden = true
+    // rebuilds one button per showtime in the selected schedule so all times appear
+    private func rebuildTimeButtons() {
+        timesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        guard let times = scheduleViewModel.selectedSchedule?.times, !times.isEmpty else {
             return
         }
 
-        let isSelected = scheduleViewModel.selectedTime?.id == time.id
-        button?.isHidden = false
-        button?.isEnabled = movie.isNowPlaying
-        button?.alpha = movie.isNowPlaying ? 1 : 0.5
-        button?.setTitle(timeButtonTitle(for: time), for: .normal)
-        button?.accessibilityLabel = "\(time.showtime), \(time.cinema.name), \(time.cinema.type.rawValue)"
-        button?.backgroundColor = isSelected ? CineSeatTheme.primaryText : CineSeatTheme.card
-        button?.setTitleColor(isSelected ? .white : CineSeatTheme.primaryText, for: .normal)
-        button?.layer.borderColor = (isSelected ? CineSeatTheme.primaryText : CineSeatTheme.border).cgColor
+        for (index, time) in times.enumerated() {
+            let button = makeTimeButton(index: index)
+            let isSelected = scheduleViewModel.selectedTime?.id == time.id
+            button.isEnabled = movie.isNowPlaying
+            button.alpha = movie.isNowPlaying ? 1 : 0.5
+            button.setTitle(timeButtonTitle(for: time), for: .normal)
+            button.accessibilityLabel = "\(time.showtime), \(time.cinema.name), \(time.cinema.type.rawValue)"
+            button.backgroundColor = isSelected ? CineSeatTheme.primaryText : CineSeatTheme.card
+            button.setTitleColor(isSelected ? .white : CineSeatTheme.primaryText, for: .normal)
+            button.layer.borderColor = (isSelected ? CineSeatTheme.primaryText : CineSeatTheme.border).cgColor
+            timesStack.addArrangedSubview(button)
+        }
     }
 
     private func timeButtonTitle(for time: ShowingTime) -> String {

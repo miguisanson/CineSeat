@@ -17,7 +17,7 @@ CineSeat is a UIKit showing and cinema-seat booking app based on the supplied Fi
 - Confirm a booking and receive a booking ID
 - Share a purchased seat ticket to another local account by email
 - View booking history after login and cancel confirmed bookings
-- View cinema locations with a dedicated native MapKit tab
+- View cinema locations with a dedicated native MapKit tab and open cinema details from map pins
 - Keep bookings after the app is closed and reopened
 - Save movie and booking-filter preferences
 - Create an account, log in, edit a profile, and log out
@@ -56,6 +56,8 @@ CineSeat is a UIKit showing and cinema-seat booking app based on the supplied Fi
 - `View/EventDetailViewController.swift`: Event detail screen
 - `View/BookingFlowViewControllers.swift`: detail, seat, summary, and confirmation screens
 - `View/BookingsViewControllers.swift`: booking list and booking detail screens
+- `View/CinemaLocationsViewController.swift`: MapKit cinema pins and zoom controls
+- `View/CinemaDetailViewController.swift`: cinema information and assigned movie schedules from a selected pin
 - `View/ProfileViewControllers.swift`: Profile tab and account screens
 - `Design/AppFactory.swift`: factory pattern and composition root for dependencies
 - `CustomViews/`: reusable theme, cards, poster view, table cells, scroll container, and custom seating views

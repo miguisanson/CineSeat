@@ -79,8 +79,8 @@ final class AppFactory {
         )
     }
 
-    func makeMovieScheduleViewModel(movie: Movie) -> MovieScheduleViewModel {
-        MovieScheduleViewModel(movie: movie)
+    func makeMovieScheduleViewModel(movie: Movie, preselectedTimeID: String? = nil) -> MovieScheduleViewModel {
+        MovieScheduleViewModel(movie: movie, preselectedTimeID: preselectedTimeID)
     }
 
     func makeSeatSelectionViewModel(layout: SeatLayout, ticketPrice: Double = 350) -> SeatSelectionViewModel {
@@ -148,6 +148,13 @@ final class AppFactory {
         return viewController
     }
 
+    func makeCinemaDetailViewController(cinema: Cinema) -> CinemaDetailViewController {
+        let viewController = CinemaDetailViewController()
+        viewController.factory = self
+        viewController.viewModel = CinemaDetailViewModel(cinema: cinema)
+        return viewController
+    }
+
     func makeEditProfileViewController(profile: UserProfile?) -> EditProfileViewController {
         let viewController = EditProfileViewController()
         viewController.profile = profile
@@ -155,9 +162,10 @@ final class AppFactory {
         return viewController
     }
 
-    func makeMovieDetailViewController(movie: Movie) -> MovieDetailViewController {
+    func makeMovieDetailViewController(movie: Movie, preselectedTimeID: String? = nil) -> MovieDetailViewController {
         let viewController = MovieDetailViewController()
         viewController.movie = movie
+        viewController.preselectedTimeID = preselectedTimeID
         viewController.factory = self
         return viewController
     }

@@ -20,4 +20,8 @@ final class CinemaLocationsViewModel {
     var mappedCinemas: [Cinema] {
         cinemas.filter { $0.location != nil }
     }
+
+    func cinema(id: Int) -> Cinema? {
+        cinemas.first { $0.id == id }
+    }
 }

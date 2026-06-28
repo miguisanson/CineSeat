@@ -86,6 +86,11 @@ final class SettingsViewModel {
                 day: "June 24, 2026 (Wednesday)",
                 title: "Showings expansion, map, sharing, and launch cleanup",
                 details: "Renamed Movies tab to Showings, added Movies/Concerts/Seminars selection, added event JSON and event browsing screens, added Locations MapKit pins and zoom buttons, added ticket sharing, cleared starter bookings, and kept runtime data in device storage"
+            ),
+            SettingsChangelogEntry(
+                day: "June 25, 2026 (Thursday)",
+                title: "Interactive cinema pins and showtime shortcuts",
+                details: "Added MapKit pin callout info buttons, a Cinema Details screen, assigned cinema schedules, grouped showtimes by movie and date, added tappable showtime chips that open movie detail with the date and time preselected, made movie detail list all showtimes instead of three fixed buttons, restored the stock Apple Maps red pin, and kept assigned-cinema-only booking"
             )
         ]
     }

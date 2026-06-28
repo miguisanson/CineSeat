@@ -4,6 +4,7 @@ import MapKit
 // module 2 locations tab
 // mapkit stays in this file so settings remains only for settings
 final class CinemaLocationsViewController: UIViewController {
+    var factory = AppFactory.shared
     var viewModel = CinemaLocationsViewModel()
 
     private let headerStack = UIStackView()
@@ -41,6 +42,7 @@ final class CinemaLocationsViewController: UIViewController {
         headerStack.addArrangedSubview(countLabel)
 
         mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.delegate = self
         mapView.pointOfInterestFilter = .excludingAll
         mapView.layer.cornerRadius = CineSeatRadius.large
         mapView.clipsToBounds = true
@@ -113,9 +115,9 @@ final class CinemaLocationsViewController: UIViewController {
     }
 
     private func addCinemaPins() {
-        let annotations = viewModel.mappedCinemas.compactMap { cinema -> MKPointAnnotation? in
+        let annotations = viewModel.mappedCinemas.compactMap { cinema -> CinemaAnnotation? in
             guard let location = cinema.location else { return nil }
-            let annotation = MKPointAnnotation()
+            let annotation = CinemaAnnotation(cinemaID: cinema.id)
             annotation.title = cinema.name
             annotation.subtitle = "\(cinema.type.rawValue) - \(location.address)"
             annotation.coordinate = CLLocationCoordinate2D(
@@ -139,5 +141,47 @@ final class CinemaLocationsViewController: UIViewController {
             longitudeDelta: max((longitudes.max()! - longitudes.min()!) * 1.8, 0.02)
         )
         mapView.setRegion(MKCoordinateRegion(center: center, span: span), animated: false)
+    }
+}
+
+private final class CinemaAnnotation: MKPointAnnotation {
+    let cinemaID: Int
+
+    init(cinemaID: Int) {
+        self.cinemaID = cinemaID
+        super.init()
+    }
+}
+
+extension CinemaLocationsViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is CinemaAnnotation else { return nil }
+
+        let reuseIdentifier = "CinemaPin"
+        let view = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? MKMarkerAnnotationView
+            ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
+
+        view.annotation = annotation
+        view.canShowCallout = true
+        // stock Apple Maps red pin/marker look
+        view.markerTintColor = .systemRed
+        view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        return view
+    }
+
+    func mapView(
+        _ mapView: MKMapView,
+        annotationView view: MKAnnotationView,
+        calloutAccessoryControlTapped control: UIControl
+    ) {
+        guard let annotation = view.annotation as? CinemaAnnotation,
+              let cinema = viewModel.cinema(id: annotation.cinemaID) else {
+            return
+        }
+
+        navigationController?.pushViewController(
+            factory.makeCinemaDetailViewController(cinema: cinema),
+            animated: true
+        )
     }
 }

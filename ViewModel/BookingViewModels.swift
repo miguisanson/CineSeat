@@ -79,12 +79,32 @@ final class MovieScheduleViewModel {
     private(set) var selectedScheduleIndex: Int?
     private(set) var selectedTimeIndex: Int?
 
-    init(movie: Movie, showings: [MovieShowing]? = nil) {
+    init(movie: Movie, showings: [MovieShowing]? = nil, preselectedTimeID: String? = nil) {
         self.movie = movie
         self.showings = showings ?? SeedData.showings(for: movie)
-        let hasSchedule = self.showings.first?.schedules.isEmpty == false
-        selectedScheduleIndex = movie.isNowPlaying && hasSchedule ? 0 : nil
-        selectedTimeIndex = movie.isNowPlaying && selectedSchedule?.times.isEmpty == false ? 0 : nil
+
+        guard movie.isNowPlaying else { return }
+
+        // a tapped showtime (from the cinema map) preselects its own date and time
+        if let preselectedTimeID, let indices = indicesForTime(id: preselectedTimeID) {
+            selectedScheduleIndex = indices.schedule
+            selectedTimeIndex = indices.time
+        } else {
+            let hasSchedule = selectedShowing?.schedules.isEmpty == false
+            selectedScheduleIndex = hasSchedule ? 0 : nil
+            selectedTimeIndex = selectedSchedule?.times.isEmpty == false ? 0 : nil
+        }
+    }
+
+    // matches a showtime id to its schedule and time slot within the movie showing
+    private func indicesForTime(id: String) -> (schedule: Int, time: Int)? {
+        guard let showing = selectedShowing else { return nil }
+        for (scheduleIndex, schedule) in showing.schedules.enumerated() {
+            if let timeIndex = schedule.times.firstIndex(where: { $0.id == id }) {
+                return (scheduleIndex, timeIndex)
+            }
+        }
+        return nil
     }
 
     var showingCount: Int {
