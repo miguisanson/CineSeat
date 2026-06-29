@@ -61,6 +61,26 @@ final class BookingStore: BookingManaging {
     }
 
     @discardableResult
+    func addBooking(from draft: EventBookingDraft, owner: UserProfile? = nil) -> Booking {
+        let booking = Booking(
+            id: BookingNumberFormatter.makeID(sequence: nextBookingSequence),
+            event: draft.event,
+            schedule: draft.schedule,
+            venue: draft.venue,
+            ticketIdentifiers: draft.ticketIdentifiers,
+            ticketPrice: draft.ticketPrice,
+            bookingFee: draft.bookingFee,
+            status: .confirmed,
+            ownerEmail: owner?.email,
+            ownerName: owner?.fullName
+        )
+        bookings.insert(booking, at: 0)
+        saveChanges()
+        notificationScheduler?.scheduleReminders(for: booking)
+        return booking
+    }
+
+    @discardableResult
     func cancelBooking(id: String, reason: BookingCancellationReason = .user) -> Bool {
         guard let index = bookings.firstIndex(where: { $0.id == id }),
               bookings[index].status.isConfirmed else {
@@ -78,7 +98,7 @@ final class BookingStore: BookingManaging {
         Set(bookings
             .filter { booking in
                 booking.status.isConfirmed &&
-                    booking.movie.title == draft.movie.title &&
+                    booking.movie?.title == draft.movie.title &&
                     bookingMatchesCinema(booking, draft: draft) &&
                     CineSeatDateFormatters.isSameDay(booking.schedule.date, draft.schedule.date) &&
                     booking.showtime == draft.showtime

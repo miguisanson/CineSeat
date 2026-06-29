@@ -129,12 +129,13 @@ final class BookingDetailViewController: ScrollableViewController {
     }
 
     private func buildInterface() {
-        let movieTitle = UILabel()
-        movieTitle.text = booking.movie.title
-        movieTitle.font = CineSeatFont.detailTitle
-        movieTitle.textColor = CineSeatTheme.primaryText
+        let bookingTitle = UILabel()
+        bookingTitle.text = booking.title
+        bookingTitle.font = CineSeatFont.detailTitle
+        bookingTitle.textColor = CineSeatTheme.primaryText
+        bookingTitle.numberOfLines = 0
 
-        let movieDetails = CineSeatTheme.captionLabel("\(booking.movie.genre) - \(booking.movie.duration)")
+        let itemDetails = CineSeatTheme.captionLabel(booking.itemDetailText)
         let statusLabel = UILabel()
         statusLabel.text = booking.status.rawValue.uppercased()
         statusLabel.textAlignment = .center
@@ -146,13 +147,13 @@ final class BookingDetailViewController: ScrollableViewController {
         statusLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 92).isActive = true
         statusLabel.heightAnchor.constraint(equalToConstant: CineSeatSize.statusHeight).isActive = true
 
-        let statusRow = UIStackView(arrangedSubviews: [movieTitle, UIView(), statusLabel])
+        let statusRow = UIStackView(arrangedSubviews: [bookingTitle, UIView(), statusLabel])
         statusRow.axis = .horizontal
         statusRow.alignment = .center
-        let movieStack = UIStackView(arrangedSubviews: [statusRow, movieDetails])
-        movieStack.axis = .vertical
-        movieStack.spacing = 5
-        contentStack.addArrangedSubview(makeCard(with: movieStack))
+        let itemStack = UIStackView(arrangedSubviews: [statusRow, itemDetails])
+        itemStack.axis = .vertical
+        itemStack.spacing = 5
+        contentStack.addArrangedSubview(makeCard(with: itemStack))
 
         let details = UIStackView()
         details.axis = .vertical
@@ -160,24 +161,36 @@ final class BookingDetailViewController: ScrollableViewController {
         details.addArrangedSubview(makeInfoRow(label: "Booking ID", value: booking.id))
         details.addArrangedSubview(makeInfoRow(label: "Date", value: booking.dateSummary))
         details.addArrangedSubview(makeInfoRow(label: "Time", value: booking.showtime))
-        details.addArrangedSubview(makeInfoRow(label: "Cinema", value: booking.cinema))
-        details.addArrangedSubview(makeInfoRow(label: "Seats", value: booking.seats.joined(separator: ", ")))
+        details.addArrangedSubview(makeInfoRow(label: booking.locationLabel, value: booking.locationName))
+        details.addArrangedSubview(makeInfoRow(label: booking.ticketLabel, value: booking.ticketIdentifiers.joined(separator: ", ")))
         details.addArrangedSubview(makeInfoRow(label: "Ticket owners", value: booking.ticketAssignmentSummary))
-        details.addArrangedSubview(makeInfoRow(label: "Tickets", value: "\(booking.seats.count) x \(ticketTypeText)"))
+        details.addArrangedSubview(makeInfoRow(label: "Quantity", value: "\(booking.ticketCount) x \(ticketTypeText)"))
         details.addArrangedSubview(makeInfoRow(label: "Subtotal", value: CineSeatTheme.money(booking.subtotal)))
         details.addArrangedSubview(makeInfoRow(label: "Booking fee", value: CineSeatTheme.money(booking.bookingFee)))
         details.addArrangedSubview(makeInfoRow(label: "Total paid", value: CineSeatTheme.money(booking.total)))
         contentStack.addArrangedSubview(makeCard(with: details))
 
-        let seatCardStack = UIStackView(arrangedSubviews: [
-            CineSeatTheme.captionLabel("Cinema map"),
-            makeScreenLabel(),
-            makeBookedSeatMap(),
-            CineSeatTheme.captionLabel("Tap a highlighted seat to check the row and number again")
-        ])
-        seatCardStack.axis = .vertical
-        seatCardStack.spacing = 10
-        contentStack.addArrangedSubview(makeCard(with: seatCardStack))
+        if booking.isMovieBooking {
+            let seatCardStack = UIStackView(arrangedSubviews: [
+                CineSeatTheme.captionLabel("Cinema map"),
+                makeScreenLabel(),
+                makeBookedSeatMap(),
+                CineSeatTheme.captionLabel("Tap a highlighted seat to check the row and number again")
+            ])
+            seatCardStack.axis = .vertical
+            seatCardStack.spacing = 10
+            contentStack.addArrangedSubview(makeCard(with: seatCardStack))
+        } else if let venue = booking.eventVenue {
+            let mapView = LocationPreviewMapView()
+            mapView.show(venue: venue)
+            let venueMapStack = UIStackView(arrangedSubviews: [
+                CineSeatTheme.captionLabel("Venue map"),
+                mapView
+            ])
+            venueMapStack.axis = .vertical
+            venueMapStack.spacing = CineSeatSpacing.regular
+            contentStack.addArrangedSubview(makeCard(with: venueMapStack))
+        }
 
         let note = CineSeatTheme.captionLabel("Cancellation is available up to 2 hours before showtime. The booking fee is non-refundable.")
         note.textAlignment = .center
@@ -198,7 +211,8 @@ final class BookingDetailViewController: ScrollableViewController {
     }
 
     private var ticketTypeText: String {
-        booking.ticketPrice >= 550 ? "VIP" : "Standard"
+        if !booking.isMovieBooking { return "Event ticket" }
+        return booking.ticketPrice >= AppConstants.Booking.vipTicketPrice ? "VIP" : "Standard"
     }
 
     private var canShareTicket: Bool {
@@ -222,7 +236,7 @@ final class BookingDetailViewController: ScrollableViewController {
 
     private func makeBookedSeatMap() -> SeatMapView {
         let seatMapView = SeatMapView()
-        let bookedSeats = Set(booking.seats)
+        let bookedSeats = Set(booking.ticketIdentifiers)
         seatMapView.configure(
             layout: booking.seatLayout,
             selectedSeats: [],
@@ -248,29 +262,29 @@ final class BookingDetailViewController: ScrollableViewController {
 
     private func seatAlertMessage(for seat: String) -> String {
         if let assignment = booking.assignment(for: seat) {
-            return "This highlighted seat is inside \(booking.cinema).\nTicket owner: \(assignment.ownerText)."
+            return "This highlighted seat is inside \(booking.locationName).\nTicket owner: \(assignment.ownerText)."
         }
-        return "This highlighted seat is inside \(booking.cinema)."
+        return "This highlighted seat is inside \(booking.locationName)."
     }
 
     @objc private func shareTicketTapped() {
         guard canShareTicket else {
             showMessage(
                 title: "Ticket Sharing Unavailable",
-                message: "Only confirmed bookings with assigned ticket owners can share seats."
+                message: "Only confirmed bookings with assigned ticket owners can share tickets."
             )
             return
         }
 
-        let assignments = booking.ticketAssignments.sorted { $0.seat < $1.seat }
+        let assignments = booking.sortedTicketAssignments
         if assignments.count == 1, let assignment = assignments.first {
             promptForRecipientEmail(seat: assignment.seat)
             return
         }
 
         let alert = UIAlertController(
-            title: "Share Which Seat?",
-            message: "Choose the seat ticket to send to another CineSeat account.",
+            title: booking.isMovieBooking ? "Share Which Seat?" : "Share Which Ticket?",
+            message: "Choose the ticket to send to another CineSeat account.",
             preferredStyle: .actionSheet
         )
 
@@ -295,7 +309,7 @@ final class BookingDetailViewController: ScrollableViewController {
 
     private func promptForRecipientEmail(seat: String) {
         let alert = UIAlertController(
-            title: "Share Seat \(seat)",
+            title: "Share \(seat)",
             message: "Enter the email of an existing CineSeat account.",
             preferredStyle: .alert
         )
@@ -329,7 +343,7 @@ final class BookingDetailViewController: ScrollableViewController {
             reloadInterface()
             showMessage(
                 title: "Ticket Shared",
-                message: "Seat \(seat) is now assigned to \(AccountValidation.normalizedEmail(recipientEmail))."
+                message: "\(seat) is now assigned to \(AccountValidation.normalizedEmail(recipientEmail))."
             )
         } catch {
             showMessage(title: "Could Not Share Ticket", message: error.localizedDescription)

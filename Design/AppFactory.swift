@@ -8,8 +8,11 @@ struct AppDependencies {
     let authenticationService: Authenticating
     let fetchMoviesUseCase: FetchMoviesUseCase
     let fetchEventsUseCase: FetchEventsUseCase
+    let fetchMovieShowingsUseCase: FetchMovieShowingsUseCase
+    let fetchEventShowingsUseCase: FetchEventShowingsUseCase
     let fetchBookingsUseCase: FetchBookingsUseCase
     let confirmBookingUseCase: ConfirmBookingUseCase
+    let confirmEventBookingUseCase: ConfirmEventBookingUseCase
     let transferTicketUseCase: TransferTicketUseCase
     let cancelBookingUseCase: CancelBookingUseCase
     let fetchBookedSeatsUseCase: FetchBookedSeatsUseCase
@@ -23,6 +26,8 @@ struct AppDependencies {
         let authenticationService = AuthenticationService.shared
         let movieFetcher = MockMovieAPIClient()
         let eventFetcher = MockEventAPIClient()
+        let showingFetcher = MockMovieShowingAPIClient()
+        let eventShowingFetcher = MockEventShowingAPIClient()
 
         return AppDependencies(
             preferences: preferences,
@@ -30,8 +35,11 @@ struct AppDependencies {
             authenticationService: authenticationService,
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: movieFetcher),
             fetchEventsUseCase: DefaultFetchEventsUseCase(eventFetcher: eventFetcher),
+            fetchMovieShowingsUseCase: DefaultFetchMovieShowingsUseCase(showingFetcher: showingFetcher),
+            fetchEventShowingsUseCase: DefaultFetchEventShowingsUseCase(showingFetcher: eventShowingFetcher),
             fetchBookingsUseCase: DefaultFetchBookingsUseCase(bookingManager: bookingManager),
             confirmBookingUseCase: DefaultConfirmBookingUseCase(bookingManager: bookingManager),
+            confirmEventBookingUseCase: DefaultConfirmEventBookingUseCase(bookingManager: bookingManager),
             transferTicketUseCase: DefaultTransferTicketUseCase(
                 bookingManager: bookingManager,
                 authenticationService: authenticationService
@@ -61,13 +69,25 @@ final class AppFactory {
     }
 
     func makeShowingsViewModel() -> ShowingsViewModel {
-        ShowingsViewModel()
+        ShowingsViewModel(
+            fetchMoviesUseCase: dependencies.fetchMoviesUseCase,
+            fetchEventsUseCase: dependencies.fetchEventsUseCase,
+            fetchMovieShowingsUseCase: dependencies.fetchMovieShowingsUseCase,
+            preferences: dependencies.preferences
+        )
     }
 
     func makeEventListViewModel(category: EventCategory) -> EventListViewModel {
         EventListViewModel(
             category: category,
             fetchEventsUseCase: dependencies.fetchEventsUseCase
+        )
+    }
+
+    func makeEventScheduleViewModel(event: EventListing) -> EventScheduleViewModel {
+        EventScheduleViewModel(
+            event: event,
+            fetchEventShowingsUseCase: dependencies.fetchEventShowingsUseCase
         )
     }
 
@@ -144,7 +164,17 @@ final class AppFactory {
 
     func makeEventDetailViewController(event: EventListing) -> EventDetailViewController {
         let viewController = EventDetailViewController()
-        viewController.event = event
+        viewController.factory = self
+        viewController.viewModel = makeEventScheduleViewModel(event: event)
+        return viewController
+    }
+
+    func makeEventBookingSummaryViewController(draft: EventBookingDraft) -> EventBookingSummaryViewController {
+        let viewController = EventBookingSummaryViewController()
+        viewController.draft = draft
+        viewController.factory = self
+        viewController.confirmBookingUseCase = dependencies.confirmEventBookingUseCase
+        viewController.authenticationService = dependencies.authenticationService
         return viewController
     }
 
@@ -152,6 +182,13 @@ final class AppFactory {
         let viewController = CinemaDetailViewController()
         viewController.factory = self
         viewController.viewModel = CinemaDetailViewModel(cinema: cinema)
+        return viewController
+    }
+
+    func makeEventVenueDetailViewController(venue: EventVenue) -> EventVenueDetailViewController {
+        let viewController = EventVenueDetailViewController()
+        viewController.factory = self
+        viewController.viewModel = EventVenueDetailViewModel(venue: venue)
         return viewController
     }
 

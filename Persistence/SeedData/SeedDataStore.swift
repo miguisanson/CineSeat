@@ -7,6 +7,8 @@ struct SeedDataStore {
     let movies: [Movie]
     let concerts: [EventListing]
     let seminars: [EventListing]
+    let eventVenues: [EventVenue]
+    let eventShowings: [EventShowing]
     let showings: [MovieShowing]
     let bookings: [Booking]
     let profileAccounts: [SeedProfileAccount]
@@ -33,6 +35,8 @@ struct SeedDataStore {
             movies: try read([Movie].self, named: "Movies", reader: reader, bundle: bundle),
             concerts: try read([EventListing].self, named: "Concerts", reader: reader, bundle: bundle),
             seminars: try read([EventListing].self, named: "Seminars", reader: reader, bundle: bundle),
+            eventVenues: try read([EventVenue].self, named: "EventVenues", reader: reader, bundle: bundle),
+            eventShowings: try read([EventShowingDTO].self, named: "EventShowings", reader: reader, bundle: bundle),
             showings: try read([ShowingDTO].self, named: "Showings", reader: reader, bundle: bundle),
             bookings: try read([BookingDTO].self, named: "Bookings", reader: reader, bundle: bundle),
             profileAccounts: try read([ProfileAccountDTO].self, named: "ProfileAccounts", reader: reader, bundle: bundle)

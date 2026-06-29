@@ -1,8 +1,8 @@
 import Foundation
 
 // module 2 showings landing category
-// movies keep the booking flow while events are browsing pages
-enum ShowingCategory: CaseIterable {
+// movies concerts and seminars each continue into a booking flow
+enum ShowingCategory: Int, CaseIterable {
     case movies
     case concerts
     case seminars
@@ -38,5 +38,18 @@ enum ShowingCategory: CaseIterable {
         case .seminars:
             return "person.3.sequence"
         }
+    }
+
+    var locationFilterLabel: String {
+        switch self {
+        case .movies:
+            return "Cinemas"
+        case .concerts, .seminars:
+            return "Venues"
+        }
+    }
+
+    var allLocationsTitle: String {
+        "All \(locationFilterLabel)"
     }
 }

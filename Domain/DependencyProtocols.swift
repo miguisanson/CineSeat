@@ -10,6 +10,14 @@ protocol EventFetching {
     func fetchEvents(category: EventCategory) -> [EventListing]
 }
 
+protocol MovieShowingFetching {
+    func fetchMovieShowings() -> [MovieShowing]
+}
+
+protocol EventShowingFetching {
+    func fetchEventShowings() -> [EventShowing]
+}
+
 protocol AppPreferencesManaging: AnyObject {
     var hasLaunchedBefore: Bool { get set }
     var selectedMovieCategory: MovieCategory { get set }
@@ -31,6 +39,9 @@ protocol BookingManaging: AnyObject {
 
     @discardableResult
     func addBooking(from draft: BookingDraft, owner: UserProfile?) -> Booking
+
+    @discardableResult
+    func addBooking(from draft: EventBookingDraft, owner: UserProfile?) -> Booking
 
     @discardableResult
     func cancelBooking(id: String, reason: BookingCancellationReason) -> Bool

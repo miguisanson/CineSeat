@@ -1,12 +1,13 @@
 # CineSeat
 
-CineSeat is a UIKit showing and cinema-seat booking app based on the supplied Figma wireframe. It uses local movie, event, account, and booking data for the class build.
+CineSeat is a UIKit showing and ticket-booking app for movies, concerts, and seminars.
 
 ## Features
 
 - Choose between Movies, Concerts, and Seminars from the Showings tab
 - Search and filter the movie table view
-- Browse concert, theater, festival, orchestra, conference, and seminar examples
+- Book concerts and seminars by date, time, and ticket quantity without seat selection
+- View event venue MapKit previews and event venue pins in Locations
 - Sort All, Now Playing, and Coming Soon movies by highest or lowest rating
 - Load bundled movie poster images offline, with online cache fallback when needed
 - View movie details and scheduled showings
@@ -17,7 +18,7 @@ CineSeat is a UIKit showing and cinema-seat booking app based on the supplied Fi
 - Confirm a booking and receive a booking ID
 - Share a purchased seat ticket to another local account by email
 - View booking history after login and cancel confirmed bookings
-- View cinema locations with a dedicated native MapKit tab and open cinema details from map pins
+- Switch the native MapKit Locations tab between cinemas and event venues
 - Keep bookings after the app is closed and reopened
 - Save movie and booking-filter preferences
 - Create an account, log in, edit a profile, and log out
@@ -34,6 +35,8 @@ CineSeat is a UIKit showing and cinema-seat booking app based on the supplied Fi
 - `Persistence/SeedData/Movies.json`: movie details, ratings, categories, posters, and poster URLs
 - `Persistence/SeedData/Concerts.json`: concert, festival, orchestra, and theater examples with online poster URLs
 - `Persistence/SeedData/Seminars.json`: seminar and conference examples with online poster URLs
+- `Persistence/SeedData/EventVenues.json`: reusable event addresses and map coordinates
+- `Persistence/SeedData/EventShowings.json`: live relative dates, times, venue IDs, prices, and capacities
 - `Persistence/SeedData/Showings.json`: nested movie schedule dates and assigned cinema times
 - `Persistence/SeedData/Bookings.json`: intentionally empty launch booking file so the app starts without fake booking history
 - `Persistence/SeedData/ProfileAccounts.json`: the single starter profile used for local login
@@ -48,15 +51,18 @@ CineSeat is a UIKit showing and cinema-seat booking app based on the supplied Fi
 - `ViewModel/ShowingsViewModel.swift`: Showings landing category counts
 - `ViewModel/MoviesViewModels.swift`: movie search, category filtering, rating sorting, and movie count text
 - `ViewModel/EventViewModels.swift`: event search/filtering for concerts and seminars
+- `ViewModel/EventScheduleViewModel.swift`: event date, time, venue, quantity, and total rules
 - `ViewModel/BookingViewModels.swift`: booking filtering, fixed showing selection, and seat-selection business logic
 - `ViewModel/ProfileViewModels.swift`: login, registration, and profile business logic
 - `View/ShowingsViewController.swift`: Showings landing screen
 - `View/MoviesViewController.swift`: Movies table view screen
 - `View/EventListViewController.swift`: Concerts and Seminars list screen
-- `View/EventDetailViewController.swift`: Event detail screen
+- `View/EventDetailViewController.swift`: event detail, map, schedule, and quantity screen
+- `View/EventBookingSummaryViewController.swift`: event checkout summary and confirmation entry
 - `View/BookingFlowViewControllers.swift`: detail, seat, summary, and confirmation screens
 - `View/BookingsViewControllers.swift`: booking list and booking detail screens
-- `View/CinemaLocationsViewController.swift`: MapKit cinema pins and zoom controls
+- `View/CinemaLocationsViewController.swift`: filtered MapKit cinema/event venue pins and zoom controls
+- `View/EventVenueDetailViewController.swift`: events assigned to a selected venue pin
 - `View/CinemaDetailViewController.swift`: cinema information and assigned movie schedules from a selected pin
 - `View/ProfileViewControllers.swift`: Profile tab and account screens
 - `Design/AppFactory.swift`: factory pattern and composition root for dependencies
@@ -115,7 +121,8 @@ The project follows a small MVVM and clean architecture structure:
 - `BookingFileRepository` gets the Documents directory with `FileManager`.
 - Bookings are encoded to `bookings.json` and decoded when the app starts.
 - Creating a booking inserts and saves it. Cancelling a booking updates and saves it.
-- Each saved booking can include `TicketAssignment` rows so one seat can be transferred to another account by email.
+- `BookingItem` distinguishes movie and event records inside the same `bookings.json` file.
+- Each saved booking includes `TicketAssignment` rows so seats or numbered event tickets can be transferred by email.
 - New installs start with no booking history, so My Bookings stays empty until a signed-in user confirms a booking.
 
 Core Data is not used because the current data is small and the Codable/FileManager approach is sufficient. Account passwords use Keychain because they are sensitive and must not be stored in UserDefaults or plain JSON.

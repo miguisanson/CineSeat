@@ -1,7 +1,7 @@
 import UIKit
 
 // module 2 event list screen
-// concerts and seminars have browsing only for now
+// concerts and seminars open their own schedule and ticket booking flow
 final class EventListViewController: UIViewController {
     var factory = AppFactory.shared
     var viewModel: EventListViewModel!

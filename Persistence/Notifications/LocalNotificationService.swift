@@ -86,7 +86,7 @@ final class LocalNotificationService: BookingNotificationScheduling {
 
             let content = UNMutableNotificationContent()
             content.title = "CineSeat reminder"
-            content.body = "\(booking.movie.title) starts in \(leadTimeText(leadTime)) at \(booking.showtime)."
+            content.body = "\(booking.title) starts in \(leadTimeText(leadTime)) at \(booking.showtime)."
             content.sound = .default
 
             let components = CineSeatDateFormatters.calendar.dateComponents(
@@ -106,7 +106,7 @@ final class LocalNotificationService: BookingNotificationScheduling {
     private func addCancellationNotice(for booking: Booking, reason: BookingCancellationReason) {
         let content = UNMutableNotificationContent()
         content.title = "Booking cancelled"
-        content.body = "\(booking.movie.title) was cancelled due to \(reason.notificationText)."
+        content.body = "\(booking.title) was cancelled due to \(reason.notificationText)."
         content.sound = .default
 
         let request = UNNotificationRequest(
@@ -124,7 +124,7 @@ final class LocalNotificationService: BookingNotificationScheduling {
     ) {
         let content = UNMutableNotificationContent()
         content.title = "CineSeat reminder"
-        content.body = "Demo: \(booking.movie.title) starts at \(booking.showtime) in \(booking.cinema)."
+        content.body = "Demo: \(booking.title) starts at \(booking.showtime) in \(booking.locationName)."
         content.sound = .default
 
         let request = UNNotificationRequest(

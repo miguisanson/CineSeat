@@ -75,16 +75,19 @@ final class BookingTableViewCell: UITableViewCell {
     }
 
     func configure(with booking: Booking) {
-        titleLabel.text = booking.movie.title
+        titleLabel.text = booking.title
         idLabel.text = booking.id
         statusLabel.text = booking.status.rawValue.uppercased()
         statusLabel.textColor = booking.status.isConfirmed ? .white : CineSeatTheme.secondaryText
         statusLabel.backgroundColor = booking.status.isConfirmed ? CineSeatTheme.primaryText : CineSeatTheme.border
-        detailsLabel.text = "\(booking.dateSummary) - \(booking.showtime)\nSEATS  \(booking.seats.joined(separator: ", "))"
+        let ticketText = booking.isMovieBooking
+            ? booking.ticketIdentifiers.joined(separator: ", ")
+            : "\(booking.ticketCount) ticket\(booking.ticketCount == 1 ? "" : "s")"
+        detailsLabel.text = "\(booking.dateSummary) - \(booking.showtime)\n\(booking.locationName) - \(ticketText)"
         totalLabel.text = CineSeatTheme.money(booking.total)
         isAccessibilityElement = true
         accessibilityIdentifier = "bookingCell_\(booking.id)"
-        accessibilityLabel = "\(booking.movie.title), \(booking.status.rawValue), \(booking.seats.joined(separator: ", ")), \(CineSeatTheme.money(booking.total))"
+        accessibilityLabel = "\(booking.title), \(booking.status.rawValue), \(ticketText), \(CineSeatTheme.money(booking.total))"
         accessibilityTraits = .button
     }
 }

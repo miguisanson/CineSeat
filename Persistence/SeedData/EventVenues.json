@@ -1,0 +1,128 @@
+[
+  {
+    "id": "venue-philippine-arena",
+    "name": "Philippine Arena",
+    "address": "Ciudad de Victoria, Bocaue, Bulacan",
+    "latitude": 14.7939,
+    "longitude": 120.9530
+  },
+  {
+    "id": "venue-new-clark-stadium",
+    "name": "New Clark City Stadium",
+    "address": "New Clark City, Capas, Tarlac",
+    "latitude": 15.3439,
+    "longitude": 120.5488
+  },
+  {
+    "id": "venue-moa-arena",
+    "name": "Mall of Asia Arena",
+    "address": "Mall of Asia Complex, Pasay City",
+    "latitude": 14.5319,
+    "longitude": 120.9836
+  },
+  {
+    "id": "venue-araneta-coliseum",
+    "name": "Araneta Coliseum",
+    "address": "Araneta City, Quezon City",
+    "latitude": 14.6207,
+    "longitude": 121.0535
+  },
+  {
+    "id": "venue-smdc-festival-grounds",
+    "name": "SMDC Festival Grounds",
+    "address": "Central Business Park, Paranaque City",
+    "latitude": 14.5305,
+    "longitude": 120.9810
+  },
+  {
+    "id": "venue-circuit-makati",
+    "name": "Circuit Makati",
+    "address": "Circuit Makati, Makati City",
+    "latitude": 14.5743,
+    "longitude": 121.0200
+  },
+  {
+    "id": "venue-ccp",
+    "name": "Cultural Center of the Philippines",
+    "address": "Roxas Boulevard, Pasay City",
+    "latitude": 14.5582,
+    "longitude": 120.9852
+  },
+  {
+    "id": "venue-metropolitan-theater",
+    "name": "Metropolitan Theater",
+    "address": "Ermita, Manila",
+    "latitude": 14.5943,
+    "longitude": 120.9798
+  },
+  {
+    "id": "venue-solaire-theater",
+    "name": "Solaire Theater",
+    "address": "Entertainment City, Paranaque City",
+    "latitude": 14.5235,
+    "longitude": 120.9817
+  },
+  {
+    "id": "venue-theatre-at-solaire",
+    "name": "The Theatre at Solaire",
+    "address": "Entertainment City, Paranaque City",
+    "latitude": 14.5235,
+    "longitude": 120.9817
+  },
+  {
+    "id": "venue-filinvest-events-grounds",
+    "name": "Filinvest City Events Grounds",
+    "address": "Filinvest City, Muntinlupa",
+    "latitude": 14.4146,
+    "longitude": 121.0406
+  },
+  {
+    "id": "venue-samsung-theater",
+    "name": "Samsung Performing Arts Theater",
+    "address": "Circuit Makati, Makati City",
+    "latitude": 14.5740,
+    "longitude": 121.0202
+  },
+  {
+    "id": "venue-music-museum",
+    "name": "Music Museum",
+    "address": "Greenhills Shopping Center, San Juan",
+    "latitude": 14.6019,
+    "longitude": 121.0500
+  },
+  {
+    "id": "venue-ateneo-innovation-center",
+    "name": "Ateneo Innovation Center",
+    "address": "Ateneo de Manila University, Quezon City",
+    "latitude": 14.6399,
+    "longitude": 121.0786
+  },
+  {
+    "id": "venue-bgc-corporate-center",
+    "name": "BGC Corporate Center",
+    "address": "Bonifacio Global City, Taguig",
+    "latitude": 14.5526,
+    "longitude": 121.0489
+  },
+  {
+    "id": "venue-smx-convention-center",
+    "name": "SMX Convention Center",
+    "address": "Mall of Asia Complex, Pasay City",
+    "latitude": 14.5320,
+    "longitude": 120.9816
+  },
+  {
+    "id": "venue-makati-conference-hall",
+    "name": "Makati Conference Hall",
+    "address": "Makati Central Business District, Makati City",
+    "latitude": 14.5547,
+    "longitude": 121.0244
+  },
+  {
+    "id": "venue-ortigas-tech-hub",
+    "name": "Ortigas Tech Hub",
+    "address": "Ortigas Center, Pasig City",
+    "latitude": 14.5871,
+    "longitude": 121.0613
+  }
+]

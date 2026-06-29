@@ -68,6 +68,64 @@ final class DefaultFetchEventsUseCase: FetchEventsUseCase {
     }
 }
 
+protocol FetchMovieShowingsUseCase {
+    func execute() -> [MovieShowing]
+}
+
+// module 6 local fetch client
+// this can be replaced with a remote schedule client without changing the viewmodel
+final class MockMovieShowingAPIClient: MovieShowingFetching {
+    private let showings: [MovieShowing]
+
+    init(showings: [MovieShowing] = SeedData.showings) {
+        self.showings = showings
+    }
+
+    func fetchMovieShowings() -> [MovieShowing] {
+        showings
+    }
+}
+
+final class DefaultFetchMovieShowingsUseCase: FetchMovieShowingsUseCase {
+    private let showingFetcher: MovieShowingFetching
+
+    init(showingFetcher: MovieShowingFetching) {
+        self.showingFetcher = showingFetcher
+    }
+
+    func execute() -> [MovieShowing] {
+        showingFetcher.fetchMovieShowings()
+    }
+}
+
+protocol FetchEventShowingsUseCase {
+    func execute() -> [EventShowing]
+}
+
+final class MockEventShowingAPIClient: EventShowingFetching {
+    private let showings: [EventShowing]
+
+    init(showings: [EventShowing] = SeedData.eventShowings) {
+        self.showings = showings
+    }
+
+    func fetchEventShowings() -> [EventShowing] {
+        showings
+    }
+}
+
+final class DefaultFetchEventShowingsUseCase: FetchEventShowingsUseCase {
+    private let showingFetcher: EventShowingFetching
+
+    init(showingFetcher: EventShowingFetching) {
+        self.showingFetcher = showingFetcher
+    }
+
+    func execute() -> [EventShowing] {
+        showingFetcher.fetchEventShowings()
+    }
+}
+
 protocol FetchBookingsUseCase {
     var didChangeNotification: Notification.Name { get }
     func execute(showCancelled: Bool) -> [Booking]
@@ -106,6 +164,22 @@ final class DefaultConfirmBookingUseCase: ConfirmBookingUseCase {
     }
 }
 
+protocol ConfirmEventBookingUseCase {
+    func execute(draft: EventBookingDraft, owner: UserProfile) -> Booking
+}
+
+final class DefaultConfirmEventBookingUseCase: ConfirmEventBookingUseCase {
+    private let bookingManager: BookingManaging
+
+    init(bookingManager: BookingManaging) {
+        self.bookingManager = bookingManager
+    }
+
+    func execute(draft: EventBookingDraft, owner: UserProfile) -> Booking {
+        bookingManager.addBooking(from: draft, owner: owner)
+    }
+}
+
 enum TicketTransferError: LocalizedError {
     case invalidEmail
     case accountNotFound
@@ -124,7 +198,7 @@ enum TicketTransferError: LocalizedError {
         case .bookingNotConfirmed:
             return "Cancelled bookings cannot share tickets."
         case .seatNotFound:
-            return "That seat ticket is not part of this booking."
+            return "That ticket is not part of this booking."
         }
     }
 }

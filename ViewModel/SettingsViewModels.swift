@@ -91,6 +91,11 @@ final class SettingsViewModel {
                 day: "June 25, 2026 (Thursday)",
                 title: "Interactive cinema pins and showtime shortcuts",
                 details: "Added MapKit pin callout info buttons, a Cinema Details screen, assigned cinema schedules, grouped showtimes by movie and date, added tappable showtime chips that open movie detail with the date and time preselected, made movie detail list all showtimes instead of three fixed buttons, restored the stock Apple Maps red pin, and kept assigned-cinema-only booking"
+            ),
+            SettingsChangelogEntry(
+                day: "June 29, 2026 (Monday)",
+                title: "Unified Showings filters and event booking",
+                details: "Unified Movies, Concerts, and Seminars filters, added assigned cinema and venue filters, added coordinate-backed event venues and live schedules, enabled concert/seminar ticket quantity booking without seats, saved events with movie bookings, added reminders/sharing/cancellation/history, added event venue map pins and details, installed the app icon, and expanded tests"
             )
         ]
     }

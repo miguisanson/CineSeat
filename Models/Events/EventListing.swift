@@ -17,7 +17,7 @@ struct EventListing: Codable, Equatable, Identifiable {
     let isComingSoon: Bool
 
     var statusText: String {
-        isComingSoon ? "COMING SOON" : "VIEW"
+        "BOOK"
     }
 
     var detailText: String {

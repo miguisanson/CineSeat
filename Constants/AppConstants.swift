@@ -8,6 +8,7 @@ enum AppConstants {
         static let defaultFee: Double = 35
         static let standardTicketPrice: Double = 350
         static let vipTicketPrice: Double = 550
+        static let maximumEventTickets = 10
     }
 
     enum Notifications {

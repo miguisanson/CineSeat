@@ -471,11 +471,11 @@ final class ConfirmationViewController: ScrollableViewController {
 
         let details = UIStackView()
         details.axis = .vertical
-        details.addArrangedSubview(makeInfoRow(label: "Movie", value: booking.movie.title))
+        details.addArrangedSubview(makeInfoRow(label: booking.item.categoryTitle, value: booking.title))
         details.addArrangedSubview(makeInfoRow(label: "Date", value: booking.dateSummary))
         details.addArrangedSubview(makeInfoRow(label: "Showtime", value: booking.showtime))
-        details.addArrangedSubview(makeInfoRow(label: "Cinema", value: booking.cinema))
-        details.addArrangedSubview(makeInfoRow(label: "Seats", value: booking.seats.joined(separator: ", ")))
+        details.addArrangedSubview(makeInfoRow(label: booking.locationLabel, value: booking.locationName))
+        details.addArrangedSubview(makeInfoRow(label: booking.ticketLabel, value: booking.ticketIdentifiers.joined(separator: ", ")))
         details.addArrangedSubview(makeInfoRow(label: "Ticket owners", value: booking.ticketAssignmentSummary))
         details.addArrangedSubview(makeInfoRow(label: "Total paid", value: CineSeatTheme.money(booking.total)))
         contentStack.addArrangedSubview(makeCard(with: details))
@@ -494,9 +494,9 @@ final class ConfirmationViewController: ScrollableViewController {
         viewBookingsButton.addTarget(self, action: #selector(viewBookingsTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(viewBookingsButton)
 
-        let backToMoviesButton = CineSeatTheme.secondaryButton(title: "Back to Movies")
-        backToMoviesButton.addTarget(self, action: #selector(backToMoviesTapped), for: .touchUpInside)
-        contentStack.addArrangedSubview(backToMoviesButton)
+        let backToShowingsButton = CineSeatTheme.secondaryButton(title: "Back to Showings")
+        backToShowingsButton.addTarget(self, action: #selector(backToShowingsTapped), for: .touchUpInside)
+        contentStack.addArrangedSubview(backToShowingsButton)
     }
 
     @objc private func demoReminderTapped() {
@@ -518,9 +518,9 @@ final class ConfirmationViewController: ScrollableViewController {
     }
 
     @objc private func shareTicketTapped() {
-        let assignments = booking.ticketAssignments.sorted { $0.seat < $1.seat }
+        let assignments = booking.sortedTicketAssignments
         guard !assignments.isEmpty else {
-            showMessage(title: "No Ticket Owners", message: "This booking does not have seat assignments yet.")
+            showMessage(title: "No Ticket Owners", message: "This booking does not have ticket assignments yet.")
             return
         }
 
@@ -530,8 +530,8 @@ final class ConfirmationViewController: ScrollableViewController {
         }
 
         let alert = UIAlertController(
-            title: "Share Which Seat?",
-            message: "Choose the seat ticket to send to another CineSeat account.",
+            title: booking.isMovieBooking ? "Share Which Seat?" : "Share Which Ticket?",
+            message: "Choose the ticket to send to another CineSeat account.",
             preferredStyle: .actionSheet
         )
 
@@ -556,7 +556,7 @@ final class ConfirmationViewController: ScrollableViewController {
 
     private func promptForRecipientEmail(seat: String) {
         let alert = UIAlertController(
-            title: "Share Seat \(seat)",
+            title: "Share \(seat)",
             message: "Enter the email of an existing CineSeat account.",
             preferredStyle: .alert
         )
@@ -590,7 +590,7 @@ final class ConfirmationViewController: ScrollableViewController {
             reloadInterface()
             showMessage(
                 title: "Ticket Shared",
-                message: "Seat \(seat) is now assigned to \(AccountValidation.normalizedEmail(recipientEmail))."
+                message: "\(seat) is now assigned to \(AccountValidation.normalizedEmail(recipientEmail))."
             )
         } catch {
             showMessage(title: "Could Not Share Ticket", message: error.localizedDescription)
@@ -617,7 +617,7 @@ final class ConfirmationViewController: ScrollableViewController {
         (tabBarController.selectedViewController as? UINavigationController)?.popToRootViewController(animated: false)
     }
 
-    @objc private func backToMoviesTapped() {
+    @objc private func backToShowingsTapped() {
         navigationController?.popToRootViewController(animated: true)
     }
 }

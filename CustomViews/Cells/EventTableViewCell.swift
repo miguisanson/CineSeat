@@ -1,7 +1,7 @@
 import UIKit
 
 // module 2 reusable event cell
-// event browsing has its own cell so movie booking labels stay simple
+// event listings have their own cell so ticket labels stay clear
 final class EventTableViewCell: UITableViewCell {
     static let reuseIdentifier = "EventTableViewCell"
 

@@ -7,9 +7,31 @@ struct SeedDataDTO: Decodable {
     let movies: [Movie]
     let concerts: [EventListing]
     let seminars: [EventListing]
+    let eventVenues: [EventVenue]
+    let eventShowings: [EventShowingDTO]
     let showings: [ShowingDTO]
     let bookings: [BookingDTO]
     let profileAccounts: [ProfileAccountDTO]
+}
+
+struct EventShowingDTO: Decodable {
+    let id: String
+    let eventID: String
+    let schedules: [EventScheduleDTO]
+}
+
+struct EventScheduleDTO: Decodable {
+    let id: String
+    let daysFromToday: Int
+    let times: [EventTimeDTO]
+}
+
+struct EventTimeDTO: Decodable {
+    let id: String
+    let time: String
+    let venueID: String
+    let ticketPrice: Double
+    let capacity: Int
 }
 
 struct ShowingDTO: Decodable {

@@ -6,6 +6,8 @@ enum SeedDataError: LocalizedError {
     case missingJSON(String)
     case missingMovie(String)
     case missingCinema(Int)
+    case missingEvent(String)
+    case missingEventVenue(String)
 
     var errorDescription: String? {
         switch self {
@@ -15,6 +17,10 @@ enum SeedDataError: LocalizedError {
             return "Missing movie in seed json: \(title)"
         case .missingCinema(let id):
             return "Missing cinema in seed json: \(id)"
+        case .missingEvent(let id):
+            return "Missing event in seed json: \(id)"
+        case .missingEventVenue(let id):
+            return "Missing event venue in seed json: \(id)"
         }
     }
 }

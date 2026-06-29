@@ -1,0 +1,267 @@
+[
+  {
+    "id": "concert-001-showing",
+    "eventID": "concert-001",
+    "schedules": [
+      {
+        "id": "concert-001-date-1",
+        "daysFromToday": 1,
+        "times": [
+          { "id": "concert-001-time-1", "time": "7:30 PM", "venueID": "venue-philippine-arena", "ticketPrice": 4500, "capacity": 50000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-002-showing",
+    "eventID": "concert-002",
+    "schedules": [
+      {
+        "id": "concert-002-date-1",
+        "daysFromToday": 2,
+        "times": [
+          { "id": "concert-002-time-1", "time": "7:00 PM", "venueID": "venue-new-clark-stadium", "ticketPrice": 3800, "capacity": 20000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-003-showing",
+    "eventID": "concert-003",
+    "schedules": [
+      {
+        "id": "concert-003-date-1",
+        "daysFromToday": 3,
+        "times": [
+          { "id": "concert-003-time-1", "time": "8:00 PM", "venueID": "venue-moa-arena", "ticketPrice": 5200, "capacity": 15000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-004-showing",
+    "eventID": "concert-004",
+    "schedules": [
+      {
+        "id": "concert-004-date-1",
+        "daysFromToday": 4,
+        "times": [
+          { "id": "concert-004-time-1", "time": "7:30 PM", "venueID": "venue-araneta-coliseum", "ticketPrice": 4200, "capacity": 14000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-005-showing",
+    "eventID": "concert-005",
+    "schedules": [
+      {
+        "id": "concert-005-date-1",
+        "daysFromToday": 5,
+        "times": [
+          { "id": "concert-005-time-1", "time": "7:00 PM", "venueID": "venue-smdc-festival-grounds", "ticketPrice": 3200, "capacity": 18000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-006-showing",
+    "eventID": "concert-006",
+    "schedules": [
+      {
+        "id": "concert-006-date-1",
+        "daysFromToday": 6,
+        "times": [
+          { "id": "concert-006-time-1", "time": "8:00 PM", "venueID": "venue-philippine-arena", "ticketPrice": 4800, "capacity": 50000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-007-showing",
+    "eventID": "concert-007",
+    "schedules": [
+      {
+        "id": "concert-007-date-1",
+        "daysFromToday": 7,
+        "times": [
+          { "id": "concert-007-time-1", "time": "6:30 PM", "venueID": "venue-circuit-makati", "ticketPrice": 1800, "capacity": 5000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-008-showing",
+    "eventID": "concert-008",
+    "schedules": [
+      {
+        "id": "concert-008-date-1",
+        "daysFromToday": 1,
+        "times": [
+          { "id": "concert-008-time-1", "time": "7:00 PM", "venueID": "venue-ccp", "ticketPrice": 2200, "capacity": 1800 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-009-showing",
+    "eventID": "concert-009",
+    "schedules": [
+      {
+        "id": "concert-009-date-1",
+        "daysFromToday": 2,
+        "times": [
+          { "id": "concert-009-time-1", "time": "6:00 PM", "venueID": "venue-metropolitan-theater", "ticketPrice": 2000, "capacity": 1600 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-010-showing",
+    "eventID": "concert-010",
+    "schedules": [
+      {
+        "id": "concert-010-date-1",
+        "daysFromToday": 3,
+        "times": [
+          { "id": "concert-010-time-1", "time": "7:30 PM", "venueID": "venue-solaire-theater", "ticketPrice": 6500, "capacity": 1700 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-011-showing",
+    "eventID": "concert-011",
+    "schedules": [
+      {
+        "id": "concert-011-date-1",
+        "daysFromToday": 4,
+        "times": [
+          { "id": "concert-011-time-1", "time": "2:00 PM", "venueID": "venue-theatre-at-solaire", "ticketPrice": 5800, "capacity": 1700 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-012-showing",
+    "eventID": "concert-012",
+    "schedules": [
+      {
+        "id": "concert-012-date-1",
+        "daysFromToday": 5,
+        "times": [
+          { "id": "concert-012-time-1", "time": "2:00 PM", "venueID": "venue-filinvest-events-grounds", "ticketPrice": 2800, "capacity": 12000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-013-showing",
+    "eventID": "concert-013",
+    "schedules": [
+      {
+        "id": "concert-013-date-1",
+        "daysFromToday": 6,
+        "times": [
+          { "id": "concert-013-time-1", "time": "8:00 PM", "venueID": "venue-samsung-theater", "ticketPrice": 1600, "capacity": 1500 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-014-showing",
+    "eventID": "concert-014",
+    "schedules": [
+      {
+        "id": "concert-014-date-1",
+        "daysFromToday": 7,
+        "times": [
+          { "id": "concert-014-time-1", "time": "6:00 PM", "venueID": "venue-moa-arena", "ticketPrice": 3600, "capacity": 15000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concert-015-showing",
+    "eventID": "concert-015",
+    "schedules": [
+      {
+        "id": "concert-015-date-1",
+        "daysFromToday": 1,
+        "times": [
+          { "id": "concert-015-time-1", "time": "8:30 PM", "venueID": "venue-music-museum", "ticketPrice": 1200, "capacity": 700 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seminar-001-showing",
+    "eventID": "seminar-001",
+    "schedules": [
+      {
+        "id": "seminar-001-date-1",
+        "daysFromToday": 2,
+        "times": [
+          { "id": "seminar-001-time-1", "time": "9:00 AM", "venueID": "venue-ateneo-innovation-center", "ticketPrice": 1200, "capacity": 120 },
+          { "id": "seminar-001-time-2", "time": "1:30 PM", "venueID": "venue-ateneo-innovation-center", "ticketPrice": 1200, "capacity": 120 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seminar-002-showing",
+    "eventID": "seminar-002",
+    "schedules": [
+      {
+        "id": "seminar-002-date-1",
+        "daysFromToday": 3,
+        "times": [
+          { "id": "seminar-002-time-1", "time": "10:00 AM", "venueID": "venue-bgc-corporate-center", "ticketPrice": 1500, "capacity": 180 },
+          { "id": "seminar-002-time-2", "time": "2:00 PM", "venueID": "venue-bgc-corporate-center", "ticketPrice": 1500, "capacity": 180 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seminar-003-showing",
+    "eventID": "seminar-003",
+    "schedules": [
+      {
+        "id": "seminar-003-date-1",
+        "daysFromToday": 4,
+        "times": [
+          { "id": "seminar-003-time-1", "time": "9:30 AM", "venueID": "venue-smx-convention-center", "ticketPrice": 1800, "capacity": 500 },
+          { "id": "seminar-003-time-2", "time": "2:30 PM", "venueID": "venue-smx-convention-center", "ticketPrice": 1800, "capacity": 500 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seminar-004-showing",
+    "eventID": "seminar-004",
+    "schedules": [
+      {
+        "id": "seminar-004-date-1",
+        "daysFromToday": 5,
+        "times": [
+          { "id": "seminar-004-time-1", "time": "10:00 AM", "venueID": "venue-makati-conference-hall", "ticketPrice": 1000, "capacity": 220 },
+          { "id": "seminar-004-time-2", "time": "3:00 PM", "venueID": "venue-makati-conference-hall", "ticketPrice": 1000, "capacity": 220 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seminar-005-showing",
+    "eventID": "seminar-005",
+    "schedules": [
+      {
+        "id": "seminar-005-date-1",
+        "daysFromToday": 6,
+        "times": [
+          { "id": "seminar-005-time-1", "time": "9:00 AM", "venueID": "venue-ortigas-tech-hub", "ticketPrice": 900, "capacity": 150 },
+          { "id": "seminar-005-time-2", "time": "1:00 PM", "venueID": "venue-ortigas-tech-hub", "ticketPrice": 900, "capacity": 150 }
+        ]
+      }
+    ]
+  }
+]

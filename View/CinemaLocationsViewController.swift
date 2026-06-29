@@ -10,6 +10,7 @@ final class CinemaLocationsViewController: UIViewController {
     private let headerStack = UIStackView()
     private let titleLabel = UILabel()
     private let countLabel = UILabel()
+    private let categorySegmentedControl = UISegmentedControl()
     private let mapView = MKMapView()
     private let zoomButtonStack = UIStackView()
     private let zoomInButton = UIButton(type: .system)
@@ -20,7 +21,7 @@ final class CinemaLocationsViewController: UIViewController {
         title = "Locations"
         view.backgroundColor = CineSeatTheme.background
         buildInterface()
-        addCinemaPins()
+        reloadLocations()
     }
 
     private func buildInterface() {
@@ -33,13 +34,21 @@ final class CinemaLocationsViewController: UIViewController {
         titleLabel.textColor = CineSeatTheme.primaryText
         titleLabel.numberOfLines = 0
 
-        countLabel.text = viewModel.cinemaCountText
+        countLabel.text = viewModel.countText
         countLabel.font = CineSeatFont.caption
         countLabel.textColor = CineSeatTheme.mutedText
         countLabel.numberOfLines = 0
 
         headerStack.addArrangedSubview(titleLabel)
         headerStack.addArrangedSubview(countLabel)
+
+        for (index, category) in viewModel.categories.enumerated() {
+            categorySegmentedControl.insertSegment(withTitle: category.title, at: index, animated: false)
+        }
+        categorySegmentedControl.selectedSegmentIndex = viewModel.selectedCategory.rawValue
+        categorySegmentedControl.addTarget(self, action: #selector(locationCategoryChanged(_:)), for: .valueChanged)
+        categorySegmentedControl.accessibilityIdentifier = "locationCategoryFilter"
+        headerStack.addArrangedSubview(categorySegmentedControl)
 
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.delegate = self
@@ -114,15 +123,27 @@ final class CinemaLocationsViewController: UIViewController {
         mapView.setRegion(MKCoordinateRegion(center: currentRegion.center, span: span), animated: true)
     }
 
-    private func addCinemaPins() {
-        let annotations = viewModel.mappedCinemas.compactMap { cinema -> CinemaAnnotation? in
-            guard let location = cinema.location else { return nil }
-            let annotation = CinemaAnnotation(cinemaID: cinema.id)
-            annotation.title = cinema.name
-            annotation.subtitle = "\(cinema.type.rawValue) - \(location.address)"
+    @objc private func locationCategoryChanged(_ sender: UISegmentedControl) {
+        viewModel.selectCategory(at: sender.selectedSegmentIndex)
+        reloadLocations()
+    }
+
+    private func reloadLocations() {
+        titleLabel.text = viewModel.titleText
+        countLabel.text = viewModel.countText
+        mapView.removeAnnotations(mapView.annotations)
+        addLocationPins()
+    }
+
+    private func addLocationPins() {
+        let annotations = viewModel.mapItems.compactMap { item -> LocationAnnotation? in
+            guard let latitude = item.latitude, let longitude = item.longitude else { return nil }
+            let annotation = LocationAnnotation(itemID: item.id, category: viewModel.selectedCategory)
+            annotation.title = item.title
+            annotation.subtitle = item.subtitle
             annotation.coordinate = CLLocationCoordinate2D(
-                latitude: location.latitude,
-                longitude: location.longitude
+                latitude: latitude,
+                longitude: longitude
             )
             return annotation
         }
@@ -144,18 +165,20 @@ final class CinemaLocationsViewController: UIViewController {
     }
 }
 
-private final class CinemaAnnotation: MKPointAnnotation {
-    let cinemaID: Int
+private final class LocationAnnotation: MKPointAnnotation {
+    let itemID: String
+    let category: LocationCategory
 
-    init(cinemaID: Int) {
-        self.cinemaID = cinemaID
+    init(itemID: String, category: LocationCategory) {
+        self.itemID = itemID
+        self.category = category
         super.init()
     }
 }
 
 extension CinemaLocationsViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is CinemaAnnotation else { return nil }
+        guard let locationAnnotation = annotation as? LocationAnnotation else { return nil }
 
         let reuseIdentifier = "CinemaPin"
         let view = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? MKMarkerAnnotationView
@@ -164,7 +187,7 @@ extension CinemaLocationsViewController: MKMapViewDelegate {
         view.annotation = annotation
         view.canShowCallout = true
         // stock Apple Maps red pin/marker look
-        view.markerTintColor = .systemRed
+        view.markerTintColor = locationAnnotation.category == .cinemas ? .systemRed : .systemOrange
         view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         return view
     }
@@ -174,14 +197,22 @@ extension CinemaLocationsViewController: MKMapViewDelegate {
         annotationView view: MKAnnotationView,
         calloutAccessoryControlTapped control: UIControl
     ) {
-        guard let annotation = view.annotation as? CinemaAnnotation,
-              let cinema = viewModel.cinema(id: annotation.cinemaID) else {
+        guard let annotation = view.annotation as? LocationAnnotation,
+              let item = viewModel.item(id: annotation.itemID) else {
             return
         }
 
-        navigationController?.pushViewController(
-            factory.makeCinemaDetailViewController(cinema: cinema),
-            animated: true
-        )
+        switch item {
+        case .cinema(let cinema):
+            navigationController?.pushViewController(
+                factory.makeCinemaDetailViewController(cinema: cinema),
+                animated: true
+            )
+        case .eventVenue(let venue):
+            navigationController?.pushViewController(
+                factory.makeEventVenueDetailViewController(venue: venue),
+                animated: true
+            )
+        }
     }
 }

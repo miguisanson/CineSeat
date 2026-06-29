@@ -19,6 +19,14 @@ enum SeedData {
         store.seminars
     }
 
+    static var eventVenues: [EventVenue] {
+        store.eventVenues
+    }
+
+    static var eventShowings: [EventShowing] {
+        store.eventShowings
+    }
+
     static var showings: [MovieShowing] {
         store.showings
     }
@@ -50,6 +58,17 @@ enum SeedData {
         case .seminar:
             return seminars
         }
+    }
+
+    static func eventShowings(for event: EventListing) -> [EventShowing] {
+        eventShowings.filter { $0.eventID == event.id }
+    }
+
+    static func events(at venue: EventVenue) -> [EventListing] {
+        let eventIDs = Set(eventShowings.compactMap { showing -> String? in
+            showing.allTimes.contains { $0.time.venue.id == venue.id } ? showing.eventID : nil
+        })
+        return (concerts + seminars).filter { eventIDs.contains($0.id) }
     }
 
     private static let store = SeedDataStore.load()

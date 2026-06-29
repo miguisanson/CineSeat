@@ -6,6 +6,37 @@ enum SeedDataMapper {
     static func makeStore(from dto: SeedDataDTO) throws -> SeedDataStore {
         let cinemaByID = Dictionary(uniqueKeysWithValues: dto.cinemas.map { ($0.id, $0) })
         let movieByTitle = Dictionary(uniqueKeysWithValues: dto.movies.map { ($0.title, $0) })
+        let eventByID = Dictionary(uniqueKeysWithValues: (dto.concerts + dto.seminars).map { ($0.id, $0) })
+        let eventVenueByID = Dictionary(uniqueKeysWithValues: dto.eventVenues.map { ($0.id, $0) })
+
+        let mappedEventShowings = try dto.eventShowings.map { showing -> EventShowing in
+            guard eventByID[showing.eventID] != nil else {
+                throw SeedDataError.missingEvent(showing.eventID)
+            }
+
+            let schedules = try showing.schedules.map { schedule -> EventSchedule in
+                let times = try schedule.times.map { time -> EventTime in
+                    guard let venue = eventVenueByID[time.venueID] else {
+                        throw SeedDataError.missingEventVenue(time.venueID)
+                    }
+                    return EventTime(
+                        id: time.id,
+                        showtime: time.time,
+                        venue: venue,
+                        ticketPrice: time.ticketPrice,
+                        capacity: time.capacity
+                    )
+                }
+
+                return EventSchedule(
+                    id: schedule.id,
+                    date: CineSeatDateFormatters.dateFromToday(daysFromToday: schedule.daysFromToday),
+                    times: times
+                )
+            }
+
+            return EventShowing(id: showing.id, eventID: showing.eventID, schedules: schedules)
+        }
 
         let mappedShowings = try dto.showings.map { showing -> MovieShowing in
             let schedules = try showing.schedules.map { schedule -> ShowingSchedule in
@@ -72,6 +103,8 @@ enum SeedDataMapper {
             movies: dto.movies,
             concerts: dto.concerts,
             seminars: dto.seminars,
+            eventVenues: dto.eventVenues,
+            eventShowings: mappedEventShowings,
             showings: mappedShowings,
             bookings: mappedBookings,
             profileAccounts: mappedAccounts
