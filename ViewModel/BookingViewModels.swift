@@ -81,7 +81,7 @@ final class MovieScheduleViewModel {
 
     init(movie: Movie, showings: [MovieShowing]? = nil, preselectedTimeID: String? = nil) {
         self.movie = movie
-        self.showings = showings ?? SeedData.showings(for: movie)
+        self.showings = showings ?? AppCatalog.showings(for: movie)
 
         guard movie.isNowPlaying else { return }
 

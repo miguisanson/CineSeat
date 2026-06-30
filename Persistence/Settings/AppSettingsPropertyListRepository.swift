@@ -1,7 +1,7 @@
 import Foundation
 
 // module 5 plist repository
-// bundle plist seeds documents plist so settings can be edited and saved
+// bundle defaults initialize the documents plist so settings can be edited and saved
 final class AppSettingsPropertyListRepository {
     private let fileManager: FileManager
     private let bundle: Bundle

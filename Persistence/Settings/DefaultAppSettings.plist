@@ -6,9 +6,13 @@
 	<true/>
 	<key>bookingRemindersEnabled</key>
 	<true/>
-	<key>demoNotificationsEnabled</key>
-	<true/>
+	<key>developerModeEnabled</key>
+	<false/>
+	<key>simulateReviewEligibility</key>
+	<false/>
+	<key>testNotificationsEnabled</key>
+	<false/>
 	<key>settingsVersion</key>
-	<string>2026.06.22</string>
+	<string>2026.06.30</string>
 </dict>
 </plist>

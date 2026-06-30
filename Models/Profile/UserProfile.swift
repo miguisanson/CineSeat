@@ -14,7 +14,7 @@ struct UserProfile: Codable, Equatable, Identifiable {
             .split(separator: " ")
             .prefix(2)
             .compactMap(\.first)
-        return letters.isEmpty ? "CS" : String(letters).uppercased()
+        return letters.isEmpty ? "TP" : String(letters).uppercased()
     }
 
     var memberSinceText: String {

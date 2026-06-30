@@ -24,7 +24,11 @@ enum AppConstants {
         ]
         static let reminderIdentifierPrefix = "cineseat-reminder-"
         static let cancellationIdentifierPrefix = "cineseat-cancelled-"
-        static let demoIdentifierPrefix = "cineseat-demo-"
-        static let demoDelay: TimeInterval = 5
+        static let developerTestIdentifierPrefix = "cineseat-developer-test-"
+        static let developerTestDelay: TimeInterval = 5
+    }
+
+    enum Reviews {
+        static let fallbackShowingDuration: TimeInterval = 2 * 60 * 60
     }
 }

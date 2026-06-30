@@ -14,10 +14,11 @@ final class MovieDetailViewController: ScrollableViewController {
     private lazy var reviewSubject = ReviewSubject(movie: movie)
     private lazy var reviewsViewModel = factory.makeReviewsViewModel(subject: reviewSubject)
     // time buttons are generated from the schedule so every showtime is listed
-    // each time already has the cinema assigned in seed data
+    // each time already has the cinema assigned in the local catalog
     private let datePicker = UIDatePicker()
     private let timesStack = UIStackView()
     private let assignedCinemaLabel = UILabel()
+    private let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews")
     private var selectSeatsButton: UIButton!
 
     override func viewDidLoad() {
@@ -25,6 +26,12 @@ final class MovieDetailViewController: ScrollableViewController {
         title = "Movie Detail"
         buildInterface()
         updateScheduleViews()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reviewsViewModel.reload()
+        updateReviewsButton()
     }
 
     private func buildInterface() {
@@ -58,7 +65,6 @@ final class MovieDetailViewController: ScrollableViewController {
         synopsisStack.spacing = 7
         contentStack.addArrangedSubview(makeCard(with: synopsisStack))
 
-        let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews (\(reviewsViewModel.reviews.count))")
         reviewsButton.accessibilityIdentifier = "movieReviewsButton"
         reviewsButton.addTarget(self, action: #selector(reviewsTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(reviewsButton)
@@ -209,6 +215,10 @@ final class MovieDetailViewController: ScrollableViewController {
             factory.makeReviewsViewController(subject: reviewSubject),
             animated: true
         )
+    }
+
+    private func updateReviewsButton() {
+        reviewsButton.setTitle("READ REVIEWS (\(reviewsViewModel.reviews.count))", for: .normal)
     }
 }
 
@@ -447,7 +457,6 @@ final class BookingSummaryViewController: ScrollableViewController {
 // this shows the final booking details after persistence saves the booking
 final class ConfirmationViewController: ScrollableViewController {
     var booking: Booking!
-    var notificationScheduler: BookingNotificationScheduling?
     var transferTicketUseCase: TransferTicketUseCase?
 
     override func viewDidLoad() {
@@ -500,10 +509,6 @@ final class ConfirmationViewController: ScrollableViewController {
         shareTicketButton.alpha = booking.ticketAssignments.isEmpty ? 0.45 : 1
         contentStack.addArrangedSubview(shareTicketButton)
 
-        let demoReminderButton = CineSeatTheme.secondaryButton(title: "Demo Local Reminder")
-        demoReminderButton.addTarget(self, action: #selector(demoReminderTapped), for: .touchUpInside)
-        contentStack.addArrangedSubview(demoReminderButton)
-
         let viewBookingsButton = CineSeatTheme.primaryButton(title: "View My Bookings")
         viewBookingsButton.addTarget(self, action: #selector(viewBookingsTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(viewBookingsButton)
@@ -511,24 +516,6 @@ final class ConfirmationViewController: ScrollableViewController {
         let backToShowingsButton = CineSeatTheme.secondaryButton(title: "Back to Showings")
         backToShowingsButton.addTarget(self, action: #selector(backToShowingsTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(backToShowingsButton)
-    }
-
-    @objc private func demoReminderTapped() {
-        // schedules a 5 second local notification so it can be shown during presentation
-        notificationScheduler?.scheduleDemoReminder(for: booking) { [weak self] scheduled in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                let alert = UIAlertController(
-                    title: scheduled ? "Demo Reminder Set" : "Notifications Disabled",
-                    message: scheduled
-                        ? "Wait about 5 seconds. The local notification banner should appear from the top of the screen."
-                        : "Allow notifications for \(AppConstants.Brand.name) in Settings to show the local reminder demo.",
-                    preferredStyle: .alert
-                )
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alert, animated: true)
-            }
-        }
     }
 
     @objc private func shareTicketTapped() {

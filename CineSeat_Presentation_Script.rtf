@@ -1,16 +1,16 @@
 {\rtf1\ansi\deff0
 {\fonttbl{\f0 Arial;}}
 \f0\fs24
-\b CineSeat Presentation Script\b0\par
+\b TicketPlease Presentation Script\b0\par
 \par
 \b 1. TMDB Poster Integration\b0\par
-CineSeat uses direct TMDB image CDN links for movie posters. It does not use the full TMDB API yet, so there is no API key required in the current version.\par
+TicketPlease uses direct TMDB image CDN links as movie poster fallbacks. It does not call the full TMDB API, so no API key is used in the current version.\par
 \par
-Each movie in the Movie model has posterURLString and localPosterName. Concerts and seminars use the EventListing model with the same posterURLString pattern. The starter values are stored in separate JSON files instead of one hardcoded Swift array. Movies.json stores movie details and poster file names, Concerts.json and Seminars.json store non-movie showing examples with online poster URLs, Cinemas.json stores cinema prices and locations, Showings.json stores movie schedules, Bookings.json is kept empty so the launch app has no fake booking history, and ProfileAccounts.json stores the starter Michael profile. When a showing is displayed in a cell or detail screen, the app passes the local poster name and URL to PosterPlaceholderView.\par
+Each movie has posterURLString and localPosterName. Concerts and seminars use the same poster fields through EventListing. Content is stored in separate catalog JSON files instead of one Swift array. Movies.json stores movie details and poster names, Concerts.json and Seminars.json store event content, Cinemas.json and EventVenues.json store locations, and the showing files store schedules. Accounts, bookings, and reviews are not bundled; users create them at runtime. A cell or detail screen passes the local poster name and URL to PosterPlaceholderView.\par
 \par
 PosterPlaceholderView handles the loading. First, it checks the bundled PosterImages folder using FileManager, so posters still work offline. If the bundled image is missing, it checks the app cache. If it is not cached, URLSession downloads the image online. After downloading, the image data is saved inside the app Caches directory in a PosterCache folder, then shown in a UIImageView.\par
 \par
-So the flow is: Movies.json has movie poster names and URLs, Concerts.json and Seminars.json have online poster URLs, SeedDataStore decodes the split JSON files, the mapper connects movie, cinema, schedule, booking, and profile data, the cell or detail screen calls loadPoster, PosterImages is used first when available, and URLSession plus FileManager cache is the online fallback.\par
+So the flow is: catalog JSON stores poster names and URLs, CatalogStore copies and decodes the files, CatalogMapper connects content and schedule IDs, the screen calls loadPoster, PosterImages is used first, and URLSession plus the FileManager cache is the online fallback.\par
 \par
 \b 2. Constraints and Scalable Layout\b0\par
 The app is made scalable using Auto Layout, safe area constraints, scroll views, table views, and stack views.\par
@@ -28,7 +28,7 @@ UserDefaults stores simple app preferences such as the selected movie category, 
 \par
 Bookings are stored using BookingFileRepository. It uses FileManager to find the Documents directory, then saves bookings to bookings.json using JSONEncoder. When the app opens, JSONDecoder reads the saved bookings back into the app. Each booking can also store TicketAssignment rows, so one purchased seat can be assigned to another existing account by email.\par
 \par
-Profiles are stored in profiles.json using the same Codable and FileManager approach. Passwords are not saved in JSON. They are stored separately in the iOS Keychain through KeychainPasswordStore, which uses SecItemAdd, SecItemCopyMatching, and SecItemDelete.\par
+Profiles are stored in profiles.json using the same Codable and FileManager approach. Reviews are created only after a confirmed showing finishes and are stored in reviews.json, with one editable review per account and item. Passwords are not saved in JSON. They are stored separately in the iOS Keychain through KeychainPasswordStore, which uses SecItemAdd, SecItemCopyMatching, and SecItemDelete.\par
 \par
 This shows simple preferences, save and retrieve data, Codable models, file writing and reading, and secure password storage.\par
 \par
@@ -42,5 +42,5 @@ Protocol-based dependency injection is shown through protocols such as MovieFetc
 AppFactory is the composition root. It creates view controllers and view models, then injects the dependencies they need. The app still uses a few singletons, such as AppFactory.shared, AppPreferences.shared, BookingStore.shared, and AuthenticationService.shared, but they are kept at the app-service level.\par
 \par
 \b Short Closing\b0\par
-Overall, CineSeat applies UIKit, MVVM, persistence, protocol-based dependency injection, MapKit cinema locations, and scalable Auto Layout. The Showings tab now separates Movies, Concerts, and Seminars. Movie posters are bundled for offline use, with TMDB image links kept as a fallback source, while event examples use online poster URLs. User data is stored with JSON files and Keychain. The app keeps the structure straightforward while still showing the main module concepts.\par
+Overall, TicketPlease applies UIKit, MVVM, persistence, protocol-based dependency injection, MapKit locations, and scalable Auto Layout. The Showings tab separates Movies, Concerts, and Seminars. Movie posters are bundled for offline use, with TMDB image links as fallback sources. User-created profiles, bookings, and reviews use separate JSON files, while passwords use Keychain.\par
 }

@@ -222,6 +222,16 @@ struct Booking: Codable, Equatable {
     var dateSummary: String { schedule.displayDateWithTitle }
     var showtime: String { schedule.showtime }
     var startsAt: Date { schedule.startsAt }
+    var endsAt: Date {
+        let durationText: String
+        switch item {
+        case .movie(let movie): durationText = movie.duration
+        case .event(let event): durationText = event.duration
+        }
+        let duration = ShowingDurationParser.timeInterval(from: durationText)
+            ?? AppConstants.Reviews.fallbackShowingDuration
+        return startsAt.addingTimeInterval(duration)
+    }
     var ticketCount: Int { ticketIdentifiers.count }
     var seats: [String] { isMovieBooking ? ticketIdentifiers : [] }
     var cinema: String { locationName }
@@ -255,7 +265,7 @@ struct Booking: Codable, Equatable {
     }
 
     func isVisible(to email: String) -> Bool {
-        guard !ticketAssignments.isEmpty else { return true }
+        guard !ticketAssignments.isEmpty else { return false }
         let normalizedEmail = AccountValidation.normalizedEmail(email)
         return ticketAssignments.contains { $0.ownerEmail == normalizedEmail }
     }

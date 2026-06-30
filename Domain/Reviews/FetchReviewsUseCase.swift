@@ -1,7 +1,7 @@
 import Foundation
 
-// module 6 review use case
-// filtering and app-average calculation stay outside the screens
+// read-side review use case
+// online scores and local app averages remain separate
 final class DefaultFetchReviewsUseCase: FetchReviewsUseCase {
     private let reviewFetcher: ReviewFetching
 
@@ -9,12 +9,15 @@ final class DefaultFetchReviewsUseCase: FetchReviewsUseCase {
         self.reviewFetcher = reviewFetcher
     }
 
+    var didChangeNotification: Notification.Name {
+        reviewFetcher.didChangeNotification
+    }
+
     func execute(for subject: ReviewSubject) -> [Review] {
         reviewFetcher.fetchReviews()
             .filter { $0.subjectID == subject.id && $0.contentType == subject.contentType }
             .sorted { first, second in
-                if first.daysAgo != second.daysAgo { return first.daysAgo < second.daysAgo }
-                return first.likes > second.likes
+                (first.updatedAt ?? first.createdAt) > (second.updatedAt ?? second.createdAt)
             }
     }
 
@@ -26,17 +29,5 @@ final class DefaultFetchReviewsUseCase: FetchReviewsUseCase {
             appRating: appRating,
             reviewCount: reviews.count
         )
-    }
-}
-
-final class MockReviewAPIClient: ReviewFetching {
-    private let reviews: [Review]
-
-    init(reviews: [Review]) {
-        self.reviews = reviews
-    }
-
-    func fetchReviews() -> [Review] {
-        reviews
     }
 }

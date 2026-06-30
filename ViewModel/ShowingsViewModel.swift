@@ -14,14 +14,14 @@ final class ShowingsViewModel {
     }
 
     convenience init(
-        movies: [Movie] = SeedData.movies,
-        concerts: [EventListing] = SeedData.concerts,
-        seminars: [EventListing] = SeedData.seminars
+        movies: [Movie] = AppCatalog.movies,
+        concerts: [EventListing] = AppCatalog.concerts,
+        seminars: [EventListing] = AppCatalog.seminars
     ) {
         self.init(
-            fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: MockMovieAPIClient(movies: movies)),
+            fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: LocalMovieCatalogClient(movies: movies)),
             fetchEventsUseCase: DefaultFetchEventsUseCase(
-                eventFetcher: MockEventAPIClient(concerts: concerts, seminars: seminars)
+                eventFetcher: LocalEventCatalogClient(concerts: concerts, seminars: seminars)
             )
         )
     }

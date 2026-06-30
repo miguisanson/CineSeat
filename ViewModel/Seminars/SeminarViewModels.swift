@@ -15,15 +15,15 @@ final class SeminarListViewModel: TicketedShowingListViewModeling {
         self.fetchReviewsUseCase = fetchReviewsUseCase
     }
 
-    convenience init(seminars: [Seminar] = SeedData.seminars.compactMap(\.seminar)) {
+    convenience init(seminars: [Seminar] = AppCatalog.seminars.compactMap(\.seminar)) {
         self.init(
             fetchEventsUseCase: DefaultFetchEventsUseCase(
-                eventFetcher: MockEventAPIClient(
-                    concerts: SeedData.concerts,
+                eventFetcher: LocalEventCatalogClient(
+                    concerts: AppCatalog.concerts,
                     seminars: seminars.map(EventListing.seminar)
                 )
             ),
-            fetchReviewsUseCase: DefaultFetchReviewsUseCase(reviewFetcher: BundledReviewRepository())
+            fetchReviewsUseCase: DefaultFetchReviewsUseCase(reviewFetcher: ReviewStore.shared)
         )
     }
 
@@ -31,7 +31,9 @@ final class SeminarListViewModel: TicketedShowingListViewModeling {
     var searchPlaceholder: String { "Search seminars..." }
     var venueFilterTitle: String { selectedVenue ?? "All Venues" }
     var availableVenues: [String] { Array(Set(seminars.map(\.venue))).sorted() }
-    var headerText: String { "\(filteredSeminars.count) seminars - rating \(ratingSortOrder.title.lowercased())" }
+    var headerText: String {
+        "\(filteredSeminars.count) seminars - \(selectedStatusFilter.title.lowercased()) - rating \(ratingSortOrder.title.lowercased())"
+    }
     var ratingSortButtonTitle: String { "rating: \(ratingSortOrder.title.lowercased())" }
     var listings: [EventListing] { filteredSeminars.map(EventListing.seminar) }
 

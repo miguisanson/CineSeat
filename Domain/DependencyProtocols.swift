@@ -38,10 +38,10 @@ protocol BookingManaging: AnyObject {
     var didChangeNotification: Notification.Name { get }
 
     @discardableResult
-    func addBooking(from draft: BookingDraft, owner: UserProfile?) -> Booking
+    func addBooking(from draft: BookingDraft, owner: UserProfile) -> Booking
 
     @discardableResult
-    func addBooking(from draft: EventBookingDraft, owner: UserProfile?) -> Booking
+    func addBooking(from draft: EventBookingDraft, owner: UserProfile) -> Booking
 
     @discardableResult
     func cancelBooking(id: String, reason: BookingCancellationReason) -> Bool
@@ -57,11 +57,6 @@ protocol BookingManaging: AnyObject {
 
 extension BookingManaging {
     @discardableResult
-    func addBooking(from draft: BookingDraft) -> Booking {
-        addBooking(from: draft, owner: nil)
-    }
-
-    @discardableResult
     func cancelBooking(id: String) -> Bool {
         cancelBooking(id: id, reason: .user)
     }
@@ -72,16 +67,15 @@ protocol BookingNotificationScheduling: AnyObject {
     func cancelReminders(for bookingID: String)
     func clearAllNotifications()
     func scheduleCancellationNotice(for booking: Booking, reason: BookingCancellationReason)
-    func scheduleDemoReminder(for booking: Booking, delay: TimeInterval, completion: @escaping (Bool) -> Void)
+    func scheduleDeveloperTestNotification(delay: TimeInterval, completion: @escaping (Bool) -> Void)
 }
 
 extension BookingNotificationScheduling {
-    func scheduleDemoReminder(
-        for booking: Booking,
-        delay: TimeInterval = AppConstants.Notifications.demoDelay,
+    func scheduleDeveloperTestNotification(
+        delay: TimeInterval = AppConstants.Notifications.developerTestDelay,
         completion: @escaping (Bool) -> Void = { _ in }
     ) {
-        scheduleDemoReminder(for: booking, delay: delay, completion: completion)
+        scheduleDeveloperTestNotification(delay: delay, completion: completion)
     }
 }
 

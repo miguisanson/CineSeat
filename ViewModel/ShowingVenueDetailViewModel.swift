@@ -8,7 +8,7 @@ final class ShowingVenueDetailViewModel {
 
     init(
         venue: EventVenue,
-        eventsSource: @escaping (EventVenue) -> [EventListing] = SeedData.events(at:)
+        eventsSource: @escaping (EventVenue) -> [EventListing] = AppCatalog.events(at:)
     ) {
         self.venue = venue
         self.eventsSource = eventsSource

@@ -13,6 +13,7 @@ class TicketedShowingDetailViewController: ScrollableViewController {
     private let quantityLabel = UILabel()
     private let quantityStepper = UIStepper()
     private let priceLabel = UILabel()
+    private let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews")
     private let bookButton = CineSeatTheme.primaryButton(title: "Book Tickets")
     private lazy var reviewSubject = ReviewSubject(event: viewModel.event)
     private lazy var reviewsViewModel = factory.makeReviewsViewModel(subject: reviewSubject)
@@ -22,6 +23,12 @@ class TicketedShowingDetailViewController: ScrollableViewController {
         title = viewModel.event.category.title
         buildInterface()
         updateScheduleViews()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reviewsViewModel.reload()
+        reviewsButton.setTitle("READ REVIEWS (\(reviewsViewModel.reviews.count))", for: .normal)
     }
 
     private func buildInterface() {
@@ -58,7 +65,6 @@ class TicketedShowingDetailViewController: ScrollableViewController {
         details.addArrangedSubview(summaryLabel)
         contentStack.addArrangedSubview(makeCard(with: details))
 
-        let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews (\(reviewsViewModel.reviews.count))")
         reviewsButton.accessibilityIdentifier = "ticketedShowingReviewsButton"
         reviewsButton.addTarget(self, action: #selector(reviewsTapped), for: .touchUpInside)
         contentStack.addArrangedSubview(reviewsButton)

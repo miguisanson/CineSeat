@@ -29,18 +29,14 @@ final class BookingStore: BookingManaging {
             self.bookings = bookings
         } else if let persistence,
                   let savedBookings = try? persistence.loadBookings() {
-            let realBookings = savedBookings.filter { !SeedData.seedBookingIDs.contains($0.id) }
-            self.bookings = realBookings
-            if realBookings.count != savedBookings.count {
-                try? persistence.saveBookings(realBookings)
-            }
+            self.bookings = savedBookings
         } else {
             self.bookings = []
         }
     }
 
     @discardableResult
-    func addBooking(from draft: BookingDraft, owner: UserProfile? = nil) -> Booking {
+    func addBooking(from draft: BookingDraft, owner: UserProfile) -> Booking {
         let booking = Booking(
             id: BookingNumberFormatter.makeID(sequence: nextBookingSequence),
             movie: draft.movie,
@@ -51,8 +47,8 @@ final class BookingStore: BookingManaging {
             ticketPrice: draft.ticketPrice,
             bookingFee: draft.bookingFee,
             status: .confirmed,
-            ownerEmail: owner?.email,
-            ownerName: owner?.fullName
+            ownerEmail: owner.email,
+            ownerName: owner.fullName
         )
         bookings.insert(booking, at: 0)
         saveChanges()
@@ -61,7 +57,7 @@ final class BookingStore: BookingManaging {
     }
 
     @discardableResult
-    func addBooking(from draft: EventBookingDraft, owner: UserProfile? = nil) -> Booking {
+    func addBooking(from draft: EventBookingDraft, owner: UserProfile) -> Booking {
         let booking = Booking(
             id: BookingNumberFormatter.makeID(sequence: nextBookingSequence),
             event: draft.event,
@@ -71,8 +67,8 @@ final class BookingStore: BookingManaging {
             ticketPrice: draft.ticketPrice,
             bookingFee: draft.bookingFee,
             status: .confirmed,
-            ownerEmail: owner?.email,
-            ownerName: owner?.fullName
+            ownerEmail: owner.email,
+            ownerName: owner.fullName
         )
         bookings.insert(booking, at: 0)
         saveChanges()

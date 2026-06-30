@@ -44,12 +44,12 @@ final class LocalNotificationService: BookingNotificationScheduling {
         }
     }
 
-    func scheduleDemoReminder(
-        for booking: Booking,
-        delay: TimeInterval = AppConstants.Notifications.demoDelay,
+    func scheduleDeveloperTestNotification(
+        delay: TimeInterval = AppConstants.Notifications.developerTestDelay,
         completion: @escaping (Bool) -> Void = { _ in }
     ) {
-        guard settingsStore.settings.demoNotificationsEnabled else {
+        let settings = settingsStore.settings
+        guard settings.developerModeEnabled && settings.testNotificationsEnabled else {
             completion(false)
             return
         }
@@ -58,7 +58,7 @@ final class LocalNotificationService: BookingNotificationScheduling {
                 completion(false)
                 return
             }
-            self?.addDemoReminder(for: booking, delay: delay, completion: completion)
+            self?.addDeveloperTestNotification(delay: delay, completion: completion)
         }
     }
 
@@ -117,18 +117,17 @@ final class LocalNotificationService: BookingNotificationScheduling {
         center.add(request)
     }
 
-    private func addDemoReminder(
-        for booking: Booking,
+    private func addDeveloperTestNotification(
         delay: TimeInterval,
         completion: @escaping (Bool) -> Void
     ) {
         let content = UNMutableNotificationContent()
         content.title = "\(AppConstants.Brand.name) reminder"
-        content.body = "Demo: \(booking.title) starts at \(booking.showtime) in \(booking.locationName)."
+        content.body = "Developer Mode notification test completed successfully."
         content.sound = .default
 
         let request = UNNotificationRequest(
-            identifier: "\(AppConstants.Notifications.demoIdentifierPrefix)\(booking.id)-\(UUID().uuidString)",
+            identifier: "\(AppConstants.Notifications.developerTestIdentifierPrefix)\(UUID().uuidString)",
             content: content,
             trigger: UNTimeIntervalNotificationTrigger(timeInterval: max(1, delay), repeats: false)
         )

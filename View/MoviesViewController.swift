@@ -12,9 +12,12 @@ final class MoviesViewController: UIViewController {
 
     private let factory = AppFactory.shared
     private lazy var viewModel = factory.makeMoviesViewModel()
-    private let headerLabel = CineSeatTheme.captionLabel("")
-    private let ratingSortButton = UIButton(type: .system)
-    private let cinemaFilterButton = UIButton(type: .system)
+    private lazy var listHeaderView = ShowingListTableHeaderView(
+        frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: ShowingListTableHeaderView.height),
+        countAccessibilityIdentifier: "moviesResultCount",
+        ratingAccessibilityIdentifier: "moviesRatingSort",
+        locationAccessibilityIdentifier: "moviesCinemaFilter"
+    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,28 +41,8 @@ final class MoviesViewController: UIViewController {
         movieTableView.rowHeight = UITableView.automaticDimension
         movieTableView.estimatedRowHeight = 138
 
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 110))
-        headerLabel.frame = CGRect(x: 20, y: 8, width: view.bounds.width - 40, height: 20)
-        header.addSubview(headerLabel)
-
-        ratingSortButton.frame = CGRect(x: 20, y: 34, width: view.bounds.width - 40, height: 30)
-        ratingSortButton.contentHorizontalAlignment = .left
-        ratingSortButton.titleLabel?.font = CineSeatFont.metadataSemibold
-        ratingSortButton.setTitleColor(CineSeatTheme.primaryText, for: .normal)
-        ratingSortButton.addTarget(self, action: #selector(ratingSortTapped), for: .touchUpInside)
-        header.addSubview(ratingSortButton)
-
-        cinemaFilterButton.frame = CGRect(x: 20, y: 68, width: view.bounds.width - 40, height: 36)
-        cinemaFilterButton.contentHorizontalAlignment = .left
-        cinemaFilterButton.showsMenuAsPrimaryAction = true
-        cinemaFilterButton.accessibilityIdentifier = "moviesCinemaFilter"
-        var configuration = UIButton.Configuration.gray()
-        configuration.image = UIImage(systemName: "mappin.and.ellipse")
-        configuration.imagePadding = CineSeatSpacing.small
-        configuration.titleLineBreakMode = .byTruncatingTail
-        cinemaFilterButton.configuration = configuration
-        header.addSubview(cinemaFilterButton)
-        movieTableView.tableHeaderView = header
+        listHeaderView.ratingSortButton.addTarget(self, action: #selector(ratingSortTapped), for: .touchUpInside)
+        movieTableView.tableHeaderView = listHeaderView
     }
 
     private func configureSearchBar() {
@@ -86,10 +69,10 @@ final class MoviesViewController: UIViewController {
     }
 
     private func updateMovieHeader() {
-        headerLabel.text = viewModel.filterSummaryText
-        ratingSortButton.isHidden = !viewModel.canSortRating
-        ratingSortButton.setTitle(viewModel.ratingSortButtonTitle.uppercased(), for: .normal)
-        cinemaFilterButton.configuration?.title = viewModel.cinemaFilterTitle
+        listHeaderView.countLabel.text = viewModel.filterSummaryText.uppercased()
+        listHeaderView.ratingSortButton.isHidden = !viewModel.canSortRating
+        listHeaderView.ratingSortButton.setTitle(viewModel.ratingSortButtonTitle.uppercased(), for: .normal)
+        listHeaderView.locationFilterButton.configuration?.title = viewModel.cinemaFilterTitle
         updateCinemaMenu()
     }
 
@@ -110,7 +93,11 @@ final class MoviesViewController: UIViewController {
                 self?.reloadMovies()
             }
         }
-        cinemaFilterButton.menu = UIMenu(title: "Cinemas", options: .singleSelection, children: [allCinemas] + cinemas)
+        listHeaderView.locationFilterButton.menu = UIMenu(
+            title: "Cinemas",
+            options: .singleSelection,
+            children: [allCinemas] + cinemas
+        )
     }
 }
 

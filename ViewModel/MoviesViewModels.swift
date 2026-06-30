@@ -19,10 +19,10 @@ final class MoviesViewModel {
     init(
         fetchMoviesUseCase: FetchMoviesUseCase,
         fetchMovieShowingsUseCase: FetchMovieShowingsUseCase = DefaultFetchMovieShowingsUseCase(
-            showingFetcher: MockMovieShowingAPIClient()
+            showingFetcher: LocalMovieShowingCatalogClient()
         ),
         fetchReviewsUseCase: FetchReviewsUseCase = DefaultFetchReviewsUseCase(
-            reviewFetcher: BundledReviewRepository()
+            reviewFetcher: ReviewStore.shared
         ),
         preferences: AppPreferencesManaging? = nil
     ) {
@@ -34,19 +34,19 @@ final class MoviesViewModel {
     }
 
     convenience init(
-        movies: [Movie] = SeedData.movies,
-        movieShowings: [MovieShowing] = SeedData.showings,
+        movies: [Movie] = AppCatalog.movies,
+        movieShowings: [MovieShowing] = AppCatalog.showings,
         preferences: AppPreferencesManaging? = nil
     ) {
         self.init(
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(
-                movieFetcher: MockMovieAPIClient(movies: movies)
+                movieFetcher: LocalMovieCatalogClient(movies: movies)
             ),
             fetchMovieShowingsUseCase: DefaultFetchMovieShowingsUseCase(
-                showingFetcher: MockMovieShowingAPIClient(showings: movieShowings)
+                showingFetcher: LocalMovieShowingCatalogClient(showings: movieShowings)
             ),
             fetchReviewsUseCase: DefaultFetchReviewsUseCase(
-                reviewFetcher: BundledReviewRepository()
+                reviewFetcher: ReviewStore.shared
             ),
             preferences: preferences
         )
@@ -58,16 +58,7 @@ final class MoviesViewModel {
 
     var filterSummaryText: String {
         let sortText = ratingSortOrder.title.lowercased()
-        let summary: String
-        switch selectedCategory {
-        case .all:
-            summary = "\(filteredMovies.count) movies available - rating \(sortText)"
-        case .nowPlaying:
-            summary = "\(filteredMovies.count) movies ready for booking - rating \(sortText)"
-        case .comingSoon:
-            summary = "\(filteredMovies.count) movies coming soon - rating \(sortText)"
-        }
-        return "\(summary) - \(cinemaFilterTitle)"
+        return "\(filteredMovies.count) movies - \(selectedCategory.title.lowercased()) - rating \(sortText)"
     }
 
     var canSortRating: Bool {

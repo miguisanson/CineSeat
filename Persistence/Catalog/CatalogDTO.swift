@@ -1,8 +1,8 @@
 import Foundation
 
-// module 5 decodable json shapes
-// dto structs match the json file and are mapped into app models separately
-struct SeedDataDTO: Decodable {
+// module 5 decodable catalog shapes
+// dto structs match the json files and are mapped into app models separately
+struct CatalogDTO: Decodable {
     let cinemas: [Cinema]
     let movies: [Movie]
     let concerts: [Concert]
@@ -10,8 +10,6 @@ struct SeedDataDTO: Decodable {
     let eventVenues: [EventVenue]
     let eventShowings: [EventShowingDTO]
     let showings: [ShowingDTO]
-    let bookings: [BookingDTO]
-    let profileAccounts: [ProfileAccountDTO]
 }
 
 struct EventShowingDTO: Decodable {
@@ -50,33 +48,4 @@ struct ShowingTimeDTO: Decodable {
     let id: String
     let time: String
     let cinemaID: Int
-}
-
-struct BookingDTO: Decodable {
-    let id: String?
-    let idSeed: Int?
-    let movieTitle: String
-    let schedule: BookingScheduleDTO
-    let seats: [String]
-    let bookingFee: Double
-    let status: BookingStatus
-    let ownerEmail: String?
-    let ownerName: String?
-    let ticketAssignments: [TicketAssignment]?
-}
-
-struct BookingScheduleDTO: Decodable {
-    let daysFromToday: Int
-    let time: BookingTimeDTO
-}
-
-struct BookingTimeDTO: Decodable {
-    let id: String
-    let time: String
-    let cinemaID: Int
-}
-
-struct ProfileAccountDTO: Decodable {
-    let profile: UserProfile
-    let password: String
 }

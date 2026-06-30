@@ -20,7 +20,7 @@ final class TicketedShowingScheduleViewModel {
         self.init(
             event: event,
             fetchEventShowingsUseCase: DefaultFetchEventShowingsUseCase(
-                showingFetcher: MockEventShowingAPIClient(showings: showings ?? SeedData.eventShowings)
+                showingFetcher: LocalEventShowingCatalogClient(showings: showings ?? AppCatalog.eventShowings)
             )
         )
     }

@@ -9,10 +9,13 @@ class TicketedShowingListViewController: UIViewController {
     private let pageTitleLabel = UILabel()
     private let searchBar = UISearchBar()
     private let statusSegmentedControl = UISegmentedControl(items: ShowingStatusFilter.allCases.map(\.title))
-    private let ratingSortButton = UIButton(type: .system)
-    private let venueFilterButton = UIButton(type: .system)
     private let tableView = UITableView()
-    private let headerLabel = CineSeatTheme.captionLabel("")
+    private lazy var listHeaderView = ShowingListTableHeaderView(
+        frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: ShowingListTableHeaderView.height),
+        countAccessibilityIdentifier: "\(listViewModel.title.lowercased())ResultCount",
+        ratingAccessibilityIdentifier: "\(listViewModel.title.lowercased())RatingSort",
+        locationAccessibilityIdentifier: "\(listViewModel.title.lowercased())VenueFilter"
+    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,22 +47,6 @@ class TicketedShowingListViewController: UIViewController {
         statusSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         statusSegmentedControl.accessibilityIdentifier = "\(listViewModel.title.lowercased())StatusFilter"
 
-        ratingSortButton.contentHorizontalAlignment = .left
-        ratingSortButton.titleLabel?.font = CineSeatFont.metadataSemibold
-        ratingSortButton.setTitleColor(CineSeatTheme.primaryText, for: .normal)
-        ratingSortButton.addTarget(self, action: #selector(ratingSortTapped), for: .touchUpInside)
-        ratingSortButton.translatesAutoresizingMaskIntoConstraints = false
-        ratingSortButton.accessibilityIdentifier = "\(listViewModel.title.lowercased())RatingSort"
-
-        var configuration = UIButton.Configuration.gray()
-        configuration.image = UIImage(systemName: "mappin.and.ellipse")
-        configuration.imagePadding = CineSeatSpacing.small
-        configuration.titleLineBreakMode = .byTruncatingTail
-        venueFilterButton.configuration = configuration
-        venueFilterButton.translatesAutoresizingMaskIntoConstraints = false
-        venueFilterButton.showsMenuAsPrimaryAction = true
-        venueFilterButton.accessibilityIdentifier = "\(listViewModel.title.lowercased())VenueFilter"
-
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(TicketedShowingTableViewCell.self, forCellReuseIdentifier: TicketedShowingTableViewCell.reuseIdentifier)
         tableView.backgroundColor = CineSeatTheme.background
@@ -69,16 +56,12 @@ class TicketedShowingListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
 
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 36))
-        headerLabel.frame = CGRect(x: CineSeatSpacing.pageHorizontal, y: 8, width: view.bounds.width - 40, height: 22)
-        header.addSubview(headerLabel)
-        tableView.tableHeaderView = header
+        listHeaderView.ratingSortButton.addTarget(self, action: #selector(ratingSortTapped), for: .touchUpInside)
+        tableView.tableHeaderView = listHeaderView
 
         view.addSubview(pageTitleLabel)
         view.addSubview(searchBar)
         view.addSubview(statusSegmentedControl)
-        view.addSubview(ratingSortButton)
-        view.addSubview(venueFilterButton)
         view.addSubview(tableView)
 
         NSLayoutConstraint.activate([
@@ -96,17 +79,7 @@ class TicketedShowingListViewController: UIViewController {
             statusSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -CineSeatSpacing.pageHorizontal),
             statusSegmentedControl.heightAnchor.constraint(equalToConstant: 36),
 
-            ratingSortButton.topAnchor.constraint(equalTo: statusSegmentedControl.bottomAnchor, constant: CineSeatSpacing.small),
-            ratingSortButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CineSeatSpacing.pageHorizontal),
-            ratingSortButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -CineSeatSpacing.pageHorizontal),
-            ratingSortButton.heightAnchor.constraint(equalToConstant: 34),
-
-            venueFilterButton.topAnchor.constraint(equalTo: ratingSortButton.bottomAnchor, constant: CineSeatSpacing.small),
-            venueFilterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CineSeatSpacing.pageHorizontal),
-            venueFilterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -CineSeatSpacing.pageHorizontal),
-            venueFilterButton.heightAnchor.constraint(equalToConstant: 44),
-
-            tableView.topAnchor.constraint(equalTo: venueFilterButton.bottomAnchor, constant: CineSeatSpacing.small),
+            tableView.topAnchor.constraint(equalTo: statusSegmentedControl.bottomAnchor, constant: CineSeatSpacing.small),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -114,9 +87,9 @@ class TicketedShowingListViewController: UIViewController {
     }
 
     private func reloadListings() {
-        headerLabel.text = listViewModel.headerText.uppercased()
-        ratingSortButton.setTitle(listViewModel.ratingSortButtonTitle.uppercased(), for: .normal)
-        venueFilterButton.configuration?.title = listViewModel.venueFilterTitle
+        listHeaderView.countLabel.text = listViewModel.headerText.uppercased()
+        listHeaderView.ratingSortButton.setTitle(listViewModel.ratingSortButtonTitle.uppercased(), for: .normal)
+        listHeaderView.locationFilterButton.configuration?.title = listViewModel.venueFilterTitle
         updateVenueMenu()
         tableView.reloadData()
     }
@@ -149,7 +122,11 @@ class TicketedShowingListViewController: UIViewController {
                 self?.reloadListings()
             }
         }
-        venueFilterButton.menu = UIMenu(title: "Venues", options: .singleSelection, children: [allVenues] + venues)
+        listHeaderView.locationFilterButton.menu = UIMenu(
+            title: "Venues",
+            options: .singleSelection,
+            children: [allVenues] + venues
+        )
     }
 }
 

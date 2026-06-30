@@ -3,11 +3,11 @@ import UIKit
 // module 5 settings menu
 // this screen writes small app choices into a plist file
 final class SettingsViewController: ScrollableViewController {
+    var factory = AppFactory.shared
     var viewModel: SettingsViewModel!
 
     private let showCancelledSwitch = UISwitch()
     private let reminderSwitch = UISwitch()
-    private let demoNotificationSwitch = UISwitch()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ final class SettingsViewController: ScrollableViewController {
         contentStack.addArrangedSubview(makePageTitle("Settings"))
         contentStack.addArrangedSubview(makeSettingsCard())
         contentStack.addArrangedSubview(makeChangelogCard())
-        contentStack.addArrangedSubview(makeDemoResetCard())
+        contentStack.addArrangedSubview(makeDeveloperModeCard())
 
         let resetButton = CineSeatTheme.secondaryButton(title: "Reset Settings")
         resetButton.accessibilityIdentifier = "resetSettingsButton"
@@ -43,23 +43,19 @@ final class SettingsViewController: ScrollableViewController {
         stack.axis = .vertical
         stack.spacing = CineSeatSpacing.small
         stack.addArrangedSubview(CineSeatTheme.captionLabel("App settings plist"))
-        stack.addArrangedSubview(makeSwitchRow(
+        stack.addArrangedSubview(SettingsSwitchRowView(
             title: "Show cancelled bookings",
             subtitle: "Controls whether cancelled tickets stay visible in My Bookings",
             toggle: showCancelledSwitch,
+            target: self,
             action: #selector(showCancelledChanged(_:))
         ))
-        stack.addArrangedSubview(makeSwitchRow(
+        stack.addArrangedSubview(SettingsSwitchRowView(
             title: "Booking reminders",
             subtitle: "Schedules local reminders before confirmed showtimes",
             toggle: reminderSwitch,
+            target: self,
             action: #selector(reminderChanged(_:))
-        ))
-        stack.addArrangedSubview(makeSwitchRow(
-            title: "Demo notifications",
-            subtitle: "Allows the 5 second notification demo on confirmation",
-            toggle: demoNotificationSwitch,
-            action: #selector(demoNotificationChanged(_:))
         ))
         return makeCard(with: stack)
     }
@@ -71,7 +67,7 @@ final class SettingsViewController: ScrollableViewController {
         stack.addArrangedSubview(CineSeatTheme.captionLabel("App changelog"))
 
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "View the release notes and hotfixes added during this demo build"
+        descriptionLabel.text = "View the release notes and changes included in this build"
         descriptionLabel.font = CineSeatFont.bodySmall
         descriptionLabel.textColor = CineSeatTheme.secondaryText
         descriptionLabel.numberOfLines = 0
@@ -84,62 +80,24 @@ final class SettingsViewController: ScrollableViewController {
         return makeCard(with: stack)
     }
 
-    private func makeDemoResetCard() -> CardView {
+    private func makeDeveloperModeCard() -> CardView {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = CineSeatSpacing.regular
-        stack.addArrangedSubview(CineSeatTheme.captionLabel("Demo tools"))
+        stack.addArrangedSubview(CineSeatTheme.captionLabel("Developer Mode"))
 
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "Clear saved bookings so seat demos and booking numbers start clean again"
+        descriptionLabel.text = "Open isolated notification, eligibility, and local data testing controls"
         descriptionLabel.font = CineSeatFont.bodySmall
         descriptionLabel.textColor = CineSeatTheme.secondaryText
         descriptionLabel.numberOfLines = 0
         stack.addArrangedSubview(descriptionLabel)
 
-        let button = CineSeatTheme.secondaryButton(title: "Clear Demo Bookings")
-        button.accessibilityIdentifier = "clearDemoBookingsButton"
-        button.setTitleColor(.systemRed, for: .normal)
-        button.addTarget(self, action: #selector(clearDemoBookingsTapped), for: .touchUpInside)
+        let button = CineSeatTheme.secondaryButton(title: "Open Developer Mode")
+        button.accessibilityIdentifier = "openDeveloperModeButton"
+        button.addTarget(self, action: #selector(openDeveloperModeTapped), for: .touchUpInside)
         stack.addArrangedSubview(button)
         return makeCard(with: stack)
-    }
-
-    private func makeSwitchRow(
-        title: String,
-        subtitle: String,
-        toggle: UISwitch,
-        action: Selector
-    ) -> UIStackView {
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = CineSeatFont.detailTitle
-        titleLabel.textColor = CineSeatTheme.primaryText
-
-        let subtitleLabel = UILabel()
-        subtitleLabel.text = subtitle
-        subtitleLabel.font = CineSeatFont.bodySmall
-        subtitleLabel.textColor = CineSeatTheme.secondaryText
-        subtitleLabel.numberOfLines = 0
-
-        let labelStack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        labelStack.axis = .vertical
-        labelStack.spacing = CineSeatSpacing.tiny
-
-        toggle.addTarget(self, action: action, for: .valueChanged)
-
-        let row = UIStackView(arrangedSubviews: [labelStack, toggle])
-        row.axis = .horizontal
-        row.alignment = .center
-        row.spacing = CineSeatSpacing.medium
-        row.isLayoutMarginsRelativeArrangement = true
-        row.directionalLayoutMargins = .init(
-            top: CineSeatSpacing.small,
-            leading: 0,
-            bottom: CineSeatSpacing.small,
-            trailing: 0
-        )
-        return row
     }
 
     private func makePageTitle(_ title: String) -> UILabel {
@@ -153,7 +111,6 @@ final class SettingsViewController: ScrollableViewController {
     private func reloadSettings() {
         showCancelledSwitch.isOn = viewModel.showCancelledBookings
         reminderSwitch.isOn = viewModel.bookingRemindersEnabled
-        demoNotificationSwitch.isOn = viewModel.demoNotificationsEnabled
     }
 
     @objc private func settingsChanged() {
@@ -168,10 +125,6 @@ final class SettingsViewController: ScrollableViewController {
         viewModel.bookingRemindersEnabled = sender.isOn
     }
 
-    @objc private func demoNotificationChanged(_ sender: UISwitch) {
-        viewModel.demoNotificationsEnabled = sender.isOn
-    }
-
     @objc private func viewChangelogTapped() {
         let viewController = ChangelogViewController()
         viewController.entries = viewModel.changelogEntries
@@ -182,33 +135,8 @@ final class SettingsViewController: ScrollableViewController {
         viewModel.resetSettings()
     }
 
-    @objc private func clearDemoBookingsTapped() {
-        let alert = UIAlertController(
-            title: "Clear Demo Bookings?",
-            message: "This removes all saved bookings, clears taken seats from confirmed bookings, and cancels pending local reminders. Movies, profiles, settings, and seat layouts stay unchanged.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Keep Bookings", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Clear Bookings", style: .destructive) { [weak self] _ in
-            guard let self else { return }
-            let removedCount = self.viewModel.clearDemoBookings()
-            self.showDemoResetFinished(removedCount: removedCount)
-        })
-        present(alert, animated: true)
-    }
-
-    private func showDemoResetFinished(removedCount: Int) {
-        let noun = removedCount == 1 ? "booking" : "bookings"
-        let message = removedCount == 0
-            ? "There were no saved bookings to clear."
-            : "\(removedCount) saved \(noun) were cleared."
-        let alert = UIAlertController(
-            title: "Demo Reset Complete",
-            message: message,
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+    @objc private func openDeveloperModeTapped() {
+        navigationController?.pushViewController(factory.makeDeveloperModeViewController(), animated: true)
     }
 }
 
@@ -229,7 +157,7 @@ final class ChangelogViewController: ScrollableViewController {
         contentStack.addArrangedSubview(titleLabel)
 
         let subtitleLabel = UILabel()
-        subtitleLabel.text = "Demo changelog for the \(AppConstants.Brand.name) booking app"
+        subtitleLabel.text = "Release history for the \(AppConstants.Brand.name) booking app"
         subtitleLabel.font = CineSeatFont.bodySmall
         subtitleLabel.textColor = CineSeatTheme.secondaryText
         subtitleLabel.numberOfLines = 0

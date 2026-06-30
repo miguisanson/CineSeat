@@ -7,15 +7,14 @@ final class AuthenticationService: Authenticating {
     static let shared = AuthenticationService(
         profileRepository: ProfileFileRepository(),
         passwordStore: KeychainPasswordStore(),
-        sessionStore: AccountSessionStore(),
-        seedAccounts: SeedData.profileAccounts
+        sessionStore: AccountSessionStore()
     )
 
     private let profileRepository: ProfilePersisting
     private let passwordStore: PasswordStoring
     private let sessionStore: AccountSessionStore
     private(set) var profiles: [UserProfile]
-    private static let legacySeedProfileIDs: Set<UUID> = Set((1...20).compactMap {
+    private static let legacyGeneratedProfileIDs: Set<UUID> = Set((1...20).compactMap {
         UUID(uuidString: String(format: "00000000-0000-0000-0000-%012d", $0))
     })
 
@@ -26,8 +25,7 @@ final class AuthenticationService: Authenticating {
     init(
         profileRepository: ProfilePersisting,
         passwordStore: PasswordStoring,
-        sessionStore: AccountSessionStore,
-        seedAccounts: [SeedProfileAccount] = []
+        sessionStore: AccountSessionStore
     ) {
         self.profileRepository = profileRepository
         self.passwordStore = passwordStore
@@ -38,17 +36,9 @@ final class AuthenticationService: Authenticating {
         for profileID in removedProfileIDs {
             try? passwordStore.deletePassword(accountID: profileID)
         }
-        var shouldSaveProfiles = profiles.count != loadedProfiles.count
-
-        for seedAccount in seedAccounts where !profiles.contains(where: { $0.email == seedAccount.profile.email }) {
-            profiles.append(seedAccount.profile)
-            shouldSaveProfiles = true
-        }
-
-        if shouldSaveProfiles {
+        if profiles.count != loadedProfiles.count {
             try? profileRepository.saveProfiles(profiles)
         }
-        seedMissingPasswords(for: seedAccounts)
 
         if let profileID = sessionStore.signedInProfileID,
            !profiles.contains(where: { $0.id == profileID }) {
@@ -172,14 +162,7 @@ final class AuthenticationService: Authenticating {
     }
 
     private static func cleanedProfiles(from profiles: [UserProfile]) -> [UserProfile] {
-        profiles.filter { !legacySeedProfileIDs.contains($0.id) }
+        profiles.filter { !legacyGeneratedProfileIDs.contains($0.id) }
     }
 
-    private func seedMissingPasswords(for seedAccounts: [SeedProfileAccount]) {
-        for account in seedAccounts where profiles.contains(where: { $0.id == account.profile.id }) {
-            if (try? passwordStore.password(accountID: account.profile.id)) == nil {
-                try? passwordStore.savePassword(account.password, accountID: account.profile.id)
-            }
-        }
-    }
 }

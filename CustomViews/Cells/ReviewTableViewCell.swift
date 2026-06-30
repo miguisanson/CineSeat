@@ -11,7 +11,7 @@ final class ReviewTableViewCell: UITableViewCell {
     private let dateLabel = UILabel()
     private let ratingLabel = UILabel()
     private let commentLabel = UILabel()
-    private let likesLabel = UILabel()
+    private let ownerLabel = UILabel()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,8 +47,8 @@ final class ReviewTableViewCell: UITableViewCell {
         commentLabel.font = CineSeatFont.body
         commentLabel.textColor = CineSeatTheme.secondaryText
         commentLabel.numberOfLines = 0
-        likesLabel.font = CineSeatFont.metadata
-        likesLabel.textColor = CineSeatTheme.mutedText
+        ownerLabel.font = CineSeatFont.status
+        ownerLabel.textColor = CineSeatTheme.mutedText
 
         let authorStack = UIStackView(arrangedSubviews: [nameLabel, dateLabel])
         authorStack.axis = .vertical
@@ -59,7 +59,7 @@ final class ReviewTableViewCell: UITableViewCell {
         topRow.alignment = .center
         topRow.spacing = CineSeatSpacing.regular
 
-        let content = UIStackView(arrangedSubviews: [topRow, commentLabel, likesLabel])
+        let content = UIStackView(arrangedSubviews: [topRow, commentLabel, ownerLabel])
         content.axis = .vertical
         content.spacing = CineSeatSpacing.regular
         content.translatesAutoresizingMaskIntoConstraints = false
@@ -81,13 +81,14 @@ final class ReviewTableViewCell: UITableViewCell {
         ])
     }
 
-    func configure(with review: Review) {
+    func configure(with review: Review, isCurrentUser: Bool) {
         avatarLabel.text = review.authorInitials
         nameLabel.text = review.authorName
         dateLabel.text = review.relativeDateText
         ratingLabel.text = "\(String(repeating: "*", count: Int(review.rating.rounded()))) \(String(format: "%.1f", review.rating))"
         commentLabel.text = review.comment
-        likesLabel.text = "helpful \(review.likes)"
+        ownerLabel.text = isCurrentUser ? "YOUR REVIEW - TAP TO EDIT" : nil
+        ownerLabel.isHidden = !isCurrentUser
         isAccessibilityElement = true
         accessibilityIdentifier = "review_\(review.id)"
         accessibilityLabel = "\(review.authorName), rated \(review.rating), \(review.comment)"

@@ -11,6 +11,8 @@ struct AppDependencies {
     let fetchMovieShowingsUseCase: FetchMovieShowingsUseCase
     let fetchEventShowingsUseCase: FetchEventShowingsUseCase
     let fetchReviewsUseCase: FetchReviewsUseCase
+    let manageReviewsUseCase: ManageReviewsUseCase
+    let checkReviewEligibilityUseCase: CheckReviewEligibilityUseCase
     let fetchBookingsUseCase: FetchBookingsUseCase
     let confirmBookingUseCase: ConfirmBookingUseCase
     let confirmEventBookingUseCase: ConfirmEventBookingUseCase
@@ -25,11 +27,11 @@ struct AppDependencies {
         let preferences = AppPreferences.shared
         let bookingManager = BookingStore.shared
         let authenticationService = AuthenticationService.shared
-        let movieFetcher = MockMovieAPIClient()
-        let eventFetcher = MockEventAPIClient()
-        let showingFetcher = MockMovieShowingAPIClient()
-        let eventShowingFetcher = MockEventShowingAPIClient()
-        let reviewRepository = BundledReviewRepository()
+        let movieFetcher = LocalMovieCatalogClient()
+        let eventFetcher = LocalEventCatalogClient()
+        let showingFetcher = LocalMovieShowingCatalogClient()
+        let eventShowingFetcher = LocalEventShowingCatalogClient()
+        let reviewManager = ReviewStore.shared
 
         return AppDependencies(
             preferences: preferences,
@@ -39,7 +41,12 @@ struct AppDependencies {
             fetchEventsUseCase: DefaultFetchEventsUseCase(eventFetcher: eventFetcher),
             fetchMovieShowingsUseCase: DefaultFetchMovieShowingsUseCase(showingFetcher: showingFetcher),
             fetchEventShowingsUseCase: DefaultFetchEventShowingsUseCase(showingFetcher: eventShowingFetcher),
-            fetchReviewsUseCase: DefaultFetchReviewsUseCase(reviewFetcher: reviewRepository),
+            fetchReviewsUseCase: DefaultFetchReviewsUseCase(reviewFetcher: reviewManager),
+            manageReviewsUseCase: DefaultManageReviewsUseCase(reviewManager: reviewManager),
+            checkReviewEligibilityUseCase: DefaultCheckReviewEligibilityUseCase(
+                bookingManager: bookingManager,
+                settingsStore: settingsStore
+            ),
             fetchBookingsUseCase: DefaultFetchBookingsUseCase(bookingManager: bookingManager),
             confirmBookingUseCase: DefaultConfirmBookingUseCase(bookingManager: bookingManager),
             confirmEventBookingUseCase: DefaultConfirmEventBookingUseCase(bookingManager: bookingManager),
@@ -102,12 +109,34 @@ final class AppFactory {
     }
 
     func makeReviewsViewModel(subject: ReviewSubject) -> ReviewsViewModel {
-        ReviewsViewModel(subject: subject, fetchReviewsUseCase: dependencies.fetchReviewsUseCase)
+        ReviewsViewModel(
+            subject: subject,
+            fetchReviewsUseCase: dependencies.fetchReviewsUseCase,
+            manageReviewsUseCase: dependencies.manageReviewsUseCase,
+            checkEligibilityUseCase: dependencies.checkReviewEligibilityUseCase,
+            authenticationService: dependencies.authenticationService
+        )
     }
 
     func makeReviewsViewController(subject: ReviewSubject) -> ReviewsViewController {
         let viewController = ReviewsViewController()
+        viewController.factory = self
         viewController.viewModel = makeReviewsViewModel(subject: subject)
+        return viewController
+    }
+
+    func makeReviewEditorViewController(
+        subject: ReviewSubject,
+        author: UserProfile,
+        existingReview: Review?
+    ) -> ReviewEditorViewController {
+        let viewController = ReviewEditorViewController()
+        viewController.viewModel = ReviewEditorViewModel(
+            subject: subject,
+            author: author,
+            existingReview: existingReview,
+            manageReviewsUseCase: dependencies.manageReviewsUseCase
+        )
         return viewController
     }
 
@@ -151,9 +180,15 @@ final class AppFactory {
     }
 
     func makeSettingsViewModel() -> SettingsViewModel {
-        SettingsViewModel(
+        SettingsViewModel(settingsStore: dependencies.settingsStore)
+    }
+
+    func makeDeveloperModeViewModel() -> DeveloperModeViewModel {
+        DeveloperModeViewModel(
             settingsStore: dependencies.settingsStore,
-            clearBookingsUseCase: dependencies.clearBookingsUseCase
+            clearBookingsUseCase: dependencies.clearBookingsUseCase,
+            manageReviewsUseCase: dependencies.manageReviewsUseCase,
+            notificationScheduler: dependencies.notificationScheduler
         )
     }
 
@@ -171,7 +206,14 @@ final class AppFactory {
 
     func makeSettingsViewController() -> SettingsViewController {
         let viewController = SettingsViewController()
+        viewController.factory = self
         viewController.viewModel = makeSettingsViewModel()
+        return viewController
+    }
+
+    func makeDeveloperModeViewController() -> DeveloperModeViewController {
+        let viewController = DeveloperModeViewController()
+        viewController.viewModel = makeDeveloperModeViewModel()
         return viewController
     }
 
@@ -269,7 +311,6 @@ final class AppFactory {
     func makeConfirmationViewController(booking: Booking) -> ConfirmationViewController {
         let viewController = ConfirmationViewController()
         viewController.booking = booking
-        viewController.notificationScheduler = dependencies.notificationScheduler
         viewController.transferTicketUseCase = dependencies.transferTicketUseCase
         return viewController
     }

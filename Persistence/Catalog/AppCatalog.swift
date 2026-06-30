@@ -1,8 +1,8 @@
 import Foundation
 
-// module 5 seed data entry point
-// the actual seed values live in separate json files instead of swift arrays
-enum SeedData {
+// module 5 local catalog entry point
+// content and schedules come from the json catalog copied into Documents
+enum AppCatalog {
     static var cinemas: [Cinema] {
         store.cinemas
     }
@@ -31,22 +31,6 @@ enum SeedData {
         store.showings
     }
 
-    static var seedBookingIDs: Set<String> {
-        Set(store.bookings.map(\.id))
-    }
-
-    static var bookings: [Booking] {
-        store.bookings
-    }
-
-    static var profileAccounts: [SeedProfileAccount] {
-        store.profileAccounts
-    }
-
-    static var profiles: [UserProfile] {
-        profileAccounts.map(\.profile)
-    }
-
     static func showings(for movie: Movie) -> [MovieShowing] {
         showings.filter { $0.movieTitle == movie.title }
     }
@@ -71,5 +55,5 @@ enum SeedData {
         return (concerts + seminars).filter { eventIDs.contains($0.id) }
     }
 
-    private static let store = SeedDataStore.load()
+    private static let store = CatalogStore.load()
 }
