@@ -10,7 +10,7 @@ enum MovieCategory: Int, CaseIterable, Codable {
     var title: String {
         switch self {
         case .all: return "All"
-        case .nowPlaying: return "Now Playing"
+        case .nowPlaying: return "Now Showing"
         case .comingSoon: return "Coming Soon"
         }
     }

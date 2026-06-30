@@ -1,14 +1,17 @@
-# CineSeat
+# TicketPlease
 
-CineSeat is a UIKit showing and ticket-booking app for movies, concerts, and seminars.
+TicketPlease is a UIKit showing and ticket-booking app for movies, concerts, and seminars.
 
 ## Features
 
 - Choose between Movies, Concerts, and Seminars from the Showings tab
-- Search and filter the movie table view
+- Search Movies, Concerts, and Seminars independently
+- Filter all three categories by All, Now Showing, or Coming Soon
+- Sort all three categories by highest or lowest effective rating
+- Open a separate reviews page from any detail screen
+- Keep online ratings separate from TicketPlease user averages and use the app average as fallback
 - Book concerts and seminars by date, time, and ticket quantity without seat selection
 - View event venue MapKit previews and event venue pins in Locations
-- Sort All, Now Playing, and Coming Soon movies by highest or lowest rating
 - Load bundled movie poster images offline, with online cache fallback when needed
 - View movie details and scheduled showings
 - Block seat booking for Coming Soon movies
@@ -26,11 +29,14 @@ CineSeat is a UIKit showing and ticket-booking app for movies, concerts, and sem
 
 ## Project Structure
 
-- `Models/Showings/`: category enum for the Showings landing screen
-- `Models/Movies/`: movie, cinema, showing, category, rating sort, and cinema type structs/enums
-- `Models/Events/`: concert and seminar event structs/enums
+- `Models/Showings/`: shared category, status filter, rating sort, and ticket schedule wrapper types
+- `Models/Movies/`: movie, cinema, showing, category, and cinema type structs/enums
+- `Models/Concerts/Concert.swift`: concrete concert model decoded from `Concerts.json`
+- `Models/Seminars/Seminar.swift`: concrete seminar model decoded from `Seminars.json`
+- `Models/Locations/`: shared cinema/event venue map values
 - `Models/Booking/`: booking, ticket assignment, draft, status, and seat layout structs/enums
 - `Models/Profile/`: profile, seed account, authentication error, and account validation structs/enums
+- `Models/Reviews/`: review, subject, content type, and online/app rating summary values
 - `Persistence/SeedData/Cinemas.json`: cinema names, prices, types, and MapKit coordinates
 - `Persistence/SeedData/Movies.json`: movie details, ratings, categories, posters, and poster URLs
 - `Persistence/SeedData/Concerts.json`: concert, festival, orchestra, and theater examples with online poster URLs
@@ -40,34 +46,42 @@ CineSeat is a UIKit showing and ticket-booking app for movies, concerts, and sem
 - `Persistence/SeedData/Showings.json`: nested movie schedule dates and assigned cinema times
 - `Persistence/SeedData/Bookings.json`: intentionally empty launch booking file so the app starts without fake booking history
 - `Persistence/SeedData/ProfileAccounts.json`: the single starter profile used for local login
+- `Persistence/SeedData/Reviews.json`: 60 casual TicketPlease reviews covering every movie, concert, and seminar
 - `PosterImages/`: bundled poster image files used for offline display
 - `Persistence/SeedData/`: JSON DTOs, decoder loader, mapper, and seed data entry point
 - `Persistence/Shared/`: reusable JSON FileManager reader/writer helpers
 - `Persistence/Booking/`: booking JSON repository and booking store
 - `Persistence/Profile/`: profile JSON repository, Keychain passwords, authentication service, and session storage
+- `Persistence/Reviews/BundledReviewRepository.swift`: FileManager/JSONDecoder review data source
 - `Persistence/AppPreferences.swift`: UserDefaults preferences and flags
 - `Domain/DependencyProtocols.swift`: protocol-based DI contracts for movie/event fetch, preferences, bookings, and auth
 - `Domain/UseCases.swift`: movie/event browsing, booking, confirmation, ticket sharing, and cancellation use cases
+- `Domain/Reviews/`: protocol-based review fetching, filtering, and rating-summary use case
 - `ViewModel/ShowingsViewModel.swift`: Showings landing category counts
 - `ViewModel/MoviesViewModels.swift`: movie search, category filtering, rating sorting, and movie count text
-- `ViewModel/EventViewModels.swift`: event search/filtering for concerts and seminars
-- `ViewModel/EventScheduleViewModel.swift`: event date, time, venue, quantity, and total rules
+- `ViewModel/Concerts/ConcertViewModels.swift`: concert-only search, status, rating, and venue filtering
+- `ViewModel/Seminars/SeminarViewModels.swift`: seminar-only search, status, rating, and venue filtering
+- `ViewModel/Reviews/ReviewsViewModel.swift`: review ordering and online/app rating presentation
+- `ViewModel/TicketedShowingScheduleViewModel.swift`: shared date, time, venue, quantity, and total rules
 - `ViewModel/BookingViewModels.swift`: booking filtering, fixed showing selection, and seat-selection business logic
 - `ViewModel/ProfileViewModels.swift`: login, registration, and profile business logic
 - `View/ShowingsViewController.swift`: Showings landing screen
 - `View/MoviesViewController.swift`: Movies table view screen
-- `View/EventListViewController.swift`: Concerts and Seminars list screen
-- `View/EventDetailViewController.swift`: event detail, map, schedule, and quantity screen
-- `View/EventBookingSummaryViewController.swift`: event checkout summary and confirmation entry
+- `View/Concerts/`: concert list and concrete detail controllers
+- `View/Seminars/`: seminar list and concrete detail controllers
+- `View/TicketedShowingListViewController.swift`: reusable list layout used by the two concrete category controllers
+- `View/TicketedShowingDetailViewController.swift`: shared map, schedule, and quantity layout
+- `View/TicketedShowingBookingSummaryViewController.swift`: shared concert/seminar checkout summary
+- `View/Reviews/ReviewsViewController.swift`: separate user reviews and rating-source screen
 - `View/BookingFlowViewControllers.swift`: detail, seat, summary, and confirmation screens
 - `View/BookingsViewControllers.swift`: booking list and booking detail screens
 - `View/CinemaLocationsViewController.swift`: filtered MapKit cinema/event venue pins and zoom controls
-- `View/EventVenueDetailViewController.swift`: events assigned to a selected venue pin
+- `View/ShowingVenueDetailViewController.swift`: concerts/seminars assigned to a selected venue pin
 - `View/CinemaDetailViewController.swift`: cinema information and assigned movie schedules from a selected pin
 - `View/ProfileViewControllers.swift`: Profile tab and account screens
 - `Design/AppFactory.swift`: factory pattern and composition root for dependencies
-- `CustomViews/`: reusable theme, cards, poster view, table cells, scroll container, and custom seating views
-- `CINESEAT_ONE_PAGE.md`: compact application overview and lecture-module reflection
+- `CustomViews/`: reusable theme, cards, poster view, movie/event/review cells, scroll container, and custom seating views
+- `CINESEAT_ONE_PAGE.md`: compact TicketPlease application overview and lecture-module reflection
 
 ## Storyboard Connections
 
@@ -130,6 +144,7 @@ Core Data is not used because the current data is small and the Codable/FileMana
 ## Runtime Data
 
 - Bundled JSON files in `Persistence/SeedData` are read-only starter data copied into the app bundle.
+- Seeded TicketPlease reviews are read from `Reviews.json`; they are currently demo content rather than user-editable records.
 - New bookings are written to the app container Documents file `bookings.json`.
 - New profile metadata is written to the app container Documents file `profiles.json`.
 - Passwords are written to Keychain, not JSON.

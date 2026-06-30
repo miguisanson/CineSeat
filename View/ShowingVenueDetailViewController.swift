@@ -2,9 +2,9 @@ import UIKit
 
 // module 2 event venue details
 // a map pin opens this list before the selected event detail
-final class EventVenueDetailViewController: ScrollableViewController {
+final class ShowingVenueDetailViewController: ScrollableViewController {
     var factory = AppFactory.shared
-    var viewModel: EventVenueDetailViewModel!
+    var viewModel: ShowingVenueDetailViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +46,7 @@ final class EventVenueDetailViewController: ScrollableViewController {
     @objc private func eventTapped(_ sender: UIButton) {
         guard viewModel.events.indices.contains(sender.tag) else { return }
         navigationController?.pushViewController(
-            factory.makeEventDetailViewController(event: viewModel.event(at: sender.tag)),
+            factory.makeTicketedShowingDetailViewController(listing: viewModel.event(at: sender.tag)),
             animated: true
         )
     }

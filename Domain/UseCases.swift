@@ -192,7 +192,7 @@ enum TicketTransferError: LocalizedError {
         case .invalidEmail:
             return "Enter a valid account email address."
         case .accountNotFound:
-            return "No CineSeat account uses that email yet."
+            return "No \(AppConstants.Brand.name) account uses that email yet."
         case .bookingNotFound:
             return "The booking could not be found."
         case .bookingNotConfirmed:

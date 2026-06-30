@@ -1,7 +1,7 @@
 import Foundation
 
-// module 4 style event schedule result
-// this connects an event id to its nested dates and time options
+// module 4 shared ticketed showing schedule result
+// eventID connects concert or seminar json to nested dates and times
 struct EventShowing: Codable, Equatable, Identifiable {
     let id: String
     let eventID: String

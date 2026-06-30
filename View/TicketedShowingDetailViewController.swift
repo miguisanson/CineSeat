@@ -1,10 +1,10 @@
 import UIKit
 
-// module 2 event detail and ticket selection
-// events use quantity instead of a cinema seat map
-final class EventDetailViewController: ScrollableViewController {
+// module 2 shared concert and seminar detail layout
+// ticketed showings use quantity instead of a cinema seat map
+class TicketedShowingDetailViewController: ScrollableViewController {
     var factory = AppFactory.shared
-    var viewModel: EventScheduleViewModel!
+    var viewModel: TicketedShowingScheduleViewModel!
 
     private let datePicker = UIDatePicker()
     private let timesStack = UIStackView()
@@ -14,6 +14,8 @@ final class EventDetailViewController: ScrollableViewController {
     private let quantityStepper = UIStepper()
     private let priceLabel = UILabel()
     private let bookButton = CineSeatTheme.primaryButton(title: "Book Tickets")
+    private lazy var reviewSubject = ReviewSubject(event: viewModel.event)
+    private lazy var reviewsViewModel = factory.makeReviewsViewModel(subject: reviewSubject)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +40,7 @@ final class EventDetailViewController: ScrollableViewController {
         contentStack.addArrangedSubview(titleLabel)
 
         let metadataLabel = UILabel()
-        metadataLabel.text = "\(event.eventType) - \(event.duration)\nrating \(String(format: "%.1f", event.rating))"
+        metadataLabel.text = "\(event.eventType) - \(event.duration)\n\(reviewsViewModel.ratingSummary.compactText)"
         metadataLabel.font = CineSeatFont.metadata
         metadataLabel.textColor = CineSeatTheme.mutedText
         metadataLabel.numberOfLines = 0
@@ -55,6 +57,11 @@ final class EventDetailViewController: ScrollableViewController {
         summaryLabel.numberOfLines = 0
         details.addArrangedSubview(summaryLabel)
         contentStack.addArrangedSubview(makeCard(with: details))
+
+        let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews (\(reviewsViewModel.reviews.count))")
+        reviewsButton.accessibilityIdentifier = "ticketedShowingReviewsButton"
+        reviewsButton.addTarget(self, action: #selector(reviewsTapped), for: .touchUpInside)
+        contentStack.addArrangedSubview(reviewsButton)
 
         contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Select date"))
         configureDatePicker()
@@ -174,7 +181,14 @@ final class EventDetailViewController: ScrollableViewController {
     @objc private func bookTicketsTapped() {
         guard let draft = viewModel.makeDraft() else { return }
         navigationController?.pushViewController(
-            factory.makeEventBookingSummaryViewController(draft: draft),
+            factory.makeTicketedShowingBookingSummaryViewController(draft: draft),
+            animated: true
+        )
+    }
+
+    @objc private func reviewsTapped() {
+        navigationController?.pushViewController(
+            factory.makeReviewsViewController(subject: reviewSubject),
             animated: true
         )
     }

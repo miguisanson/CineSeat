@@ -1,7 +1,7 @@
 import Foundation
 
-// module 1 codable event venue
-// one venue record is shared by every event that uses the same map location
+// module 1 reusable ticketed showing venue
+// concert and seminar schedules reference one coordinate-backed location
 struct EventVenue: Codable, Equatable, Identifiable {
     let id: String
     let name: String

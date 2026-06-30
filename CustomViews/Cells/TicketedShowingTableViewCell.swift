@@ -2,8 +2,8 @@ import UIKit
 
 // module 2 reusable event cell
 // event listings have their own cell so ticket labels stay clear
-final class EventTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "EventTableViewCell"
+final class TicketedShowingTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "TicketedShowingTableViewCell"
 
     private let card = CardView()
     private let posterView = PosterPlaceholderView()
@@ -91,11 +91,11 @@ final class EventTableViewCell: UITableViewCell {
         ])
     }
 
-    func configure(with event: EventListing) {
+    func configure(with event: EventListing, ratingSummary: ReviewRatingSummary) {
         posterView.loadPoster(from: event.posterURLString, localName: event.localPosterName)
         titleLabel.text = event.title
         detailLabel.text = event.detailText
-        ratingLabel.text = "\(String(repeating: "*", count: Int(event.rating.rounded())))  \(String(format: "%.1f", event.rating))"
+        ratingLabel.text = "\(String(repeating: "*", count: Int(ratingSummary.effectiveRating.rounded())))  \(ratingSummary.compactText)"
         durationLabel.text = "TIME  \(event.duration)"
         statusLabel.text = event.statusText
         statusLabel.backgroundColor = event.isComingSoon ? CineSeatTheme.mutedText : CineSeatTheme.primaryText

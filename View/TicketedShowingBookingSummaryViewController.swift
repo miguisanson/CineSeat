@@ -2,7 +2,7 @@ import UIKit
 
 // module 2 event booking summary
 // login and persistence use the same account and booking store as movies
-final class EventBookingSummaryViewController: ScrollableViewController {
+final class TicketedShowingBookingSummaryViewController: ScrollableViewController {
     var draft: EventBookingDraft!
     var factory = AppFactory.shared
     var confirmBookingUseCase: ConfirmEventBookingUseCase = DefaultConfirmEventBookingUseCase(

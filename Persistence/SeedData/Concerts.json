@@ -202,7 +202,7 @@
     "eventType": "Acoustic concert",
     "venue": "Music Museum",
     "duration": "1h 40m",
-    "rating": 4.3,
+    "rating": 0,
     "summary": "A smaller acoustic event concept with local artists, stripped-down arrangements, and relaxed seating.",
     "posterURLString": "https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=500&q=80",
     "localPosterName": null,

@@ -4,9 +4,12 @@ import Foundation
 // search filters and rating sorting stay out of the view controller
 final class MoviesViewModel {
     private let movies: [Movie]
+    private let movieShowings: [MovieShowing]
+    private let fetchReviewsUseCase: FetchReviewsUseCase
     private let preferences: AppPreferencesManaging?
     var searchText = ""
     var ratingSortOrder: RatingSortOrder = .highestFirst
+    private(set) var selectedCinemaName: String?
     var selectedCategory: MovieCategory {
         didSet {
             preferences?.selectedMovieCategory = selectedCategory
@@ -15,20 +18,35 @@ final class MoviesViewModel {
 
     init(
         fetchMoviesUseCase: FetchMoviesUseCase,
+        fetchMovieShowingsUseCase: FetchMovieShowingsUseCase = DefaultFetchMovieShowingsUseCase(
+            showingFetcher: MockMovieShowingAPIClient()
+        ),
+        fetchReviewsUseCase: FetchReviewsUseCase = DefaultFetchReviewsUseCase(
+            reviewFetcher: BundledReviewRepository()
+        ),
         preferences: AppPreferencesManaging? = nil
     ) {
         movies = fetchMoviesUseCase.execute()
+        movieShowings = fetchMovieShowingsUseCase.execute()
+        self.fetchReviewsUseCase = fetchReviewsUseCase
         self.preferences = preferences
         selectedCategory = preferences?.selectedMovieCategory ?? .all
     }
 
     convenience init(
         movies: [Movie] = SeedData.movies,
+        movieShowings: [MovieShowing] = SeedData.showings,
         preferences: AppPreferencesManaging? = nil
     ) {
         self.init(
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(
                 movieFetcher: MockMovieAPIClient(movies: movies)
+            ),
+            fetchMovieShowingsUseCase: DefaultFetchMovieShowingsUseCase(
+                showingFetcher: MockMovieShowingAPIClient(showings: movieShowings)
+            ),
+            fetchReviewsUseCase: DefaultFetchReviewsUseCase(
+                reviewFetcher: BundledReviewRepository()
             ),
             preferences: preferences
         )
@@ -40,14 +58,16 @@ final class MoviesViewModel {
 
     var filterSummaryText: String {
         let sortText = ratingSortOrder.title.lowercased()
+        let summary: String
         switch selectedCategory {
         case .all:
-            return "\(filteredMovies.count) movies available - rating \(sortText)"
+            summary = "\(filteredMovies.count) movies available - rating \(sortText)"
         case .nowPlaying:
-            return "\(filteredMovies.count) movies ready for booking - rating \(sortText)"
+            summary = "\(filteredMovies.count) movies ready for booking - rating \(sortText)"
         case .comingSoon:
-            return "\(filteredMovies.count) movies coming soon - rating \(sortText)"
+            summary = "\(filteredMovies.count) movies coming soon - rating \(sortText)"
         }
+        return "\(summary) - \(cinemaFilterTitle)"
     }
 
     var canSortRating: Bool {
@@ -58,8 +78,28 @@ final class MoviesViewModel {
         "rating: \(ratingSortOrder.title.lowercased())"
     }
 
+    var cinemaFilterTitle: String {
+        selectedCinemaName ?? "All Cinemas"
+    }
+
+    var availableCinemaNames: [String] {
+        let cinemas = movieShowings.flatMap(\.allTimes).map(\.time.cinema)
+        return Dictionary(grouping: cinemas, by: \.id)
+            .compactMap { $0.value.first }
+            .sorted { $0.id < $1.id }
+            .map(\.name)
+    }
+
     func toggleRatingSortOrder() {
         ratingSortOrder = ratingSortOrder == .highestFirst ? .lowestFirst : .highestFirst
+    }
+
+    func selectCinema(_ cinemaName: String?) {
+        selectedCinemaName = cinemaName
+    }
+
+    func ratingSummary(for movie: Movie) -> ReviewRatingSummary {
+        fetchReviewsUseCase.ratingSummary(for: ReviewSubject(movie: movie))
     }
 
     var filteredMovies: [Movie] {
@@ -78,19 +118,29 @@ final class MoviesViewModel {
                 matchesCategory = movie.isComingSoon
             }
 
-            return matchesSearch && matchesCategory
+            let matchesCinema = selectedCinemaName.map { cinemaName in
+                movieShowings.contains { showing in
+                    showing.movieTitle == movie.title && showing.allTimes.contains {
+                        $0.time.cinema.name == cinemaName
+                    }
+                }
+            } ?? true
+
+            return matchesSearch && matchesCategory && matchesCinema
         }
 
         return matchingMovies.sorted { first, second in
-            if first.rating == second.rating {
+            let firstRating = ratingSummary(for: first).effectiveRating
+            let secondRating = ratingSummary(for: second).effectiveRating
+            if firstRating == secondRating {
                 return first.title < second.title
             }
 
             switch ratingSortOrder {
             case .highestFirst:
-                return first.rating > second.rating
+                return firstRating > secondRating
             case .lowestFirst:
-                return first.rating < second.rating
+                return firstRating < secondRating
             }
         }
     }

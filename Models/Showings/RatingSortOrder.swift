@@ -1,7 +1,6 @@
 import Foundation
 
-// module 2 rating sort options
-// movies viewmodel applies this after search and category filtering
+// shared rating order for movie concert and seminar lists
 enum RatingSortOrder: Int, Codable {
     case highestFirst
     case lowestFirst

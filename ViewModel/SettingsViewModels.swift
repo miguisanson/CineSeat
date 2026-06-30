@@ -94,8 +94,13 @@ final class SettingsViewModel {
             ),
             SettingsChangelogEntry(
                 day: "June 29, 2026 (Monday)",
-                title: "Unified Showings filters and event booking",
-                details: "Unified Movies, Concerts, and Seminars filters, added assigned cinema and venue filters, added coordinate-backed event venues and live schedules, enabled concert/seminar ticket quantity booking without seats, saved events with movie bookings, added reminders/sharing/cancellation/history, added event venue map pins and details, installed the app icon, and expanded tests"
+                title: "Concert/seminar booking and feature separation",
+                details: "Kept the Showings category-card landing page, kept movie filters on Movies, added separate Concerts and Seminars models, folders, screens, search, and venue filters, added coordinate-backed venues and live schedules, enabled quantity booking without seats, saved ticketed showings with movie bookings, added reminders/sharing/cancellation/history, added venue map pins and details, installed the app icon, and expanded tests"
+            ),
+            SettingsChangelogEntry(
+                day: "June 30, 2026 (Tuesday)",
+                title: "TicketPlease rebrand, reviews, and uniform filters",
+                details: "Changed the public name to TicketPlease and new booking IDs to TP while preserving storage identifiers; added separate review files across every architecture layer, 60 casual JSON reviews, online/app rating fallback, review pages from all detail screens, and consistent title/search/status/rating/location controls for Movies, Concerts, and Seminars"
             )
         ]
     }

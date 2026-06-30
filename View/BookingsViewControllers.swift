@@ -284,7 +284,7 @@ final class BookingDetailViewController: ScrollableViewController {
 
         let alert = UIAlertController(
             title: booking.isMovieBooking ? "Share Which Seat?" : "Share Which Ticket?",
-            message: "Choose the ticket to send to another CineSeat account.",
+            message: "Choose the ticket to send to another \(AppConstants.Brand.name) account.",
             preferredStyle: .actionSheet
         )
 
@@ -310,7 +310,7 @@ final class BookingDetailViewController: ScrollableViewController {
     private func promptForRecipientEmail(seat: String) {
         let alert = UIAlertController(
             title: "Share \(seat)",
-            message: "Enter the email of an existing CineSeat account.",
+            message: "Enter the email of an existing \(AppConstants.Brand.name) account.",
             preferredStyle: .alert
         )
         alert.addTextField { textField in

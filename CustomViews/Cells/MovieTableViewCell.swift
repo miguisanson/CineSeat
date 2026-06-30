@@ -83,17 +83,17 @@ final class MovieTableViewCell: UITableViewCell {
         ])
     }
 
-    func configure(with movie: Movie) {
+    func configure(with movie: Movie, ratingSummary: ReviewRatingSummary) {
         posterView.loadPoster(from: movie.posterURLString, localName: movie.localPosterName)
         titleLabel.text = movie.title
         detailLabel.text = movie.genre
-        ratingLabel.text = "\(String(repeating: "*", count: Int(movie.rating.rounded())))  \(String(format: "%.1f", movie.rating))"
+        ratingLabel.text = "\(String(repeating: "*", count: Int(ratingSummary.effectiveRating.rounded())))  \(ratingSummary.compactText)"
         durationLabel.text = "TIME  \(movie.duration)"
         bookLabel.text = movie.isComingSoon ? "SOON" : "BOOK"
         bookLabel.backgroundColor = movie.isComingSoon ? CineSeatTheme.mutedText : CineSeatTheme.primaryText
         isAccessibilityElement = true
         accessibilityIdentifier = "movieCell_\(movie.title)"
-        accessibilityLabel = "\(movie.title), \(movie.genre), rating \(movie.rating), duration \(movie.duration)"
+        accessibilityLabel = "\(movie.title), \(movie.genre), \(ratingSummary.compactText), duration \(movie.duration)"
         accessibilityTraits = .button
     }
 }

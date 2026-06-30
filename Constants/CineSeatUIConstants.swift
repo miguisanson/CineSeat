@@ -60,4 +60,5 @@ enum CineSeatSize {
     static let bookBadgeWidth: CGFloat = 62
     static let bookBadgeHeight: CGFloat = 26
     static let smallIcon: CGFloat = 28
+    static let reviewAvatarSize: CGFloat = 42
 }

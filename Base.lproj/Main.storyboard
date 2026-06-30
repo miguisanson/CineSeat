@@ -8,7 +8,7 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
     </dependencies>
     <scenes>
-        <!--CineSeat Tabs-->
+        <!--TicketPlease Tabs-->
         <scene sceneID="scene-tabs">
             <objects>
                 <tabBarController id="tab-main" customClass="MainTabBarController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
@@ -72,7 +72,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="movies-header">
                                 <rect key="frame" x="0.0" y="59" width="393" height="72"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="CineSeat" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-title">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Movies" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-title">
                                         <rect key="frame" x="20" y="12" width="94" height="27"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
                                         <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -102,7 +102,7 @@
                                 <rect key="frame" x="16" y="191" width="361" height="33"/>
                                 <segments>
                                     <segment title="All"/>
-                                    <segment title="Now Playing"/>
+                                    <segment title="Now Showing"/>
                                     <segment title="Coming Soon"/>
                                 </segments>
                                 <connections>
@@ -309,7 +309,7 @@
                                                     <constraint firstAttribute="height" constant="96" id="profile-icon-height"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Welcome to CineSeat" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-welcome">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Welcome to TicketPlease" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-welcome">
                                                 <rect key="frame" x="0.0" y="146" width="353" height="26"/>
                                                 <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
                                                 <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

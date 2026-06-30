@@ -3,8 +3,12 @@ import Foundation
 // shared app values
 // keeping these here avoids random numbers being repeated in different screens
 enum AppConstants {
+    enum Brand {
+        static let name = "TicketPlease"
+    }
+
     enum Booking {
-        static let idPrefix = "CS"
+        static let idPrefix = "TP"
         static let defaultFee: Double = 35
         static let standardTicketPrice: Double = 350
         static let vipTicketPrice: Double = 550

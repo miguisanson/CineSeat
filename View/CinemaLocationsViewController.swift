@@ -210,7 +210,7 @@ extension CinemaLocationsViewController: MKMapViewDelegate {
             )
         case .eventVenue(let venue):
             navigationController?.pushViewController(
-                factory.makeEventVenueDetailViewController(venue: venue),
+                factory.makeShowingVenueDetailViewController(venue: venue),
                 animated: true
             )
         }

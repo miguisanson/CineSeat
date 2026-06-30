@@ -14,6 +14,7 @@ final class MoviesViewController: UIViewController {
     private lazy var viewModel = factory.makeMoviesViewModel()
     private let headerLabel = CineSeatTheme.captionLabel("")
     private let ratingSortButton = UIButton(type: .system)
+    private let cinemaFilterButton = UIButton(type: .system)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ final class MoviesViewController: UIViewController {
         movieTableView.rowHeight = UITableView.automaticDimension
         movieTableView.estimatedRowHeight = 138
 
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 72))
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 110))
         headerLabel.frame = CGRect(x: 20, y: 8, width: view.bounds.width - 40, height: 20)
         header.addSubview(headerLabel)
 
@@ -47,6 +48,17 @@ final class MoviesViewController: UIViewController {
         ratingSortButton.setTitleColor(CineSeatTheme.primaryText, for: .normal)
         ratingSortButton.addTarget(self, action: #selector(ratingSortTapped), for: .touchUpInside)
         header.addSubview(ratingSortButton)
+
+        cinemaFilterButton.frame = CGRect(x: 20, y: 68, width: view.bounds.width - 40, height: 36)
+        cinemaFilterButton.contentHorizontalAlignment = .left
+        cinemaFilterButton.showsMenuAsPrimaryAction = true
+        cinemaFilterButton.accessibilityIdentifier = "moviesCinemaFilter"
+        var configuration = UIButton.Configuration.gray()
+        configuration.image = UIImage(systemName: "mappin.and.ellipse")
+        configuration.imagePadding = CineSeatSpacing.small
+        configuration.titleLineBreakMode = .byTruncatingTail
+        cinemaFilterButton.configuration = configuration
+        header.addSubview(cinemaFilterButton)
         movieTableView.tableHeaderView = header
     }
 
@@ -77,6 +89,28 @@ final class MoviesViewController: UIViewController {
         headerLabel.text = viewModel.filterSummaryText
         ratingSortButton.isHidden = !viewModel.canSortRating
         ratingSortButton.setTitle(viewModel.ratingSortButtonTitle.uppercased(), for: .normal)
+        cinemaFilterButton.configuration?.title = viewModel.cinemaFilterTitle
+        updateCinemaMenu()
+    }
+
+    private func updateCinemaMenu() {
+        let allCinemas = UIAction(
+            title: "All Cinemas",
+            state: viewModel.selectedCinemaName == nil ? .on : .off
+        ) { [weak self] _ in
+            self?.viewModel.selectCinema(nil)
+            self?.reloadMovies()
+        }
+        let cinemas = viewModel.availableCinemaNames.map { cinemaName in
+            UIAction(
+                title: cinemaName,
+                state: viewModel.selectedCinemaName == cinemaName ? .on : .off
+            ) { [weak self] _ in
+                self?.viewModel.selectCinema(cinemaName)
+                self?.reloadMovies()
+            }
+        }
+        cinemaFilterButton.menu = UIMenu(title: "Cinemas", options: .singleSelection, children: [allCinemas] + cinemas)
     }
 }
 
@@ -104,7 +138,8 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
 
-        cell.configure(with: viewModel.filteredMovies[indexPath.row])
+        let movie = viewModel.filteredMovies[indexPath.row]
+        cell.configure(with: movie, ratingSummary: viewModel.ratingSummary(for: movie))
         return cell
     }
 

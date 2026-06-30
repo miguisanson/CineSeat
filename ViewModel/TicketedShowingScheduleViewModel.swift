@@ -1,8 +1,8 @@
 import Foundation
 
-// module 2 event schedule viewmodel
-// date time venue price and quantity rules stay outside the event detail screen
-final class EventScheduleViewModel {
+// module 2 shared ticket schedule viewmodel
+// date time venue price and quantity rules stay outside the concert and seminar screens
+final class TicketedShowingScheduleViewModel {
     let event: EventListing
     private let showings: [EventShowing]
     private(set) var selectedScheduleIndex: Int?

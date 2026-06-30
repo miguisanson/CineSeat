@@ -2,7 +2,7 @@ import Foundation
 
 // module 2 event venue detail viewmodel
 // this groups every concert or seminar assigned to one venue pin
-final class EventVenueDetailViewModel {
+final class ShowingVenueDetailViewModel {
     let venue: EventVenue
     private let eventsSource: (EventVenue) -> [EventListing]
 

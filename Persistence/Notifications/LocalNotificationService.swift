@@ -85,7 +85,7 @@ final class LocalNotificationService: BookingNotificationScheduling {
             guard fireDate > Date() else { continue }
 
             let content = UNMutableNotificationContent()
-            content.title = "CineSeat reminder"
+            content.title = "\(AppConstants.Brand.name) reminder"
             content.body = "\(booking.title) starts in \(leadTimeText(leadTime)) at \(booking.showtime)."
             content.sound = .default
 
@@ -123,7 +123,7 @@ final class LocalNotificationService: BookingNotificationScheduling {
         completion: @escaping (Bool) -> Void
     ) {
         let content = UNMutableNotificationContent()
-        content.title = "CineSeat reminder"
+        content.title = "\(AppConstants.Brand.name) reminder"
         content.body = "Demo: \(booking.title) starts at \(booking.showtime) in \(booking.locationName)."
         content.sound = .default
 

@@ -229,7 +229,7 @@ final class ChangelogViewController: ScrollableViewController {
         contentStack.addArrangedSubview(titleLabel)
 
         let subtitleLabel = UILabel()
-        subtitleLabel.text = "Demo changelog for the CineSeat booking app"
+        subtitleLabel.text = "Demo changelog for the \(AppConstants.Brand.name) booking app"
         subtitleLabel.font = CineSeatFont.bodySmall
         subtitleLabel.textColor = CineSeatTheme.secondaryText
         subtitleLabel.numberOfLines = 0

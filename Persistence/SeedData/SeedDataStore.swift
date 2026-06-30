@@ -33,8 +33,8 @@ struct SeedDataStore {
         return SeedDataDTO(
             cinemas: try read([Cinema].self, named: "Cinemas", reader: reader, bundle: bundle),
             movies: try read([Movie].self, named: "Movies", reader: reader, bundle: bundle),
-            concerts: try read([EventListing].self, named: "Concerts", reader: reader, bundle: bundle),
-            seminars: try read([EventListing].self, named: "Seminars", reader: reader, bundle: bundle),
+            concerts: try read([Concert].self, named: "Concerts", reader: reader, bundle: bundle),
+            seminars: try read([Seminar].self, named: "Seminars", reader: reader, bundle: bundle),
             eventVenues: try read([EventVenue].self, named: "EventVenues", reader: reader, bundle: bundle),
             eventShowings: try read([EventShowingDTO].self, named: "EventShowings", reader: reader, bundle: bundle),
             showings: try read([ShowingDTO].self, named: "Showings", reader: reader, bundle: bundle),

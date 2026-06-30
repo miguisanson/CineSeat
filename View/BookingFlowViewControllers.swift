@@ -11,6 +11,8 @@ final class MovieDetailViewController: ScrollableViewController {
         movie: movie,
         preselectedTimeID: preselectedTimeID
     )
+    private lazy var reviewSubject = ReviewSubject(movie: movie)
+    private lazy var reviewsViewModel = factory.makeReviewsViewModel(subject: reviewSubject)
     // time buttons are generated from the schedule so every showtime is listed
     // each time already has the cinema assigned in seed data
     private let datePicker = UIDatePicker()
@@ -37,7 +39,7 @@ final class MovieDetailViewController: ScrollableViewController {
         titleLabel.textColor = CineSeatTheme.primaryText
 
         let metadataLabel = UILabel()
-        metadataLabel.text = "\(movie.genre)  |  \(movie.duration)  |  ***** \(String(format: "%.1f", movie.rating))"
+        metadataLabel.text = "\(movie.genre)  |  \(movie.duration)  |  \(reviewsViewModel.ratingSummary.compactText)"
         metadataLabel.font = CineSeatFont.metadata
         metadataLabel.textColor = CineSeatTheme.mutedText
         metadataLabel.numberOfLines = 0
@@ -55,6 +57,11 @@ final class MovieDetailViewController: ScrollableViewController {
         synopsisStack.axis = .vertical
         synopsisStack.spacing = 7
         contentStack.addArrangedSubview(makeCard(with: synopsisStack))
+
+        let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews (\(reviewsViewModel.reviews.count))")
+        reviewsButton.accessibilityIdentifier = "movieReviewsButton"
+        reviewsButton.addTarget(self, action: #selector(reviewsTapped), for: .touchUpInside)
+        contentStack.addArrangedSubview(reviewsButton)
 
         if movie.isComingSoon {
             let comingSoonLabel = UILabel()
@@ -195,6 +202,13 @@ final class MovieDetailViewController: ScrollableViewController {
 
         let seatViewController = factory.makeSeatSelectionViewController(draft: draft)
         navigationController?.pushViewController(seatViewController, animated: true)
+    }
+
+    @objc private func reviewsTapped() {
+        navigationController?.pushViewController(
+            factory.makeReviewsViewController(subject: reviewSubject),
+            animated: true
+        )
     }
 }
 
@@ -508,7 +522,7 @@ final class ConfirmationViewController: ScrollableViewController {
                     title: scheduled ? "Demo Reminder Set" : "Notifications Disabled",
                     message: scheduled
                         ? "Wait about 5 seconds. The local notification banner should appear from the top of the screen."
-                        : "Allow notifications for CineSeat in Settings to show the local reminder demo.",
+                        : "Allow notifications for \(AppConstants.Brand.name) in Settings to show the local reminder demo.",
                     preferredStyle: .alert
                 )
                 alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -531,7 +545,7 @@ final class ConfirmationViewController: ScrollableViewController {
 
         let alert = UIAlertController(
             title: booking.isMovieBooking ? "Share Which Seat?" : "Share Which Ticket?",
-            message: "Choose the ticket to send to another CineSeat account.",
+            message: "Choose the ticket to send to another \(AppConstants.Brand.name) account.",
             preferredStyle: .actionSheet
         )
 
@@ -557,7 +571,7 @@ final class ConfirmationViewController: ScrollableViewController {
     private func promptForRecipientEmail(seat: String) {
         let alert = UIAlertController(
             title: "Share \(seat)",
-            message: "Enter the email of an existing CineSeat account.",
+            message: "Enter the email of an existing \(AppConstants.Brand.name) account.",
             preferredStyle: .alert
         )
         alert.addTextField { textField in

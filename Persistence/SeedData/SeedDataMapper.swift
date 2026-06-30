@@ -6,7 +6,9 @@ enum SeedDataMapper {
     static func makeStore(from dto: SeedDataDTO) throws -> SeedDataStore {
         let cinemaByID = Dictionary(uniqueKeysWithValues: dto.cinemas.map { ($0.id, $0) })
         let movieByTitle = Dictionary(uniqueKeysWithValues: dto.movies.map { ($0.title, $0) })
-        let eventByID = Dictionary(uniqueKeysWithValues: (dto.concerts + dto.seminars).map { ($0.id, $0) })
+        let concerts = dto.concerts.map(EventListing.concert)
+        let seminars = dto.seminars.map(EventListing.seminar)
+        let eventByID = Dictionary(uniqueKeysWithValues: (concerts + seminars).map { ($0.id, $0) })
         let eventVenueByID = Dictionary(uniqueKeysWithValues: dto.eventVenues.map { ($0.id, $0) })
 
         let mappedEventShowings = try dto.eventShowings.map { showing -> EventShowing in
@@ -101,8 +103,8 @@ enum SeedDataMapper {
         return SeedDataStore(
             cinemas: dto.cinemas,
             movies: dto.movies,
-            concerts: dto.concerts,
-            seminars: dto.seminars,
+            concerts: concerts,
+            seminars: seminars,
             eventVenues: dto.eventVenues,
             eventShowings: mappedEventShowings,
             showings: mappedShowings,

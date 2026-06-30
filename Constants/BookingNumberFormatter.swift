@@ -1,7 +1,7 @@
 import Foundation
 
 // booking number builder
-// CS means CineSeat and the year comes from the current calendar year
+// TP means TicketPlease and the year comes from the current calendar year
 enum BookingNumberFormatter {
     static func makeID(sequence: Int, date: Date = Date()) -> String {
         let year = CineSeatDateFormatters.calendar.component(.year, from: date)

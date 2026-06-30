@@ -215,7 +215,7 @@ final class ProfileViewController: ScrollableViewController {
         contentStack.addArrangedSubview(iconView)
 
         let welcomeLabel = UILabel()
-        welcomeLabel.text = "Welcome to CineSeat"
+        welcomeLabel.text = "Welcome to \(AppConstants.Brand.name)"
         welcomeLabel.textAlignment = .center
         welcomeLabel.font = CineSeatFont.pageTitle
         welcomeLabel.textColor = CineSeatTheme.primaryText
@@ -415,7 +415,7 @@ final class LoginViewController: AccountFormViewController {
         heading.font = CineSeatFont.formTitle
         heading.textColor = CineSeatTheme.primaryText
         contentStack.addArrangedSubview(heading)
-        contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Log in to continue to your CineSeat profile."))
+        contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Log in to continue to your \(AppConstants.Brand.name) profile."))
         contentStack.addArrangedSubview(makeFormCard(title: "Account", fields: [emailField, passwordField]))
 
         let loginButton = CineSeatTheme.primaryButton(title: "Log In")
