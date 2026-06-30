@@ -14,7 +14,7 @@ final class MovieDetailViewController: ScrollableViewController {
     private lazy var reviewSubject = ReviewSubject(movie: movie)
     private lazy var reviewsViewModel = factory.makeReviewsViewModel(subject: reviewSubject)
     // time buttons are generated from the schedule so every showtime is listed
-    // each time already has the cinema assigned in the local catalog
+    // each time already has the cinema assigned in local content
     private let datePicker = UIDatePicker()
     private let timesStack = UIStackView()
     private let assignedCinemaLabel = UILabel()

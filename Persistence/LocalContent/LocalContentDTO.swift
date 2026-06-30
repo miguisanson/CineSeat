@@ -1,8 +1,8 @@
 import Foundation
 
-// module 5 decodable catalog shapes
+// module 5 decodable local content shapes
 // dto structs match the json files and are mapped into app models separately
-struct CatalogDTO: Decodable {
+struct LocalContentDTO: Decodable {
     let cinemas: [Cinema]
     let movies: [Movie]
     let concerts: [Concert]

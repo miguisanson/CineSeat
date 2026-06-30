@@ -1,6 +1,6 @@
 import Foundation
 
-// converts catalog values such as 2h 30m into a duration used by review rules
+// converts local content values such as 2h 30m into a duration used by review rules
 enum ShowingDurationParser {
     static func timeInterval(from text: String) -> TimeInterval? {
         var hours = 0

@@ -14,14 +14,14 @@ final class ShowingsViewModel {
     }
 
     convenience init(
-        movies: [Movie] = AppCatalog.movies,
-        concerts: [EventListing] = AppCatalog.concerts,
-        seminars: [EventListing] = AppCatalog.seminars
+        movies: [Movie] = AppContent.movies,
+        concerts: [EventListing] = AppContent.concerts,
+        seminars: [EventListing] = AppContent.seminars
     ) {
         self.init(
-            fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: LocalMovieCatalogClient(movies: movies)),
+            fetchMoviesUseCase: DefaultFetchMoviesUseCase(movieFetcher: LocalMovieContentClient(movies: movies)),
             fetchEventsUseCase: DefaultFetchEventsUseCase(
-                eventFetcher: LocalEventCatalogClient(concerts: concerts, seminars: seminars)
+                eventFetcher: LocalEventContentClient(concerts: concerts, seminars: seminars)
             )
         )
     }

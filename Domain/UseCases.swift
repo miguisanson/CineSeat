@@ -6,10 +6,10 @@ protocol FetchMoviesUseCase {
     func execute() -> [Movie]
 }
 
-final class LocalMovieCatalogClient: MovieFetching {
+final class LocalMovieContentClient: MovieFetching {
     private let movies: [Movie]
 
-    init(movies: [Movie] = AppCatalog.movies) {
+    init(movies: [Movie] = AppContent.movies) {
         self.movies = movies
     }
 
@@ -34,13 +34,13 @@ protocol FetchEventsUseCase {
     func execute(category: EventCategory) -> [EventListing]
 }
 
-final class LocalEventCatalogClient: EventFetching {
+final class LocalEventContentClient: EventFetching {
     private let concerts: [EventListing]
     private let seminars: [EventListing]
 
     init(
-        concerts: [EventListing] = AppCatalog.concerts,
-        seminars: [EventListing] = AppCatalog.seminars
+        concerts: [EventListing] = AppContent.concerts,
+        seminars: [EventListing] = AppContent.seminars
     ) {
         self.concerts = concerts
         self.seminars = seminars
@@ -74,10 +74,10 @@ protocol FetchMovieShowingsUseCase {
 
 // module 6 local fetch client
 // this can be replaced with a remote schedule client without changing the viewmodel
-final class LocalMovieShowingCatalogClient: MovieShowingFetching {
+final class LocalMovieShowingContentClient: MovieShowingFetching {
     private let showings: [MovieShowing]
 
-    init(showings: [MovieShowing] = AppCatalog.showings) {
+    init(showings: [MovieShowing] = AppContent.showings) {
         self.showings = showings
     }
 
@@ -102,10 +102,10 @@ protocol FetchEventShowingsUseCase {
     func execute() -> [EventShowing]
 }
 
-final class LocalEventShowingCatalogClient: EventShowingFetching {
+final class LocalEventShowingContentClient: EventShowingFetching {
     private let showings: [EventShowing]
 
-    init(showings: [EventShowing] = AppCatalog.eventShowings) {
+    init(showings: [EventShowing] = AppContent.eventShowings) {
         self.showings = showings
     }
 

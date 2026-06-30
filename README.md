@@ -20,7 +20,7 @@ TicketPlease is a UIKit ticket-booking application for movies, concerts, and sem
 ## Architecture
 
 - `Models/`: Codable/value models separated by Movies, Concerts, Seminars, Showings, Booking, Reviews, Profile, Settings, and Locations
-- `Persistence/Catalog/`: seven local content JSON files plus catalog DTO, mapper, error, loader, and entry point
+- `Persistence/LocalContent/`: seven bundled content JSON files plus DTO, mapper, error, loader, and entry point
 - `Persistence/Booking/`: `bookings.json` repository and store
 - `Persistence/Profile/`: `profiles.json`, Keychain password store, session store, and authentication service
 - `Persistence/Reviews/`: `reviews.json` repository and one-review-per-account store
@@ -33,9 +33,9 @@ TicketPlease is a UIKit ticket-booking application for movies, concerts, and sem
 - `Design/AppFactory.swift`: dependency composition root
 - `Constants/`: brand, pricing, notification values, UI tokens, dates, duration parsing, booking IDs, and changelog content
 
-## Local JSON Catalog
+## Local JSON Content
 
-The catalog is split into:
+The local content is split into:
 
 - `Cinemas.json`
 - `Movies.json`
@@ -45,7 +45,7 @@ The catalog is split into:
 - `EventShowings.json`
 - `Showings.json`
 
-`CatalogStore` uses `JSONFileReader` and `JSONDecoder` to load these files. On first use it copies each bundled file to `Documents/Catalog`, then `CatalogMapper` resolves cinema, venue, event, and schedule IDs into app models. `AppCatalog` exposes the mapped content to protocol-backed local clients.
+`LocalContentStore` uses `JSONFileReader` and `JSONDecoder` to load these files. On first use it copies each bundled file to `Documents/LocalContent`, then `LocalContentMapper` resolves cinema, venue, event, and schedule IDs into app models. `AppContent` exposes the mapped values to protocol-backed local clients.
 
 This is functional local/offline content storage, but it is not a shared production database. It cannot synchronize devices or enforce global inventory. See `TICKETPLEASE_LIVE_READINESS_CHECKLIST.md`.
 
@@ -83,4 +83,4 @@ Programmatic screens use Auto Layout, safe-area anchors, reusable table cells, a
 
 Open `CineSeat.xcodeproj`, select the `CineSeat` scheme, choose an iOS 17.5 simulator, and run.
 
-Unit tests cover catalog rules, schedules, maps, seats, booking persistence, sharing, settings, authentication, Keychain, review persistence, ownership, and completed-showing eligibility. UI tests cover movie/event review routing, booking access, and account flows.
+Unit tests cover local content rules, schedules, maps, seats, booking persistence, sharing, settings, authentication, Keychain, review persistence, ownership, and completed-showing eligibility. UI tests cover movie/event review routing, booking access, and account flows.

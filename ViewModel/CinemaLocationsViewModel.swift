@@ -8,8 +8,8 @@ final class CinemaLocationsViewModel {
     private(set) var selectedCategory: LocationCategory = .cinemas
 
     init(
-        cinemasSource: @escaping () -> [Cinema] = { AppCatalog.cinemas },
-        eventVenuesSource: @escaping () -> [EventVenue] = { AppCatalog.eventVenues }
+        cinemasSource: @escaping () -> [Cinema] = { AppContent.cinemas },
+        eventVenuesSource: @escaping () -> [EventVenue] = { AppContent.eventVenues }
     ) {
         self.cinemasSource = cinemasSource
         self.eventVenuesSource = eventVenuesSource

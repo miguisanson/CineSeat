@@ -1,8 +1,8 @@
 import Foundation
 
-// module 5 local catalog entry point
-// content and schedules come from the json catalog copied into Documents
-enum AppCatalog {
+// module 5 local content entry point
+// content and schedules come from json files copied into Documents
+enum AppContent {
     static var cinemas: [Cinema] {
         store.cinemas
     }
@@ -55,5 +55,5 @@ enum AppCatalog {
         return (concerts + seminars).filter { eventIDs.contains($0.id) }
     }
 
-    private static let store = CatalogStore.load()
+    private static let store = LocalContentStore.load()
 }

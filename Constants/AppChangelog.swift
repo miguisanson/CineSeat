@@ -46,7 +46,7 @@ enum AppChangelog {
         SettingsChangelogEntry(
             day: "June 30, 2026 (Tuesday)",
             title: "TicketPlease reviews and release organization",
-            details: "Applied the TicketPlease public brand and TP booking IDs, standardized Movie/Concert/Seminar list controls, replaced bundled reviews with account-owned FileManager JSON reviews, enforced booking and completed-showing eligibility, added one-review create/edit/delete rules, isolated testing controls in Developer Mode, and renamed starter content to the local Catalog"
+            details: "Applied the TicketPlease public brand and TP booking IDs, standardized Movie/Concert/Seminar list controls, replaced bundled reviews with account-owned FileManager JSON reviews, enforced booking and completed-showing eligibility, added one-review create/edit/delete rules, isolated testing controls in Developer Mode, and organized bundled JSON under LocalContent"
         )
     ]
 }

@@ -30,11 +30,11 @@ final class JSONFileReader {
         extension fileExtension: String,
         bundle: Bundle = .main
     ) -> URL? {
-        let bundles = [bundle, Bundle.main, Bundle(for: CatalogBundleToken.self)]
+        let bundles = [bundle, Bundle.main, Bundle(for: LocalContentBundleToken.self)]
         return bundles.compactMap {
             $0.url(forResource: name, withExtension: fileExtension)
         }.first
     }
 }
 
-final class CatalogBundleToken {}
+final class LocalContentBundleToken {}

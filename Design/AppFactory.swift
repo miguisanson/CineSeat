@@ -27,10 +27,10 @@ struct AppDependencies {
         let preferences = AppPreferences.shared
         let bookingManager = BookingStore.shared
         let authenticationService = AuthenticationService.shared
-        let movieFetcher = LocalMovieCatalogClient()
-        let eventFetcher = LocalEventCatalogClient()
-        let showingFetcher = LocalMovieShowingCatalogClient()
-        let eventShowingFetcher = LocalEventShowingCatalogClient()
+        let movieFetcher = LocalMovieContentClient()
+        let eventFetcher = LocalEventContentClient()
+        let showingFetcher = LocalMovieShowingContentClient()
+        let eventShowingFetcher = LocalEventShowingContentClient()
         let reviewManager = ReviewStore.shared
 
         return AppDependencies(

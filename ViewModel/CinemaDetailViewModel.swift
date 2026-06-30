@@ -46,9 +46,9 @@ final class CinemaDetailViewModel {
 
     init(
         cinema: Cinema,
-        cinemaSource: @escaping () -> [Cinema] = { AppCatalog.cinemas },
-        movieSource: @escaping () -> [Movie] = { AppCatalog.movies },
-        showingSource: @escaping () -> [MovieShowing] = { AppCatalog.showings }
+        cinemaSource: @escaping () -> [Cinema] = { AppContent.cinemas },
+        movieSource: @escaping () -> [Movie] = { AppContent.movies },
+        showingSource: @escaping () -> [MovieShowing] = { AppContent.showings }
     ) {
         self.cinema = cinema
         self.cinemaSource = cinemaSource

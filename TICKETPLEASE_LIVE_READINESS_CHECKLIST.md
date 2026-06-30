@@ -21,17 +21,17 @@ This checklist separates implemented local features from work required before a 
 - [x] Review eligibility checks confirmed ticket ownership and completed showing duration
 - [x] Developer Mode isolates review simulation, notification testing, and destructive resets
 - [x] Offline movie posters with URLSession/FileManager cache fallback
-- [x] Unit coverage for catalog rules, persistence, validation, booking, sharing, reviews, maps, and settings
+- [x] Unit coverage for local content rules, persistence, validation, booking, sharing, reviews, maps, and settings
 
 ## Local Data Status
 
-- [x] Seven bundled JSON files are separated by catalog responsibility
-- [x] `CatalogStore` decodes DTOs and maps IDs into domain models
-- [x] Bundled catalog files initialize `Documents/Catalog` on first use
+- [x] Seven bundled JSON files are separated by content responsibility
+- [x] `LocalContentStore` decodes DTOs and maps IDs into domain models
+- [x] Bundled content files initialize `Documents/LocalContent` on first use
 - [x] New installations contain no generated accounts, bookings, or reviews
 - [x] Runtime files are separate: `profiles.json`, `bookings.json`, and `reviews.json`
-- [ ] Add catalog version migration so an App Store update can replace or migrate an older Documents catalog
-- [ ] Replace fatal catalog-loading failure with recoverable error reporting and a user-facing retry state
+- [ ] Add local content version migration so an App Store update can replace or migrate older Documents content
+- [ ] Replace fatal local content loading with recoverable error reporting and a user-facing retry state
 
 The current JSON implementation is a local database substitute for one device. Editing the project JSON changes bundled release content, while user interactions write to the app container. It cannot synchronize two users or protect shared inventory. A live service requires a remote database and authenticated API.
 

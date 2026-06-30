@@ -15,12 +15,12 @@ final class ConcertListViewModel: TicketedShowingListViewModeling {
         self.fetchReviewsUseCase = fetchReviewsUseCase
     }
 
-    convenience init(concerts: [Concert] = AppCatalog.concerts.compactMap(\.concert)) {
+    convenience init(concerts: [Concert] = AppContent.concerts.compactMap(\.concert)) {
         self.init(
             fetchEventsUseCase: DefaultFetchEventsUseCase(
-                eventFetcher: LocalEventCatalogClient(
+                eventFetcher: LocalEventContentClient(
                     concerts: concerts.map(EventListing.concert),
-                    seminars: AppCatalog.seminars
+                    seminars: AppContent.seminars
                 )
             ),
             fetchReviewsUseCase: DefaultFetchReviewsUseCase(reviewFetcher: ReviewStore.shared)

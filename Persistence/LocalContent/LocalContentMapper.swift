@@ -2,8 +2,8 @@ import Foundation
 
 // module 5 json mapper
 // ids in json are connected to full app models here
-enum CatalogMapper {
-    static func makeStore(from dto: CatalogDTO) throws -> CatalogStore {
+enum LocalContentMapper {
+    static func makeStore(from dto: LocalContentDTO) throws -> LocalContentStore {
         let cinemaByID = Dictionary(uniqueKeysWithValues: dto.cinemas.map { ($0.id, $0) })
         let concerts = dto.concerts.map(EventListing.concert)
         let seminars = dto.seminars.map(EventListing.seminar)
@@ -12,13 +12,13 @@ enum CatalogMapper {
 
         let mappedEventShowings = try dto.eventShowings.map { showing -> EventShowing in
             guard eventByID[showing.eventID] != nil else {
-                throw CatalogError.missingEvent(showing.eventID)
+                throw LocalContentError.missingEvent(showing.eventID)
             }
 
             let schedules = try showing.schedules.map { schedule -> EventSchedule in
                 let times = try schedule.times.map { time -> EventTime in
                     guard let venue = eventVenueByID[time.venueID] else {
-                        throw CatalogError.missingEventVenue(time.venueID)
+                        throw LocalContentError.missingEventVenue(time.venueID)
                     }
                     return EventTime(
                         id: time.id,
@@ -43,7 +43,7 @@ enum CatalogMapper {
             let schedules = try showing.schedules.map { schedule -> ShowingSchedule in
                 let times = try schedule.times.map { time -> ShowingTime in
                     guard let cinema = cinemaByID[time.cinemaID] else {
-                        throw CatalogError.missingCinema(time.cinemaID)
+                        throw LocalContentError.missingCinema(time.cinemaID)
                     }
                     return ShowingTime(
                         id: time.id,
@@ -66,7 +66,7 @@ enum CatalogMapper {
             )
         }
 
-        return CatalogStore(
+        return LocalContentStore(
             cinemas: dto.cinemas,
             movies: dto.movies,
             concerts: concerts,

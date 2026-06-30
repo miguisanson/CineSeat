@@ -19,7 +19,7 @@ final class MoviesViewModel {
     init(
         fetchMoviesUseCase: FetchMoviesUseCase,
         fetchMovieShowingsUseCase: FetchMovieShowingsUseCase = DefaultFetchMovieShowingsUseCase(
-            showingFetcher: LocalMovieShowingCatalogClient()
+            showingFetcher: LocalMovieShowingContentClient()
         ),
         fetchReviewsUseCase: FetchReviewsUseCase = DefaultFetchReviewsUseCase(
             reviewFetcher: ReviewStore.shared
@@ -34,16 +34,16 @@ final class MoviesViewModel {
     }
 
     convenience init(
-        movies: [Movie] = AppCatalog.movies,
-        movieShowings: [MovieShowing] = AppCatalog.showings,
+        movies: [Movie] = AppContent.movies,
+        movieShowings: [MovieShowing] = AppContent.showings,
         preferences: AppPreferencesManaging? = nil
     ) {
         self.init(
             fetchMoviesUseCase: DefaultFetchMoviesUseCase(
-                movieFetcher: LocalMovieCatalogClient(movies: movies)
+                movieFetcher: LocalMovieContentClient(movies: movies)
             ),
             fetchMovieShowingsUseCase: DefaultFetchMovieShowingsUseCase(
-                showingFetcher: LocalMovieShowingCatalogClient(showings: movieShowings)
+                showingFetcher: LocalMovieShowingContentClient(showings: movieShowings)
             ),
             fetchReviewsUseCase: DefaultFetchReviewsUseCase(
                 reviewFetcher: ReviewStore.shared
