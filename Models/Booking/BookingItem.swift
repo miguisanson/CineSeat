@@ -46,13 +46,6 @@ enum BookingItem: Equatable, Codable {
         }
     }
 
-    var detailText: String {
-        switch self {
-        case .movie(let movie): return "\(movie.genre) - \(movie.duration)"
-        case .event(let event): return "\(event.eventType) - \(event.duration)"
-        }
-    }
-
     var categoryTitle: String {
         switch self {
         case .movie: return "Movie"

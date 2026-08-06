@@ -85,12 +85,12 @@ final class ReviewTableViewCell: UITableViewCell {
         avatarLabel.text = review.authorInitials
         nameLabel.text = review.authorName
         dateLabel.text = review.relativeDateText
-        ratingLabel.text = "\(String(repeating: "*", count: Int(review.rating.rounded()))) \(String(format: "%.1f", review.rating))"
+        ratingLabel.text = RatingDisplayFormatter.text(for: review.rating)
         commentLabel.text = review.comment
         ownerLabel.text = isCurrentUser ? "YOUR REVIEW - TAP TO EDIT" : nil
         ownerLabel.isHidden = !isCurrentUser
         isAccessibilityElement = true
         accessibilityIdentifier = "review_\(review.id)"
-        accessibilityLabel = "\(review.authorName), rated \(review.rating), \(review.comment)"
+        accessibilityLabel = "\(review.authorName), rated \(RatingDisplayFormatter.text(for: review.rating)), \(review.comment)"
     }
 }

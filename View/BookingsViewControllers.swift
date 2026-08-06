@@ -117,6 +117,12 @@ extension BookingsViewController: UITableViewDataSource, UITableViewDelegate {
 // the cinema map is rebuilt here so booked seats can be checked again
 final class BookingDetailViewController: ScrollableViewController {
     var booking: Booking!
+    var factory = AppFactory.shared
+    private let itemDetailsLabel = UILabel()
+    private lazy var reviewsViewModel = factory.makeReviewsViewModel(
+        subject: ReviewSubject(booking: booking),
+        accessContext: .booking(booking)
+    )
     var cancelBookingUseCase: CancelBookingUseCase = DefaultCancelBookingUseCase(
         bookingManager: BookingStore.shared
     )
@@ -128,6 +134,12 @@ final class BookingDetailViewController: ScrollableViewController {
         buildInterface()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reviewsViewModel.reload()
+        updateItemDetails()
+    }
+
     private func buildInterface() {
         let bookingTitle = UILabel()
         bookingTitle.text = booking.title
@@ -135,7 +147,9 @@ final class BookingDetailViewController: ScrollableViewController {
         bookingTitle.textColor = CineSeatTheme.primaryText
         bookingTitle.numberOfLines = 0
 
-        let itemDetails = CineSeatTheme.captionLabel(booking.itemDetailText)
+        itemDetailsLabel.font = CineSeatFont.metadata
+        itemDetailsLabel.textColor = CineSeatTheme.mutedText
+        itemDetailsLabel.numberOfLines = 0
         let statusLabel = UILabel()
         statusLabel.text = booking.status.rawValue.uppercased()
         statusLabel.textAlignment = .center
@@ -150,10 +164,15 @@ final class BookingDetailViewController: ScrollableViewController {
         let statusRow = UIStackView(arrangedSubviews: [bookingTitle, UIView(), statusLabel])
         statusRow.axis = .horizontal
         statusRow.alignment = .center
-        let itemStack = UIStackView(arrangedSubviews: [statusRow, itemDetails])
+        let itemStack = UIStackView(arrangedSubviews: [statusRow, itemDetailsLabel])
         itemStack.axis = .vertical
         itemStack.spacing = 5
         contentStack.addArrangedSubview(makeCard(with: itemStack))
+
+        let reviewsButton = CineSeatTheme.secondaryButton(title: AppConstants.Reviews.readButtonTitle)
+        reviewsButton.accessibilityIdentifier = "bookingReviewsButton"
+        reviewsButton.addTarget(self, action: #selector(reviewsTapped), for: .touchUpInside)
+        contentStack.addArrangedSubview(reviewsButton)
 
         let details = UIStackView()
         details.axis = .vertical
@@ -213,6 +232,13 @@ final class BookingDetailViewController: ScrollableViewController {
     private var ticketTypeText: String {
         if !booking.isMovieBooking { return "Event ticket" }
         return booking.ticketPrice >= AppConstants.Booking.vipTicketPrice ? "VIP" : "Standard"
+    }
+
+    private func updateItemDetails() {
+        itemDetailsLabel.text = ShowingMetadataFormatter.item(
+            booking.item,
+            ratingText: reviewsViewModel.ratingSummary.compactText
+        )
     }
 
     private var canShareTicket: Bool {
@@ -362,6 +388,16 @@ final class BookingDetailViewController: ScrollableViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+
+    @objc private func reviewsTapped() {
+        navigationController?.pushViewController(
+            factory.makeReviewsViewController(
+                subject: ReviewSubject(booking: booking),
+                accessContext: .booking(booking)
+            ),
+            animated: true
+        )
     }
 
     @objc private func cancelTapped() {

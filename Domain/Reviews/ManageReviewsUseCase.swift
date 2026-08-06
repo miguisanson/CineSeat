@@ -14,7 +14,11 @@ final class DefaultManageReviewsUseCase: ManageReviewsUseCase {
     }
 
     func review(for subject: ReviewSubject, authorProfileID: UUID) -> Review? {
-        reviewManager.fetchReviews().first {
+        reviews(for: subject, authorProfileID: authorProfileID).first
+    }
+
+    func reviews(for subject: ReviewSubject, authorProfileID: UUID) -> [Review] {
+        reviewManager.fetchReviews().filter {
             $0.subjectID == subject.id &&
                 $0.contentType == subject.contentType &&
                 $0.authorProfileID == authorProfileID
@@ -26,13 +30,17 @@ final class DefaultManageReviewsUseCase: ManageReviewsUseCase {
         subject: ReviewSubject,
         author: UserProfile,
         rating: Double,
-        comment: String
+        comment: String,
+        existingReviewID: String?,
+        allowsMultipleReviews: Bool
     ) throws -> Review {
         try reviewManager.saveReview(
             subject: subject,
             author: author,
             rating: rating,
-            comment: comment
+            comment: comment,
+            existingReviewID: existingReviewID,
+            allowsMultipleReviews: allowsMultipleReviews
         )
     }
 

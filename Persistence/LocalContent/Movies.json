@@ -1,6 +1,7 @@
 [
   {
     "title": "Star Wars: Episode IV - A New Hope",
+    "tmdbID": 11,
     "genre": "Sci-Fi / Adventure",
     "duration": "2h 01m",
     "rating": 4.7,
@@ -12,6 +13,7 @@
   },
   {
     "title": "Dune: Part Two",
+    "tmdbID": 693134,
     "genre": "Sci-Fi / Adventure",
     "duration": "2h 46m",
     "rating": 4.6,
@@ -23,6 +25,7 @@
   },
   {
     "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "tmdbID": 120,
     "genre": "Fantasy / Adventure",
     "duration": "2h 58m",
     "rating": 4.5,
@@ -34,6 +37,7 @@
   },
   {
     "title": "Harry Potter and the Sorcerer's Stone",
+    "tmdbID": 671,
     "genre": "Fantasy / Family",
     "duration": "2h 32m",
     "rating": 4.3,
@@ -45,6 +49,7 @@
   },
   {
     "title": "The Dark Knight",
+    "tmdbID": 155,
     "genre": "Action / Crime",
     "duration": "2h 32m",
     "rating": 4.8,
@@ -56,6 +61,7 @@
   },
   {
     "title": "Inception",
+    "tmdbID": 27205,
     "genre": "Sci-Fi / Thriller",
     "duration": "2h 28m",
     "rating": 4.7,
@@ -67,6 +73,7 @@
   },
   {
     "title": "Spider-Man: No Way Home",
+    "tmdbID": 634649,
     "genre": "Action / Adventure",
     "duration": "2h 28m",
     "rating": 4.4,
@@ -78,6 +85,7 @@
   },
   {
     "title": "Avatar: The Way of Water",
+    "tmdbID": 76600,
     "genre": "Sci-Fi / Adventure",
     "duration": "3h 12m",
     "rating": 4.2,
@@ -89,6 +97,7 @@
   },
   {
     "title": "Inside Out 2",
+    "tmdbID": 1022789,
     "genre": "Animation / Family",
     "duration": "1h 36m",
     "rating": 4.5,
@@ -100,6 +109,7 @@
   },
   {
     "title": "Oppenheimer",
+    "tmdbID": 872585,
     "genre": "Biography / Drama",
     "duration": "3h 00m",
     "rating": 4.6,

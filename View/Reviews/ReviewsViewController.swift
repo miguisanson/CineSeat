@@ -1,17 +1,24 @@
 import UIKit
 
-// module 2 reviews screen
-// app reviews remain separate from the online score
+// TicketPlease and online reviews use separate data sources on the same screen
 final class ReviewsViewController: UIViewController {
     var factory = AppFactory.shared
     var viewModel: ReviewsViewModel!
+    var onlineViewModel: OnlineReviewsViewModel!
 
-    private let onlineLabel = UILabel()
+    private let onlineRatingLabel = UILabel()
     private let appRatingLabel = UILabel()
+    private let sourceControl = UISegmentedControl(items: ["TicketPlease", "Online"])
+    private let writeAccessLabel = UILabel()
+    private let attributionLabel = UILabel()
     private let countLabel = CineSeatTheme.captionLabel("")
     private let reviewActionButton = CineSeatTheme.primaryButton(title: "Write a Review")
     private let tableView = UITableView()
     private let emptyLabel = UILabel()
+
+    private var showsOnlineReviews: Bool {
+        sourceControl.selectedSegmentIndex == 1
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +31,13 @@ final class ReviewsViewController: UIViewController {
             name: viewModel.didChangeNotification,
             object: nil
         )
-        reloadReviews()
+        reloadReviewSource()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadReviews()
+        viewModel.reload()
+        reloadReviewSource()
     }
 
     deinit {
@@ -45,11 +53,25 @@ final class ReviewsViewController: UIViewController {
         titleLabel.textColor = CineSeatTheme.primaryText
         titleLabel.numberOfLines = 0
 
-        onlineLabel.font = CineSeatFont.metadata
-        onlineLabel.textColor = CineSeatTheme.secondaryText
+        onlineRatingLabel.font = CineSeatFont.metadata
+        onlineRatingLabel.textColor = CineSeatTheme.secondaryText
         appRatingLabel.font = CineSeatFont.metadataSemibold
         appRatingLabel.textColor = CineSeatTheme.primaryText
         appRatingLabel.numberOfLines = 0
+
+        sourceControl.selectedSegmentIndex = 0
+        sourceControl.accessibilityIdentifier = "reviewSourceControl"
+        sourceControl.addTarget(self, action: #selector(sourceChanged), for: .valueChanged)
+
+        writeAccessLabel.text = "Reviews can be written from Booking Detail after the booked showtime."
+        writeAccessLabel.font = CineSeatFont.bodySmall
+        writeAccessLabel.textColor = CineSeatTheme.secondaryText
+        writeAccessLabel.numberOfLines = 0
+
+        attributionLabel.text = "Online written reviews are provided by TMDB."
+        attributionLabel.font = CineSeatFont.bodySmall
+        attributionLabel.textColor = CineSeatTheme.secondaryText
+        attributionLabel.numberOfLines = 0
 
         reviewActionButton.addTarget(self, action: #selector(reviewActionTapped), for: .touchUpInside)
         reviewActionButton.accessibilityIdentifier = "reviewActionButton"
@@ -57,8 +79,11 @@ final class ReviewsViewController: UIViewController {
         let summaryStack = UIStackView(arrangedSubviews: [
             typeLabel,
             titleLabel,
-            onlineLabel,
+            onlineRatingLabel,
             appRatingLabel,
+            sourceControl,
+            writeAccessLabel,
+            attributionLabel,
             reviewActionButton
         ])
         summaryStack.axis = .vertical
@@ -68,14 +93,14 @@ final class ReviewsViewController: UIViewController {
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: ReviewTableViewCell.reuseIdentifier)
+        tableView.register(OnlineReviewTableViewCell.self, forCellReuseIdentifier: OnlineReviewTableViewCell.reuseIdentifier)
         tableView.backgroundColor = CineSeatTheme.background
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 150
+        tableView.estimatedRowHeight = 170
         tableView.dataSource = self
         tableView.delegate = self
 
-        emptyLabel.text = "No TicketPlease reviews yet."
         emptyLabel.font = CineSeatFont.body
         emptyLabel.textColor = CineSeatTheme.secondaryText
         emptyLabel.textAlignment = .center
@@ -110,16 +135,45 @@ final class ReviewsViewController: UIViewController {
     }
 
     @objc private func reviewsChanged() {
-        reloadReviews()
+        viewModel.reload()
+        reloadReviewSource()
     }
 
-    private func reloadReviews() {
-        viewModel.reload()
-        onlineLabel.text = viewModel.ratingSummary.onlineRatingText
-        appRatingLabel.text = viewModel.ratingSummary.appRatingText
-        countLabel.text = viewModel.reviewCountText.uppercased()
+    @objc private func sourceChanged() {
+        reloadReviewSource()
+        guard showsOnlineReviews else { return }
+        Task { [weak self] in
+            guard let self else { return }
+            await onlineViewModel.load()
+            reloadReviewSource()
+        }
+    }
+
+    private func reloadReviewSource() {
+        let ratingSummary = viewModel.ratingSummary
+        onlineRatingLabel.text = ratingSummary.onlineRating.map {
+            RatingDisplayFormatter.sourcedText(for: $0, source: "Online")
+        }
+        onlineRatingLabel.isHidden = ratingSummary.onlineRating == nil
+        let reviewWord = ratingSummary.reviewCount == 1 ? "review" : "reviews"
+        appRatingLabel.text = ratingSummary.appRating.map {
+            "\(RatingDisplayFormatter.sourcedText(for: $0, source: AppConstants.Brand.name)) from \(ratingSummary.reviewCount) \(reviewWord)"
+        }
+        appRatingLabel.isHidden = ratingSummary.appRating == nil
+        attributionLabel.isHidden = !showsOnlineReviews
+        writeAccessLabel.isHidden = showsOnlineReviews || viewModel.showsReviewAction
+        reviewActionButton.isHidden = showsOnlineReviews || !viewModel.showsReviewAction
         reviewActionButton.setTitle(viewModel.reviewActionTitle.uppercased(), for: .normal)
-        emptyLabel.isHidden = !viewModel.reviews.isEmpty
+
+        if showsOnlineReviews {
+            countLabel.text = onlineViewModel.countText.uppercased()
+            emptyLabel.text = onlineViewModel.emptyStateText
+            emptyLabel.isHidden = !onlineViewModel.reviews.isEmpty
+        } else {
+            countLabel.text = viewModel.reviewCountText.uppercased()
+            emptyLabel.text = "No TicketPlease reviews yet."
+            emptyLabel.isHidden = !viewModel.reviews.isEmpty
+        }
         tableView.reloadData()
     }
 
@@ -129,7 +183,7 @@ final class ReviewsViewController: UIViewController {
             return
         }
 
-        let existingReview = viewModel.currentUserReview
+        let existingReview = viewModel.reviewForAction
         if existingReview == nil && !viewModel.eligibility.canReview {
             showMessage(title: "Review Not Available", message: viewModel.eligibility.message)
             return
@@ -139,7 +193,8 @@ final class ReviewsViewController: UIViewController {
             factory.makeReviewEditorViewController(
                 subject: viewModel.subject,
                 author: profile,
-                existingReview: existingReview
+                existingReview: existingReview,
+                allowsMultipleReviews: viewModel.reviewTestingEnabled
             ),
             animated: true
         )
@@ -154,10 +209,19 @@ final class ReviewsViewController: UIViewController {
 
 extension ReviewsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.reviews.count
+        showsOnlineReviews ? onlineViewModel.reviews.count : viewModel.reviews.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if showsOnlineReviews {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: OnlineReviewTableViewCell.reuseIdentifier,
+                for: indexPath
+            ) as? OnlineReviewTableViewCell else { return UITableViewCell() }
+            cell.configure(with: onlineViewModel.reviews[indexPath.row])
+            return cell
+        }
+
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ReviewTableViewCell.reuseIdentifier,
             for: indexPath
@@ -168,13 +232,20 @@ extension ReviewsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if showsOnlineReviews {
+            guard let url = onlineViewModel.reviews[indexPath.row].sourceURL else { return }
+            UIApplication.shared.open(url)
+            return
+        }
+
         let review = viewModel.reviews[indexPath.row]
         guard viewModel.canEdit(review), let profile = viewModel.currentProfile else { return }
         navigationController?.pushViewController(
             factory.makeReviewEditorViewController(
                 subject: viewModel.subject,
                 author: profile,
-                existingReview: review
+                existingReview: review,
+                allowsMultipleReviews: viewModel.reviewTestingEnabled
             ),
             animated: true
         )

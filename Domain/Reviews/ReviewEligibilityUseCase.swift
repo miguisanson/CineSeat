@@ -17,28 +17,33 @@ final class DefaultCheckReviewEligibilityUseCase: CheckReviewEligibilityUseCase 
         self.now = now
     }
 
-    func execute(subject: ReviewSubject, profile: UserProfile?) -> ReviewEligibility {
+    func execute(booking: Booking, subject: ReviewSubject, profile: UserProfile?) -> ReviewEligibility {
         guard let profile else {
             return ReviewEligibility(canReview: false, message: "Log in before writing a review.")
         }
 
-        let settings = settingsStore.settings
-        if settings.developerModeEnabled && settings.simulateReviewEligibility {
-            return ReviewEligibility(canReview: true, message: "Developer Mode is simulating an attended booking.")
+        guard matches(booking: booking, subject: subject), booking.isVisible(to: profile.email) else {
+            return ReviewEligibility(canReview: false, message: "This booking is not assigned to the signed-in account.")
         }
 
-        let matchingBookings = bookingManager.bookings.filter { booking in
-            booking.status.isConfirmed &&
-                booking.isVisible(to: profile.email) &&
-                matches(booking: booking, subject: subject)
+        let settings = settingsStore.settings
+        if settings.developerModeEnabled && settings.reviewTestingEnabled {
+            return ReviewEligibility(canReview: true, message: "Developer Mode allows repeated test reviews from this booking.")
         }
-        guard !matchingBookings.isEmpty else {
-            return ReviewEligibility(canReview: false, message: "You can review this after booking one of its tickets.")
+
+        guard let currentBooking = bookingManager.bookings.first(where: { $0.id == booking.id }),
+              matches(booking: currentBooking, subject: subject),
+              currentBooking.status.isConfirmed,
+              currentBooking.isVisible(to: profile.email) else {
+            return ReviewEligibility(canReview: false, message: "Only an active confirmed booking can be reviewed.")
         }
-        guard matchingBookings.contains(where: { $0.endsAt <= now() }) else {
-            return ReviewEligibility(canReview: false, message: "You can review this after its booked showing has finished.")
+        guard currentBooking.startsAt <= now() else {
+            return ReviewEligibility(
+                canReview: false,
+                message: "Writing opens after the booked showtime: \(currentBooking.dateSummary) at \(currentBooking.showtime)."
+            )
         }
-        return ReviewEligibility(canReview: true, message: "Your attended booking is eligible for one review.")
+        return ReviewEligibility(canReview: true, message: "This booking is eligible for one review.")
     }
 
     private func matches(booking: Booking, subject: ReviewSubject) -> Bool {

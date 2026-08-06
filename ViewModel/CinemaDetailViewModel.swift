@@ -20,7 +20,7 @@ final class CinemaDetailViewModel {
         let dateGroups: [DateGroup]
 
         var metadataText: String {
-            "\(movie.genre)  ·  ★ \(String(format: "%.1f", movie.rating))  ·  \(movie.duration)"
+            ShowingMetadataFormatter.movie(movie)
         }
 
         var showtimeCount: Int {

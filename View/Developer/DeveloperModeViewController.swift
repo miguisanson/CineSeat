@@ -5,7 +5,7 @@ final class DeveloperModeViewController: ScrollableViewController {
     var viewModel: DeveloperModeViewModel!
 
     private let developerModeSwitch = UISwitch()
-    private let simulateReviewSwitch = UISwitch()
+    private let reviewTestingSwitch = UISwitch()
     private let testNotificationSwitch = UISwitch()
     private let sendTestNotificationButton = CineSeatTheme.secondaryButton(title: "Send Test Notification")
 
@@ -52,12 +52,13 @@ final class DeveloperModeViewController: ScrollableViewController {
         testStack.spacing = CineSeatSpacing.small
         testStack.addArrangedSubview(CineSeatTheme.captionLabel("Simulation"))
         testStack.addArrangedSubview(SettingsSwitchRowView(
-            title: "Simulate review eligibility",
-            subtitle: "Allows a signed-in account to review without waiting for an attended booking",
-            toggle: simulateReviewSwitch,
+            title: "Unlimited review testing",
+            subtitle: "Booking Detail can bypass the scheduled time and create multiple test reviews",
+            toggle: reviewTestingSwitch,
             target: self,
-            action: #selector(simulateReviewChanged(_:))
+            action: #selector(reviewTestingChanged(_:))
         ))
+        reviewTestingSwitch.accessibilityIdentifier = "reviewTestingSwitch"
         testStack.addArrangedSubview(SettingsSwitchRowView(
             title: "Test notifications",
             subtitle: "Allows the local five-second notification test",
@@ -102,10 +103,10 @@ final class DeveloperModeViewController: ScrollableViewController {
 
     private func reloadSettings() {
         developerModeSwitch.isOn = viewModel.developerModeEnabled
-        simulateReviewSwitch.isOn = viewModel.simulateReviewEligibility
+        reviewTestingSwitch.isOn = viewModel.reviewTestingEnabled
         testNotificationSwitch.isOn = viewModel.testNotificationsEnabled
         let controlsEnabled = viewModel.developerModeEnabled
-        simulateReviewSwitch.isEnabled = controlsEnabled
+        reviewTestingSwitch.isEnabled = controlsEnabled
         testNotificationSwitch.isEnabled = controlsEnabled
         sendTestNotificationButton.isEnabled = controlsEnabled && viewModel.testNotificationsEnabled
         sendTestNotificationButton.alpha = sendTestNotificationButton.isEnabled ? 1 : 0.45
@@ -119,8 +120,8 @@ final class DeveloperModeViewController: ScrollableViewController {
         viewModel.developerModeEnabled = sender.isOn
     }
 
-    @objc private func simulateReviewChanged(_ sender: UISwitch) {
-        viewModel.simulateReviewEligibility = sender.isOn
+    @objc private func reviewTestingChanged(_ sender: UISwitch) {
+        viewModel.reviewTestingEnabled = sender.isOn
     }
 
     @objc private func testNotificationChanged(_ sender: UISwitch) {

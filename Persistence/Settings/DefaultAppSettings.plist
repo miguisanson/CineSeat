@@ -8,11 +8,11 @@
 	<true/>
 	<key>developerModeEnabled</key>
 	<false/>
-	<key>simulateReviewEligibility</key>
+	<key>reviewTestingEnabled</key>
 	<false/>
 	<key>testNotificationsEnabled</key>
 	<false/>
 	<key>settingsVersion</key>
-	<string>2026.06.30</string>
+	<string>2026.07.01</string>
 </dict>
 </plist>

@@ -4,27 +4,33 @@ import Foundation
 // fetching eligibility and current-account ownership stay outside the screen
 final class ReviewsViewModel {
     let subject: ReviewSubject
+    let accessContext: ReviewAccessContext
 
     private let fetchReviewsUseCase: FetchReviewsUseCase
     private let manageReviewsUseCase: ManageReviewsUseCase
     private let checkEligibilityUseCase: CheckReviewEligibilityUseCase
     private let authenticationService: Authenticating
+    private let settingsStore: AppSettingsManaging
 
     private(set) var reviews: [Review] = []
     private(set) var ratingSummary: ReviewRatingSummary
 
     init(
         subject: ReviewSubject,
+        accessContext: ReviewAccessContext,
         fetchReviewsUseCase: FetchReviewsUseCase,
         manageReviewsUseCase: ManageReviewsUseCase,
         checkEligibilityUseCase: CheckReviewEligibilityUseCase,
-        authenticationService: Authenticating
+        authenticationService: Authenticating,
+        settingsStore: AppSettingsManaging
     ) {
         self.subject = subject
+        self.accessContext = accessContext
         self.fetchReviewsUseCase = fetchReviewsUseCase
         self.manageReviewsUseCase = manageReviewsUseCase
         self.checkEligibilityUseCase = checkEligibilityUseCase
         self.authenticationService = authenticationService
+        self.settingsStore = settingsStore
         ratingSummary = fetchReviewsUseCase.ratingSummary(for: subject)
         reload()
     }
@@ -34,17 +40,41 @@ final class ReviewsViewModel {
     var didChangeNotification: Notification.Name { manageReviewsUseCase.didChangeNotification }
     var currentProfile: UserProfile? { authenticationService.currentProfile }
 
+    var currentUserReviews: [Review] {
+        guard let profile = currentProfile else { return [] }
+        return manageReviewsUseCase.reviews(for: subject, authorProfileID: profile.id)
+    }
+
     var currentUserReview: Review? {
-        guard let profile = currentProfile else { return nil }
-        return manageReviewsUseCase.review(for: subject, authorProfileID: profile.id)
+        currentUserReviews.first
+    }
+
+    var showsReviewAction: Bool {
+        accessContext.booking != nil
+    }
+
+    var reviewTestingEnabled: Bool {
+        let settings = settingsStore.settings
+        return settings.developerModeEnabled && settings.reviewTestingEnabled
+    }
+
+    var reviewForAction: Review? {
+        reviewTestingEnabled ? nil : currentUserReview
     }
 
     var eligibility: ReviewEligibility {
-        checkEligibilityUseCase.execute(subject: subject, profile: currentProfile)
+        guard let booking = accessContext.booking else {
+            return ReviewEligibility(
+                canReview: false,
+                message: "Reviews can only be written from an eligible Booking Detail screen."
+            )
+        }
+        return checkEligibilityUseCase.execute(booking: booking, subject: subject, profile: currentProfile)
     }
 
     var reviewActionTitle: String {
-        currentUserReview == nil ? "Write a Review" : "Edit Your Review"
+        if reviewTestingEnabled { return "Write Another Test Review" }
+        return currentUserReview == nil ? "Write a Review" : "Edit Your Review"
     }
 
     var reviewCountText: String {
@@ -58,6 +88,6 @@ final class ReviewsViewModel {
     }
 
     func canEdit(_ review: Review) -> Bool {
-        review.authorProfileID == currentProfile?.id
+        showsReviewAction && review.authorProfileID == currentProfile?.id
     }
 }

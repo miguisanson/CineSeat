@@ -6,12 +6,20 @@ struct ReviewSubject: Equatable {
     let title: String
     let contentType: ReviewContentType
     let onlineRating: Double?
+    let tmdbMovieID: Int?
 
-    init(id: String, title: String, contentType: ReviewContentType, onlineRating: Double?) {
+    init(
+        id: String,
+        title: String,
+        contentType: ReviewContentType,
+        onlineRating: Double?,
+        tmdbMovieID: Int? = nil
+    ) {
         self.id = id
         self.title = title
         self.contentType = contentType
         self.onlineRating = onlineRating.flatMap { $0 > 0 ? $0 : nil }
+        self.tmdbMovieID = tmdbMovieID
     }
 
     init(movie: Movie) {
@@ -19,7 +27,8 @@ struct ReviewSubject: Equatable {
             id: movie.title,
             title: movie.title,
             contentType: .movie,
-            onlineRating: movie.rating
+            onlineRating: movie.rating,
+            tmdbMovieID: movie.tmdbID
         )
     }
 
@@ -30,5 +39,12 @@ struct ReviewSubject: Equatable {
             contentType: event.category == .concert ? .concert : .seminar,
             onlineRating: event.rating
         )
+    }
+
+    init(booking: Booking) {
+        switch booking.item {
+        case .movie(let movie): self.init(movie: movie)
+        case .event(let event): self.init(event: event)
+        }
     }
 }

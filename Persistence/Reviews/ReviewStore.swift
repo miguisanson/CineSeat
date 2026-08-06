@@ -1,7 +1,7 @@
 import Foundation
 
 // module 5 review storage service
-// saveReview updates the existing subject review instead of creating duplicates
+// normal saves update one account review while developer testing can add more
 final class ReviewStore: ReviewManaging {
     static let shared = ReviewStore(persistence: ReviewFileRepository())
     static let reviewsDidChange = Notification.Name("reviewsDidChange")
@@ -29,7 +29,9 @@ final class ReviewStore: ReviewManaging {
         subject: ReviewSubject,
         author: UserProfile,
         rating: Double,
-        comment: String
+        comment: String,
+        existingReviewID: String?,
+        allowsMultipleReviews: Bool
     ) throws -> Review {
         guard rating >= 1, rating <= 5 else { throw ReviewError.invalidRating }
         let cleanComment = comment.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -37,11 +39,26 @@ final class ReviewStore: ReviewManaging {
         guard cleanComment.count <= 500 else { throw ReviewError.commentTooLong }
 
         let now = Date()
-        if let index = reviews.firstIndex(where: {
-            $0.subjectID == subject.id &&
-                $0.contentType == subject.contentType &&
-                $0.authorProfileID == author.id
-        }) {
+        let reviewIndex: Int?
+        if let existingReviewID {
+            reviewIndex = reviews.firstIndex { review in
+                review.id == existingReviewID &&
+                    review.subjectID == subject.id &&
+                    review.contentType == subject.contentType &&
+                    review.authorProfileID == author.id
+            }
+            guard reviewIndex != nil else { throw ReviewError.reviewNotFound }
+        } else if allowsMultipleReviews {
+            reviewIndex = nil
+        } else {
+            reviewIndex = reviews.firstIndex { review in
+                review.subjectID == subject.id &&
+                    review.contentType == subject.contentType &&
+                    review.authorProfileID == author.id
+            }
+        }
+
+        if let index = reviewIndex {
             let current = reviews[index]
             reviews[index] = Review(
                 id: current.id,

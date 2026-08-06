@@ -17,9 +17,11 @@ This checklist separates implemented local features from work required before a 
 - [x] Keychain password storage
 - [x] FileManager/Codable JSON persistence for profiles, bookings, and reviews
 - [x] Plist persistence for settings and seat layouts
+- [x] Showing details read reviews without exposing review writing
+- [x] Booking Detail checks the exact confirmed ticket owner and scheduled time before writing
 - [x] One account review per item with create, edit, delete, rating, and comment
-- [x] Review eligibility checks confirmed ticket ownership and completed showing duration
-- [x] Developer Mode isolates review simulation, notification testing, and destructive resets
+- [x] Developer Mode isolates unlimited review testing, notification testing, and destructive resets
+- [x] TMDB movie comments use a separate model, API client, segment, and uncommitted token configuration
 - [x] Offline movie posters with URLSession/FileManager cache fallback
 - [x] Unit coverage for local content rules, persistence, validation, booking, sharing, reviews, maps, and settings
 
@@ -30,7 +32,7 @@ This checklist separates implemented local features from work required before a 
 - [x] Bundled content files initialize `Documents/LocalContent` on first use
 - [x] New installations contain no generated accounts, bookings, or reviews
 - [x] Runtime files are separate: `profiles.json`, `bookings.json`, and `reviews.json`
-- [ ] Add local content version migration so an App Store update can replace or migrate older Documents content
+- [x] Version bundled content with `LocalContentMetadata.json` so changed release data refreshes the Documents copy
 - [ ] Replace fatal local content loading with recoverable error reporting and a user-facing retry state
 
 The current JSON implementation is a local database substitute for one device. Editing the project JSON changes bundled release content, while user interactions write to the app container. It cannot synchronize two users or protect shared inventory. A live service requires a remote database and authenticated API.
@@ -44,6 +46,7 @@ The current JSON implementation is a local database substitute for one device. E
 - [ ] Add server receipts, refunds, booking expiration, cancellation policy, and idempotent checkout
 - [ ] Move ticket sharing to server-authoritative ownership with acceptance/revocation and audit history
 - [ ] Add review moderation, reporting, rate limits, deletion policy, and server-side one-review enforcement
+- [ ] Remove and rotate the local TMDB development token, arrange production/commercial access, and move the replacement credential behind the backend API
 - [ ] Use APNs for venue cancellations, schedule changes, transfers, and reminders that must originate from the server
 - [ ] Add API loading, empty, offline, timeout, retry, and maintenance states
 - [ ] Add privacy policy, terms, consent, data export/deletion, and retention rules

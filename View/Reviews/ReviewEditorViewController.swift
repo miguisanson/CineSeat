@@ -5,7 +5,8 @@ import UIKit
 final class ReviewEditorViewController: ScrollableViewController {
     var viewModel: ReviewEditorViewModel!
 
-    private let ratingControl = UISegmentedControl(items: ["1", "2", "3", "4", "5"])
+    private let ratingControl = UISegmentedControl(items: ["1.0", "2.0", "3.0", "4.0", "5.0"])
+    private let ratingValueLabel = UILabel()
     private let commentTextView = UITextView()
 
     override func viewDidLoad() {
@@ -25,6 +26,14 @@ final class ReviewEditorViewController: ScrollableViewController {
         contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Rating"))
         ratingControl.selectedSegmentIndex = max(0, min(4, viewModel.initialRating - 1))
         ratingControl.accessibilityIdentifier = "reviewRatingControl"
+        ratingControl.addTarget(self, action: #selector(ratingChanged), for: .valueChanged)
+
+        ratingValueLabel.font = CineSeatFont.detailTitle
+        ratingValueLabel.textColor = CineSeatTheme.primaryText
+        ratingValueLabel.textAlignment = .center
+        ratingValueLabel.accessibilityIdentifier = "reviewRatingValue"
+        updateRatingValue()
+        contentStack.addArrangedSubview(ratingValueLabel)
         contentStack.addArrangedSubview(ratingControl)
 
         contentStack.addArrangedSubview(CineSeatTheme.captionLabel("Comment"))
@@ -66,6 +75,16 @@ final class ReviewEditorViewController: ScrollableViewController {
         } catch {
             showError(error)
         }
+    }
+
+    @objc private func ratingChanged() {
+        updateRatingValue()
+    }
+
+    private func updateRatingValue() {
+        ratingValueLabel.text = RatingDisplayFormatter.text(
+            for: Double(ratingControl.selectedSegmentIndex + 1)
+        )
     }
 
     @objc private func deleteTapped() {

@@ -16,18 +16,6 @@ struct ReviewRatingSummary: Equatable {
     }
 
     var compactText: String {
-        guard effectiveRating > 0 else { return "Not rated yet" }
-        return "\(effectiveSource) \(String(format: "%.1f", effectiveRating))/5"
-    }
-
-    var appRatingText: String {
-        guard let appRating else { return "No TicketPlease reviews yet" }
-        let reviewWord = reviewCount == 1 ? "review" : "reviews"
-        return "TicketPlease \(String(format: "%.1f", appRating))/5 from \(reviewCount) \(reviewWord)"
-    }
-
-    var onlineRatingText: String {
-        guard let onlineRating else { return "Online rating unavailable" }
-        return "Online \(String(format: "%.1f", onlineRating))/5"
+        RatingDisplayFormatter.sourcedText(for: effectiveRating, source: effectiveSource)
     }
 }

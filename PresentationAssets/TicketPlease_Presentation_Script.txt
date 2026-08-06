@@ -1,0 +1,158 @@
+TICKETPLEASE — PRESENTATION SCRIPT
+Conversational • ~15–20 minutes • Hold questions until the end
+(Read the parts in normal text out loud. [Brackets] are just cues for you.)
+
+
+==========================================================
+OPENING  —  [Slide 1: Title]
+==========================================================
+
+Hi everyone, thanks for being here.
+
+Quick heads-up before I start — I've got a bit of a cold today, so if I sound off or I'm not speaking too clearly, please bear with me. I'll do my best.
+
+So this is TicketPlease. It started out as a project called CineSeat, and it's an iOS app for booking tickets — for movies, concerts, and seminars.
+
+I want to be upfront about one thing: this is a concept project. It's not necessarily something built specifically for Seven Seven Global Soft — 77GSI. But the reason I think it's worth showing is that almost everything in here — the features, the functions, the way it's put together — maps really cleanly onto the kind of work we do for clients. Things like a corporate booking system, a bank appointment app, or a scheduling platform. So as we go, I'll point out where these pieces could turn into real client products.
+
+One more thing — to keep this flowing, please hold your questions until the end. I'd rather get through the whole story first, and then we can go back to any slide you want to look at again. Sound good? Let's get into it.
+
+
+==========================================================
+AGENDA  —  [Slide 2]
+==========================================================
+
+Here's the quick roadmap. I'll start with a high-level overview of the app, then walk through how it was built, go a bit deeper on the key features, talk about the engineering and what I learned, then how this connects to client work and AI, and finally where I'd take it next. I'll keep it casual and try not to get lost in jargon.
+
+
+==========================================================
+SECTION 1 — EXECUTIVE OVERVIEW  —  [Slides 3–8]
+==========================================================
+
+[Slide 3 is just the section title — transition.]
+
+[Slide 4 — What is TicketPlease?]
+At its core, TicketPlease does one thing well: it lets you book tickets — for three kinds of events, movies, concerts, and seminars, all from one hub called Showings. The whole journey is here: you browse, tap into something, pick a date and time, choose your seats or how many tickets, review a summary, and confirm. And it all works offline — accounts, bookings, reviews, reminders — everything's stored right on the device. It's a practice build, but I treated it like a real product.
+
+[Slide 5 — By the numbers]
+Just to give you a sense of scale: there are 30 bookable items — 10 movies, 15 concerts, 5 seminars. Eight cinemas, some standard, some VIP. It's about 137 files of code, built across 11 milestones in roughly three weeks. And it uses zero third-party libraries — everything is native Apple. I'll come back to why that matters.
+
+[Slide 6 — Technology snapshot]  *** worth slowing down here — explain MVVM ***
+Let me pause on the tech, because it's the backbone of the whole app. It's built with Swift and UIKit — Apple's mature, proven tools.
+
+The important part is the architecture: it's built on MVVM, which stands for Model–View–ViewModel. It sounds technical, but the idea is simple — you split the app into three jobs:
+
+  • The Model is just the data — a movie, a booking, a seat. Plain information, no logic.
+  • The View is what you see on screen — the buttons, the lists, the seat map. Its only job is to display things and pass along your taps. It doesn't do any of the thinking.
+  • The ViewModel sits in the middle — it's the brain for each screen. It takes the raw data, decides how it should look (like turning a price into "₱350.00" or a rating into "4.7 / 5.0"), and hands that to the View. It also handles what happens when you tap something.
+
+Why split it up like that? Because each piece stays simple and focused, and the screen code doesn't get tangled up with the data logic. In this app, every feature has its own ViewModel — one for movies, one for bookings, one for the profile, and so on. So if I need to change how bookings work, I just go to the booking ViewModel, and the rest of the app doesn't care. It makes everything easier to test, easier to fix, and easier for someone else to jump into.
+
+On top of MVVM I added Clean Architecture and dependency injection — which is really just a fancy way of saying the data layer is kept separate too, and everything gets wired together in one place. The practical payoff: I could swap the local files for a real backend later without rewriting the screens. And one more thing — passwords go into the iOS Keychain, the secure encrypted area, and there are no third-party libraries at all. For client work that's a real plus: fewer outside libraries means fewer security and maintenance headaches later.
+
+[Slide 7 — The four tabs]
+The app is organized into four tabs. Showings is where you browse. Bookings is your history. Locations is a map of all the venues. And Profile is your account and settings. That's the whole app in four buttons.
+
+[Slide 8 — Product tour]
+And here's a look at the real thing — actual screens. The home hub, a movie's detail page, choosing your seats, the map, a confirmation, and a testing screen. I'll go through most of these properly in a minute.
+
+
+==========================================================
+SECTION 2 — FEATURE JOURNEY  —  [Slides 9–24]
+==========================================================
+
+[Slide 9 — section title.]
+
+[Slide 10 — The build timeline]  *** skim this — don't go milestone by milestone ***
+So how did this come together? I built it in stages, and I actually kept a changelog inside the app itself — you can see it on the right. There are 11 milestones from mid-June to now. I'll be honest, there's a lot here, so I won't walk through every single one. Let me just hit the highlights of how it grew.
+
+[Slides 11–21 — the 11 milestones — cover as ONE quick story]
+It started with the basic skeleton — the tabs and the first movie screens. Then I added the actual booking flow, accounts, and saving data securely. After that, richer movie content, the seat maps, and the eight cinemas. Then scheduling and reminders, and a big cleanup of the architecture. Then settings and polish. Around the middle, I expanded from just movies to concerts and seminars, and added the maps. Later I made the map pins interactive. Then I gave the events their own proper flows. And the last few milestones were the rebrand to TicketPlease, building the review system, and making all the text and ratings consistent. Each milestone slide lists its features and what I learned, so we can zoom into any one at the end if you're curious.
+
+[Slide 22 — The booking flow, end to end]  *** spend a moment here ***
+I do want to show the booking flow as one piece, because it's the heart of the app. Five taps: you're on a movie, you pick a schedule, you choose your seats, you get a summary with the price, and you're confirmed — with a booking ID and everything saved.
+
+[Slide 23 — Two booking modes]
+One nice detail — movies and events book differently. Movies use a visual seat map, because you care where you sit. Concerts and seminars just use a quantity — how many tickets. But underneath, it's the same booking engine. Same core, two front-ends. That reuse idea comes back when we talk about client work.
+
+[Slide 24 — Real content]
+And just to prove it's not empty — there's real content in here. Ten movie posters actually ship inside the app, with a smart image system that loads them offline first, then downloads if needed. Every concert and seminar has its own venue, location, and schedule too.
+
+
+==========================================================
+SECTION 3 — FEATURE DEEP-DIVES  —  [Slides 25–30]
+==========================================================
+
+[Slide 25 — section title.]
+
+[Slide 26 — Booking & seat maps]
+Let me go a little deeper on a few features. First, the seat maps. Each cinema has its own layout — rows, aisles, VIP versus standard. When you pick seats, it knows what's already taken and blocks it. Every booking gets a traceable ID, and pricing is in pesos — 350 for standard, 550 for VIP. The point: this same engine could model any reservation — seats, desks, rooms, time slots.
+
+[Slide 27 — The review system]
+The reviews have real rules. You can read reviews anywhere, but you can only write one after you've actually booked something and the showtime has passed — so no fake reviews. One review per person per item, and you can edit or delete your own. I also kept the app's own reviews completely separate from online movie reviews pulled from a public database, so they never get mixed up. For a client, that's basically a moderated feedback system.
+
+[Slide 28 — Locations & maps]
+The Locations map has live pins for every venue. Tap one, you get its details and showtimes, and you can jump straight into booking or open it in Apple Maps. Same pattern you'd use for a branch locator or an ATM finder.
+
+[Slide 29 — Notifications]
+The app also sends reminders — here they are as a banner at the top and on the lock screen. These are scheduled right on the device, no server needed. For a real product you'd move these to a server, but it's the same mechanism you'd use for appointment or payment alerts.
+
+[Slide 30 — Persistence & security]
+And quickly on data — everything has a proper place. Bookings, profiles, and reviews are saved as files; settings in their own store; and, importantly, passwords go in the iOS Keychain, the secure encrypted area. Nothing sensitive is stored in plain text.
+
+
+==========================================================
+SECTION 4 — ENGINEERING & LEARNING  —  [Slides 31–33]
+==========================================================
+
+[Slide 31 — section title.]
+
+[Slide 32 — Architecture]  *** worth slowing down here ***
+This is the architecture in one picture. Three layers: the screens on top, the rules in the middle, and the data at the bottom. The key is they're separated — the top doesn't need to know how the bottom works. Everything gets wired together in one place. Why does that matter? Because you could swap the local files for a real backend later without rewriting the app, and it's genuinely testable. This is the kind of structure you'd want on any serious client project.
+
+[Slide 33 — Learning modules]
+And personally, this project let me practice the full range of iOS skills — the language, the UI, networking, saving data securely, and the architecture. Basically the whole toolkit you'd need to build a real client app from scratch.
+
+
+==========================================================
+SECTION 5 — BUSINESS TRANSLATION  —  [Slides 34–38]
+==========================================================
+
+[Slide 34 — section title.]
+
+[Slide 35 — Why it matters]
+Okay, this is the part I want to connect back to us. Even though this is a movie app, everything in it is a building block. A booking flow, secure login, maps, notifications, reviews — those are the same pieces behind a bank's appointment system, a corporate calendar, or a client portal. One booking app is really a toolkit.
+
+[Slide 36 — Capability to client solution]
+Here's that mapping made concrete. The booking engine becomes appointment and scheduling systems. The seat map becomes desk or room booking. The secure login becomes bank-grade authentication. Reviews become customer feedback tools. The map becomes a branch locator. Each thing I built has a direct client use.
+
+[Slide 37 — Where AI plugs in]
+And since we're moving into AI, here's where it fits naturally. Smart scheduling that predicts demand. Recommendations. Using something like Claude to summarize customer feedback. A chat assistant that books things for you. Document and KYC processing for banks. And flagging unusual activity. These aren't far off — they'd slot right into the features I just showed.
+
+[Slide 38 — Three client translations]
+To make it real, three quick examples: a bank branch appointment app, a corporate desk-and-room booking system, and an event or webinar portal for clients. Each one reuses big chunks of what's already here.
+
+
+==========================================================
+SECTION 6 — ROADMAP & FUTURE  —  [Slides 39–42]
+==========================================================
+
+[Slide 39 — section title.]
+
+[Slide 40 — Production blockers]
+I want to be honest about what this is not — yet. It's a local, single-device app. To make it a real multi-user product, you'd need a backend and database, server-side login, payment processing, and so on. I actually keep a full checklist of this in the project. It's a concept, and I'm treating it honestly as one.
+
+[Slide 41 — Future development]
+If I kept going, the next steps are clear — connect it to a real backend, add payments, layer in the AI features, improve accessibility, and get it ready for iPad. It's a solid foundation to build on.
+
+[Slide 42 — Key takeaways]
+So to wrap up: this is a full-featured, well-built app done in about three weeks. It shows every core iOS skill. Its pieces map directly onto real client work. It's ready for AI. And there's a clear path from here to a real product.
+
+
+==========================================================
+CLOSING  —  [Slide 43: Thank you]
+==========================================================
+
+And that's TicketPlease. Thank you for your time, and thanks for bearing with my cold.
+
+Like I said at the start — now's the time for questions. And if you want to see any specific screen or feature again, just tell me and we'll jump right back to that slide. Thanks again.

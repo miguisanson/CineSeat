@@ -95,13 +95,13 @@ final class TicketedShowingTableViewCell: UITableViewCell {
         posterView.loadPoster(from: event.posterURLString, localName: event.localPosterName)
         titleLabel.text = event.title
         detailLabel.text = event.detailText
-        ratingLabel.text = "\(String(repeating: "*", count: Int(ratingSummary.effectiveRating.rounded())))  \(ratingSummary.compactText)"
-        durationLabel.text = "TIME  \(event.duration)"
+        ratingLabel.text = ratingSummary.compactText
+        durationLabel.text = "Duration  \(ShowingMetadataFormatter.duration(event.duration))"
         statusLabel.text = event.statusText
         statusLabel.backgroundColor = event.isComingSoon ? CineSeatTheme.mutedText : CineSeatTheme.primaryText
         isAccessibilityElement = true
         accessibilityIdentifier = "eventCell_\(event.title)"
-        accessibilityLabel = "\(event.title), \(event.eventType), \(event.venue)"
+        accessibilityLabel = "\(event.title), \(event.eventType), \(ratingSummary.compactText), duration \(ShowingMetadataFormatter.duration(event.duration)), \(event.venue)"
         accessibilityTraits = .button
     }
 }

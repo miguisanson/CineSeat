@@ -13,7 +13,9 @@ protocol ReviewManaging: ReviewFetching {
         subject: ReviewSubject,
         author: UserProfile,
         rating: Double,
-        comment: String
+        comment: String,
+        existingReviewID: String?,
+        allowsMultipleReviews: Bool
     ) throws -> Review
 
     @discardableResult
@@ -32,13 +34,16 @@ protocol FetchReviewsUseCase {
 protocol ManageReviewsUseCase {
     var didChangeNotification: Notification.Name { get }
     func review(for subject: ReviewSubject, authorProfileID: UUID) -> Review?
+    func reviews(for subject: ReviewSubject, authorProfileID: UUID) -> [Review]
 
     @discardableResult
     func save(
         subject: ReviewSubject,
         author: UserProfile,
         rating: Double,
-        comment: String
+        comment: String,
+        existingReviewID: String?,
+        allowsMultipleReviews: Bool
     ) throws -> Review
 
     @discardableResult
@@ -54,5 +59,43 @@ struct ReviewEligibility: Equatable {
 }
 
 protocol CheckReviewEligibilityUseCase {
-    func execute(subject: ReviewSubject, profile: UserProfile?) -> ReviewEligibility
+    func execute(booking: Booking, subject: ReviewSubject, profile: UserProfile?) -> ReviewEligibility
+}
+
+extension ReviewManaging {
+    @discardableResult
+    func saveReview(
+        subject: ReviewSubject,
+        author: UserProfile,
+        rating: Double,
+        comment: String
+    ) throws -> Review {
+        try saveReview(
+            subject: subject,
+            author: author,
+            rating: rating,
+            comment: comment,
+            existingReviewID: nil,
+            allowsMultipleReviews: false
+        )
+    }
+}
+
+extension ManageReviewsUseCase {
+    @discardableResult
+    func save(
+        subject: ReviewSubject,
+        author: UserProfile,
+        rating: Double,
+        comment: String
+    ) throws -> Review {
+        try save(
+            subject: subject,
+            author: author,
+            rating: rating,
+            comment: comment,
+            existingReviewID: nil,
+            allowsMultipleReviews: false
+        )
+    }
 }

@@ -28,18 +28,18 @@ final class DeveloperModeViewModel {
             var settings = settingsStore.settings
             settings.developerModeEnabled = newValue
             if !newValue {
-                settings.simulateReviewEligibility = false
+                settings.reviewTestingEnabled = false
                 settings.testNotificationsEnabled = false
             }
             settingsStore.updateSettings(settings)
         }
     }
 
-    var simulateReviewEligibility: Bool {
-        get { settingsStore.settings.simulateReviewEligibility }
+    var reviewTestingEnabled: Bool {
+        get { settingsStore.settings.reviewTestingEnabled }
         set {
             var settings = settingsStore.settings
-            settings.simulateReviewEligibility = developerModeEnabled && newValue
+            settings.reviewTestingEnabled = developerModeEnabled && newValue
             settingsStore.updateSettings(settings)
         }
     }

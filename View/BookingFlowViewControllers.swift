@@ -18,20 +18,22 @@ final class MovieDetailViewController: ScrollableViewController {
     private let datePicker = UIDatePicker()
     private let timesStack = UIStackView()
     private let assignedCinemaLabel = UILabel()
-    private let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews")
+    private let metadataLabel = UILabel()
+    private let reviewsButton = CineSeatTheme.secondaryButton(title: AppConstants.Reviews.readButtonTitle)
     private var selectSeatsButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Movie Detail"
         buildInterface()
+        updateMetadata()
         updateScheduleViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reviewsViewModel.reload()
-        updateReviewsButton()
+        updateMetadata()
     }
 
     private func buildInterface() {
@@ -45,8 +47,6 @@ final class MovieDetailViewController: ScrollableViewController {
         titleLabel.font = CineSeatFont.pageTitleHeavy
         titleLabel.textColor = CineSeatTheme.primaryText
 
-        let metadataLabel = UILabel()
-        metadataLabel.text = "\(movie.genre)  |  \(movie.duration)  |  \(reviewsViewModel.ratingSummary.compactText)"
         metadataLabel.font = CineSeatFont.metadata
         metadataLabel.textColor = CineSeatTheme.mutedText
         metadataLabel.numberOfLines = 0
@@ -146,9 +146,9 @@ final class MovieDetailViewController: ScrollableViewController {
 
         if let schedule = scheduleViewModel.selectedSchedule,
            let time = scheduleViewModel.selectedTime {
-            assignedCinemaLabel.text = "date: \(schedule.displayDateWithTitle)\nassigned cinema: \(time.cinema.name)\n\(time.cinema.type.rawValue) ticket - \(CineSeatTheme.money(time.ticketPrice))"
+            assignedCinemaLabel.text = "Date: \(schedule.displayDateWithTitle)\nAssigned cinema: \(time.cinema.name)\n\(time.cinema.type.rawValue) ticket - \(CineSeatTheme.money(time.ticketPrice))"
         } else {
-            assignedCinemaLabel.text = "no bookable schedule yet"
+            assignedCinemaLabel.text = "No bookable schedule yet"
         }
 
         let isBookingAvailable = scheduleViewModel.isBookingAvailable
@@ -217,8 +217,11 @@ final class MovieDetailViewController: ScrollableViewController {
         )
     }
 
-    private func updateReviewsButton() {
-        reviewsButton.setTitle("READ REVIEWS (\(reviewsViewModel.reviews.count))", for: .normal)
+    private func updateMetadata() {
+        metadataLabel.text = ShowingMetadataFormatter.movie(
+            movie,
+            ratingText: reviewsViewModel.ratingSummary.compactText
+        )
     }
 }
 
@@ -396,7 +399,12 @@ final class BookingSummaryViewController: ScrollableViewController {
         titleLabel.font = CineSeatFont.detailTitle
         titleLabel.textColor = CineSeatTheme.primaryText
         movieStack.addArrangedSubview(titleLabel)
-        movieStack.addArrangedSubview(CineSeatTheme.captionLabel("\(draft.movie.genre) - \(draft.movie.duration) - ***** \(String(format: "%.1f", draft.movie.rating))"))
+        let metadataLabel = UILabel()
+        metadataLabel.text = ShowingMetadataFormatter.movie(draft.movie)
+        metadataLabel.font = CineSeatFont.metadata
+        metadataLabel.textColor = CineSeatTheme.mutedText
+        metadataLabel.numberOfLines = 0
+        movieStack.addArrangedSubview(metadataLabel)
         contentStack.addArrangedSubview(makeCard(with: movieStack))
 
         let details = UIStackView()

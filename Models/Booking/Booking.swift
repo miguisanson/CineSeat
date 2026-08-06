@@ -214,7 +214,6 @@ struct Booking: Codable, Equatable {
     }
 
     var title: String { item.title }
-    var itemDetailText: String { item.detailText }
     var isMovieBooking: Bool { item.isMovie }
     var locationLabel: String { isMovieBooking ? "Cinema" : "Venue" }
     var ticketLabel: String { isMovieBooking ? "Seats" : "Tickets" }

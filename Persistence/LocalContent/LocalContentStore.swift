@@ -3,6 +3,17 @@ import Foundation
 // module 5 local json content
 // bundled files initialize a writable Documents/LocalContent copy on first launch
 struct LocalContentStore {
+    private static let contentResourceNames = [
+        "Cinemas",
+        "Movies",
+        "Concerts",
+        "Seminars",
+        "EventVenues",
+        "EventShowings",
+        "Showings"
+    ]
+    private static let metadataResourceName = "LocalContentMetadata"
+
     let cinemas: [Cinema]
     let movies: [Movie]
     let concerts: [EventListing]
@@ -22,6 +33,11 @@ struct LocalContentStore {
                 in: .userDomainMask
             ).first!
             let contentDirectory = documentsDirectory.appendingPathComponent("LocalContent", isDirectory: true)
+            try synchronizeBundledContent(
+                fileManager: fileManager,
+                bundle: bundle,
+                contentDirectory: contentDirectory
+            )
             let dto = try loadContent(
                 fileManager: fileManager,
                 bundle: bundle,
@@ -30,6 +46,43 @@ struct LocalContentStore {
             return try LocalContentMapper.makeStore(from: dto)
         } catch {
             fatalError("Could not load the local JSON content: \(error.localizedDescription)")
+        }
+    }
+
+    private static func synchronizeBundledContent(
+        fileManager: FileManager,
+        bundle: Bundle,
+        contentDirectory: URL
+    ) throws {
+        let reader = JSONFileReader(fileManager: fileManager)
+        guard let bundledMetadataURL = reader.bundledResourceURL(
+            named: metadataResourceName,
+            extension: "json",
+            bundle: bundle
+        ) else {
+            throw LocalContentError.missingJSON(metadataResourceName)
+        }
+
+        let bundledMetadata = try reader.read(LocalContentMetadata.self, from: bundledMetadataURL)
+        let localMetadataURL = contentDirectory.appendingPathComponent("\(metadataResourceName).json")
+        let localMetadata = try? reader.read(LocalContentMetadata.self, from: localMetadataURL)
+        guard localMetadata != bundledMetadata else { return }
+
+        if fileManager.fileExists(atPath: contentDirectory.path) {
+            try fileManager.removeItem(at: contentDirectory)
+        }
+        try fileManager.createDirectory(at: contentDirectory, withIntermediateDirectories: true)
+
+        for resourceName in contentResourceNames + [metadataResourceName] {
+            guard let bundledURL = reader.bundledResourceURL(
+                named: resourceName,
+                extension: "json",
+                bundle: bundle
+            ) else {
+                throw LocalContentError.missingJSON(resourceName)
+            }
+            let localURL = contentDirectory.appendingPathComponent("\(resourceName).json")
+            try fileManager.copyItem(at: bundledURL, to: localURL)
         }
     }
 

@@ -6,6 +6,8 @@
 	<string>TicketPlease</string>
 	<key>CFBundleName</key>
 	<string>TicketPlease</string>
+	<key>TMDBReadAccessToken</key>
+	<string>$(TMDB_READ_ACCESS_TOKEN)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

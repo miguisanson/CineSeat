@@ -6,6 +6,7 @@ final class ReviewEditorViewModel {
     let subject: ReviewSubject
     let author: UserProfile
     private(set) var existingReview: Review?
+    private let allowsMultipleReviews: Bool
 
     private let manageReviewsUseCase: ManageReviewsUseCase
 
@@ -13,11 +14,13 @@ final class ReviewEditorViewModel {
         subject: ReviewSubject,
         author: UserProfile,
         existingReview: Review?,
+        allowsMultipleReviews: Bool,
         manageReviewsUseCase: ManageReviewsUseCase
     ) {
         self.subject = subject
         self.author = author
         self.existingReview = existingReview
+        self.allowsMultipleReviews = allowsMultipleReviews
         self.manageReviewsUseCase = manageReviewsUseCase
     }
 
@@ -32,7 +35,9 @@ final class ReviewEditorViewModel {
             subject: subject,
             author: author,
             rating: Double(rating),
-            comment: comment
+            comment: comment,
+            existingReviewID: existingReview?.id,
+            allowsMultipleReviews: allowsMultipleReviews
         )
         existingReview = review
         return review

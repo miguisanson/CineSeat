@@ -29,6 +29,7 @@ final class SettingsViewController: ScrollableViewController {
     private func buildInterface() {
         contentStack.addArrangedSubview(makePageTitle("Settings"))
         contentStack.addArrangedSubview(makeSettingsCard())
+        contentStack.addArrangedSubview(makeDataCreditsCard())
         contentStack.addArrangedSubview(makeChangelogCard())
         contentStack.addArrangedSubview(makeDeveloperModeCard())
 
@@ -77,6 +78,21 @@ final class SettingsViewController: ScrollableViewController {
         button.accessibilityIdentifier = "viewChangelogButton"
         button.addTarget(self, action: #selector(viewChangelogTapped), for: .touchUpInside)
         stack.addArrangedSubview(button)
+        return makeCard(with: stack)
+    }
+
+    private func makeDataCreditsCard() -> CardView {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = CineSeatSpacing.small
+        stack.addArrangedSubview(CineSeatTheme.captionLabel("Data credits"))
+
+        let sourceLabel = UILabel()
+        sourceLabel.text = "Movie data and online reviews are provided by TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB."
+        sourceLabel.font = CineSeatFont.bodySmall
+        sourceLabel.textColor = CineSeatTheme.secondaryText
+        sourceLabel.numberOfLines = 0
+        stack.addArrangedSubview(sourceLabel)
         return makeCard(with: stack)
     }
 

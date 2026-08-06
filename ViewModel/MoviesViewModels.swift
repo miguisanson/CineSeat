@@ -66,7 +66,7 @@ final class MoviesViewModel {
     }
 
     var ratingSortButtonTitle: String {
-        "rating: \(ratingSortOrder.title.lowercased())"
+        ratingSortOrder.buttonTitle
     }
 
     var cinemaFilterTitle: String {

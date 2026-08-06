@@ -13,7 +13,8 @@ class TicketedShowingDetailViewController: ScrollableViewController {
     private let quantityLabel = UILabel()
     private let quantityStepper = UIStepper()
     private let priceLabel = UILabel()
-    private let reviewsButton = CineSeatTheme.secondaryButton(title: "Read Reviews")
+    private let metadataLabel = UILabel()
+    private let reviewsButton = CineSeatTheme.secondaryButton(title: AppConstants.Reviews.readButtonTitle)
     private let bookButton = CineSeatTheme.primaryButton(title: "Book Tickets")
     private lazy var reviewSubject = ReviewSubject(event: viewModel.event)
     private lazy var reviewsViewModel = factory.makeReviewsViewModel(subject: reviewSubject)
@@ -22,13 +23,14 @@ class TicketedShowingDetailViewController: ScrollableViewController {
         super.viewDidLoad()
         title = viewModel.event.category.title
         buildInterface()
+        updateMetadata()
         updateScheduleViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reviewsViewModel.reload()
-        reviewsButton.setTitle("READ REVIEWS (\(reviewsViewModel.reviews.count))", for: .normal)
+        updateMetadata()
     }
 
     private func buildInterface() {
@@ -46,8 +48,6 @@ class TicketedShowingDetailViewController: ScrollableViewController {
         titleLabel.numberOfLines = 0
         contentStack.addArrangedSubview(titleLabel)
 
-        let metadataLabel = UILabel()
-        metadataLabel.text = "\(event.eventType) - \(event.duration)\n\(reviewsViewModel.ratingSummary.compactText)"
         metadataLabel.font = CineSeatFont.metadata
         metadataLabel.textColor = CineSeatTheme.mutedText
         metadataLabel.numberOfLines = 0
@@ -159,10 +159,10 @@ class TicketedShowingDetailViewController: ScrollableViewController {
         priceLabel.text = CineSeatTheme.money(viewModel.total)
 
         if let schedule = viewModel.selectedSchedule, let time = viewModel.selectedTime {
-            venueLabel.text = "date: \(schedule.displayDateWithTitle)\ntime: \(time.showtime)\nvenue: \(time.venue.name)\n\(time.venue.address)"
+            venueLabel.text = "Date: \(schedule.displayDateWithTitle)\nTime: \(time.showtime)\nVenue: \(time.venue.name)\n\(time.venue.address)"
             mapView.show(venue: time.venue)
         } else {
-            venueLabel.text = "no bookable event schedule yet"
+            venueLabel.text = "No bookable event schedule yet"
         }
 
         bookButton.isEnabled = viewModel.isBookingAvailable
@@ -196,6 +196,13 @@ class TicketedShowingDetailViewController: ScrollableViewController {
         navigationController?.pushViewController(
             factory.makeReviewsViewController(subject: reviewSubject),
             animated: true
+        )
+    }
+
+    private func updateMetadata() {
+        metadataLabel.text = ShowingMetadataFormatter.event(
+            viewModel.event,
+            ratingText: reviewsViewModel.ratingSummary.compactText
         )
     }
 }

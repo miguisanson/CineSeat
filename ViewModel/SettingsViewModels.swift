@@ -36,7 +36,7 @@ final class SettingsViewModel {
     }
 
     var changelogEntries: [SettingsChangelogEntry] {
-        AppChangelog.entries
+        Array(AppChangelog.entries.reversed())
     }
 
     func resetSettings() {

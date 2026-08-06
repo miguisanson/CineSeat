@@ -6,7 +6,7 @@ struct AppSettings: Codable, Equatable {
     var showCancelledBookings: Bool
     var bookingRemindersEnabled: Bool
     var developerModeEnabled: Bool
-    var simulateReviewEligibility: Bool
+    var reviewTestingEnabled: Bool
     var testNotificationsEnabled: Bool
     var settingsVersion: String
 
@@ -14,6 +14,7 @@ struct AppSettings: Codable, Equatable {
         case showCancelledBookings
         case bookingRemindersEnabled
         case developerModeEnabled
+        case reviewTestingEnabled
         case simulateReviewEligibility
         case testNotificationsEnabled
         case settingsVersion
@@ -23,14 +24,14 @@ struct AppSettings: Codable, Equatable {
         showCancelledBookings: Bool,
         bookingRemindersEnabled: Bool,
         developerModeEnabled: Bool,
-        simulateReviewEligibility: Bool,
+        reviewTestingEnabled: Bool,
         testNotificationsEnabled: Bool,
         settingsVersion: String
     ) {
         self.showCancelledBookings = showCancelledBookings
         self.bookingRemindersEnabled = bookingRemindersEnabled
         self.developerModeEnabled = developerModeEnabled
-        self.simulateReviewEligibility = simulateReviewEligibility
+        self.reviewTestingEnabled = reviewTestingEnabled
         self.testNotificationsEnabled = testNotificationsEnabled
         self.settingsVersion = settingsVersion
     }
@@ -40,9 +41,11 @@ struct AppSettings: Codable, Equatable {
         showCancelledBookings = try container.decodeIfPresent(Bool.self, forKey: .showCancelledBookings) ?? true
         bookingRemindersEnabled = try container.decodeIfPresent(Bool.self, forKey: .bookingRemindersEnabled) ?? true
         developerModeEnabled = try container.decodeIfPresent(Bool.self, forKey: .developerModeEnabled) ?? false
-        simulateReviewEligibility = try container.decodeIfPresent(Bool.self, forKey: .simulateReviewEligibility) ?? false
+        reviewTestingEnabled = try container.decodeIfPresent(Bool.self, forKey: .reviewTestingEnabled)
+            ?? container.decodeIfPresent(Bool.self, forKey: .simulateReviewEligibility)
+            ?? false
         testNotificationsEnabled = try container.decodeIfPresent(Bool.self, forKey: .testNotificationsEnabled) ?? false
-        settingsVersion = try container.decodeIfPresent(String.self, forKey: .settingsVersion) ?? "2026.06.30"
+        settingsVersion = try container.decodeIfPresent(String.self, forKey: .settingsVersion) ?? "2026.07.01"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -50,7 +53,7 @@ struct AppSettings: Codable, Equatable {
         try container.encode(showCancelledBookings, forKey: .showCancelledBookings)
         try container.encode(bookingRemindersEnabled, forKey: .bookingRemindersEnabled)
         try container.encode(developerModeEnabled, forKey: .developerModeEnabled)
-        try container.encode(simulateReviewEligibility, forKey: .simulateReviewEligibility)
+        try container.encode(reviewTestingEnabled, forKey: .reviewTestingEnabled)
         try container.encode(testNotificationsEnabled, forKey: .testNotificationsEnabled)
         try container.encode(settingsVersion, forKey: .settingsVersion)
     }
@@ -59,8 +62,8 @@ struct AppSettings: Codable, Equatable {
         showCancelledBookings: true,
         bookingRemindersEnabled: true,
         developerModeEnabled: false,
-        simulateReviewEligibility: false,
+        reviewTestingEnabled: false,
         testNotificationsEnabled: false,
-        settingsVersion: "2026.06.30"
+        settingsVersion: "2026.07.01"
     )
 }

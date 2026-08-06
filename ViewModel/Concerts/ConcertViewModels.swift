@@ -34,7 +34,7 @@ final class ConcertListViewModel: TicketedShowingListViewModeling {
     var headerText: String {
         "\(filteredConcerts.count) concerts - \(selectedStatusFilter.title.lowercased()) - rating \(ratingSortOrder.title.lowercased())"
     }
-    var ratingSortButtonTitle: String { "rating: \(ratingSortOrder.title.lowercased())" }
+    var ratingSortButtonTitle: String { ratingSortOrder.buttonTitle }
     var listings: [EventListing] { filteredConcerts.map(EventListing.concert) }
 
     var filteredConcerts: [Concert] {

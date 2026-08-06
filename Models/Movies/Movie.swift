@@ -4,6 +4,7 @@ import Foundation
 // poster url is fallback while localPosterName points to bundled offline image
 struct Movie: Codable, Equatable {
     let title: String
+    let tmdbID: Int?
     let genre: String
     let duration: String
     let rating: Double

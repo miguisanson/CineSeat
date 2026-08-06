@@ -28,7 +28,7 @@ UserDefaults stores simple app preferences such as the selected movie category, 
 \par
 Bookings are stored using BookingFileRepository. It uses FileManager to find the Documents directory, then saves bookings to bookings.json using JSONEncoder. When the app opens, JSONDecoder reads the saved bookings back into the app. Each booking can also store TicketAssignment rows, so one purchased seat can be assigned to another existing account by email.\par
 \par
-Profiles are stored in profiles.json using the same Codable and FileManager approach. Reviews are created only after a confirmed showing finishes and are stored in reviews.json, with one editable review per account and item. Passwords are not saved in JSON. They are stored separately in the iOS Keychain through KeychainPasswordStore, which uses SecItemAdd, SecItemCopyMatching, and SecItemDelete.\par
+Profiles are stored in profiles.json using the same Codable and FileManager approach. TicketPlease reviews are written from Booking Detail after the confirmed scheduled time and are stored in reviews.json, with one editable review per account and item. Showing details remain read-only. Online movie comments use a separate TMDB API client and are never merged into the TicketPlease JSON or average. Passwords are not saved in JSON. They are stored separately in the iOS Keychain through KeychainPasswordStore, which uses SecItemAdd, SecItemCopyMatching, and SecItemDelete.\par
 \par
 This shows simple preferences, save and retrieve data, Codable models, file writing and reading, and secure password storage.\par
 \par

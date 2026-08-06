@@ -30,5 +30,6 @@ enum AppConstants {
 
     enum Reviews {
         static let fallbackShowingDuration: TimeInterval = 2 * 60 * 60
+        static let readButtonTitle = "Read Reviews"
     }
 }

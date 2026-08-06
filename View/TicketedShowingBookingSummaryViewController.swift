@@ -22,7 +22,14 @@ final class TicketedShowingBookingSummaryViewController: ScrollableViewControlle
         titleLabel.font = CineSeatFont.detailTitle
         titleLabel.textColor = CineSeatTheme.primaryText
         titleLabel.numberOfLines = 0
-        let heading = UIStackView(arrangedSubviews: [titleLabel, CineSeatTheme.captionLabel(draft.event.eventType)])
+
+        let metadataLabel = UILabel()
+        metadataLabel.text = ShowingMetadataFormatter.event(draft.event)
+        metadataLabel.font = CineSeatFont.metadata
+        metadataLabel.textColor = CineSeatTheme.mutedText
+        metadataLabel.numberOfLines = 0
+
+        let heading = UIStackView(arrangedSubviews: [titleLabel, metadataLabel])
         heading.axis = .vertical
         heading.spacing = CineSeatSpacing.small
         contentStack.addArrangedSubview(makeCard(with: heading))

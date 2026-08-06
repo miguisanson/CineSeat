@@ -11,6 +11,7 @@ struct AppDependencies {
     let fetchMovieShowingsUseCase: FetchMovieShowingsUseCase
     let fetchEventShowingsUseCase: FetchEventShowingsUseCase
     let fetchReviewsUseCase: FetchReviewsUseCase
+    let fetchOnlineReviewsUseCase: FetchOnlineReviewsUseCase
     let manageReviewsUseCase: ManageReviewsUseCase
     let checkReviewEligibilityUseCase: CheckReviewEligibilityUseCase
     let fetchBookingsUseCase: FetchBookingsUseCase
@@ -42,6 +43,9 @@ struct AppDependencies {
             fetchMovieShowingsUseCase: DefaultFetchMovieShowingsUseCase(showingFetcher: showingFetcher),
             fetchEventShowingsUseCase: DefaultFetchEventShowingsUseCase(showingFetcher: eventShowingFetcher),
             fetchReviewsUseCase: DefaultFetchReviewsUseCase(reviewFetcher: reviewManager),
+            fetchOnlineReviewsUseCase: DefaultFetchOnlineReviewsUseCase(
+                onlineReviewFetcher: TMDBReviewAPIClient()
+            ),
             manageReviewsUseCase: DefaultManageReviewsUseCase(reviewManager: reviewManager),
             checkReviewEligibilityUseCase: DefaultCheckReviewEligibilityUseCase(
                 bookingManager: bookingManager,
@@ -108,33 +112,54 @@ final class AppFactory {
         )
     }
 
-    func makeReviewsViewModel(subject: ReviewSubject) -> ReviewsViewModel {
+    func makeReviewsViewModel(
+        subject: ReviewSubject,
+        accessContext: ReviewAccessContext = .readOnly
+    ) -> ReviewsViewModel {
         ReviewsViewModel(
             subject: subject,
+            accessContext: accessContext,
             fetchReviewsUseCase: dependencies.fetchReviewsUseCase,
             manageReviewsUseCase: dependencies.manageReviewsUseCase,
             checkEligibilityUseCase: dependencies.checkReviewEligibilityUseCase,
-            authenticationService: dependencies.authenticationService
+            authenticationService: dependencies.authenticationService,
+            settingsStore: dependencies.settingsStore
         )
     }
 
-    func makeReviewsViewController(subject: ReviewSubject) -> ReviewsViewController {
+    func makeOnlineReviewsViewModel(subject: ReviewSubject) -> OnlineReviewsViewModel {
+        OnlineReviewsViewModel(
+            subject: subject,
+            fetchOnlineReviewsUseCase: dependencies.fetchOnlineReviewsUseCase
+        )
+    }
+
+    func makeReviewsViewController(
+        subject: ReviewSubject,
+        accessContext: ReviewAccessContext = .readOnly
+    ) -> ReviewsViewController {
         let viewController = ReviewsViewController()
         viewController.factory = self
-        viewController.viewModel = makeReviewsViewModel(subject: subject)
+        viewController.viewModel = makeReviewsViewModel(
+            subject: subject,
+            accessContext: accessContext
+        )
+        viewController.onlineViewModel = makeOnlineReviewsViewModel(subject: subject)
         return viewController
     }
 
     func makeReviewEditorViewController(
         subject: ReviewSubject,
         author: UserProfile,
-        existingReview: Review?
+        existingReview: Review?,
+        allowsMultipleReviews: Bool
     ) -> ReviewEditorViewController {
         let viewController = ReviewEditorViewController()
         viewController.viewModel = ReviewEditorViewModel(
             subject: subject,
             author: author,
             existingReview: existingReview,
+            allowsMultipleReviews: allowsMultipleReviews,
             manageReviewsUseCase: dependencies.manageReviewsUseCase
         )
         return viewController
@@ -317,6 +342,7 @@ final class AppFactory {
 
     func makeBookingDetailViewController(booking: Booking) -> BookingDetailViewController {
         let viewController = BookingDetailViewController()
+        viewController.factory = self
         viewController.booking = booking
         viewController.cancelBookingUseCase = dependencies.cancelBookingUseCase
         viewController.transferTicketUseCase = dependencies.transferTicketUseCase

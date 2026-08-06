@@ -2,6 +2,10 @@ import Foundation
 
 // module 5 decodable local content shapes
 // dto structs match the json files and are mapped into app models separately
+struct LocalContentMetadata: Decodable, Equatable {
+    let version: String
+}
+
 struct LocalContentDTO: Decodable {
     let cinemas: [Cinema]
     let movies: [Movie]

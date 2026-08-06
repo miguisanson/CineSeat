@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tab-main">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tab-main">
+    <device id="iPad13_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22604"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--TicketPlease Tabs-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="scene-tabs">
             <objects>
                 <tabBarController id="tab-main" customClass="MainTabBarController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
@@ -28,13 +28,13 @@
             </objects>
             <point key="canvasLocation" x="-1270" y="125"/>
         </scene>
-        <!--Showings Navigation Controller-->
+        <!--Showings-->
         <scene sceneID="scene-nav-movies">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-movies" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Showings" image="ticket" catalog="system" id="tab-movies"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-movies">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="24" width="1032" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -50,7 +50,7 @@
             <objects>
                 <viewController storyboardIdentifier="showings-vc" id="showings-vc" customClass="ShowingsViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="showings-view">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1032" height="1376"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="showings-safe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -61,45 +61,45 @@
             </objects>
             <point key="canvasLocation" x="420" y="-1040"/>
         </scene>
-        <!--Movies-->
+        <!--Movies View Controller-->
         <scene sceneID="scene-movies">
             <objects>
                 <viewController storyboardIdentifier="movies-vc" id="movies-vc" customClass="MoviesViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="movies-view">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1032" height="1376"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="movies-header">
-                                <rect key="frame" x="0.0" y="59" width="393" height="72"/>
+                                <rect key="frame" x="0.0" y="24" width="1032" height="72"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Movies" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-title">
-                                        <rect key="frame" x="20" y="12" width="94" height="27"/>
+                                        <rect key="frame" x="20" y="12" width="76" height="27"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
                                         <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="CINEMA BOOKING" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="movies-subtitle">
-                                        <rect key="frame" x="20" y="43" width="136" height="12"/>
+                                        <rect key="frame" x="20" y="41" width="113" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="movies-title" firstAttribute="top" secondItem="movies-header" secondAttribute="top" constant="12" id="title-top"/>
-                                    <constraint firstItem="movies-title" firstAttribute="leading" secondItem="movies-header" secondAttribute="leading" constant="20" id="title-leading"/>
-                                    <constraint firstItem="movies-subtitle" firstAttribute="top" secondItem="movies-title" secondAttribute="bottom" constant="2" id="subtitle-top"/>
                                     <constraint firstItem="movies-subtitle" firstAttribute="leading" secondItem="movies-title" secondAttribute="leading" id="subtitle-leading"/>
+                                    <constraint firstItem="movies-subtitle" firstAttribute="top" secondItem="movies-title" secondAttribute="bottom" constant="2" id="subtitle-top"/>
+                                    <constraint firstItem="movies-title" firstAttribute="leading" secondItem="movies-header" secondAttribute="leading" constant="20" id="title-leading"/>
+                                    <constraint firstItem="movies-title" firstAttribute="top" secondItem="movies-header" secondAttribute="top" constant="12" id="title-top"/>
                                 </constraints>
                             </view>
                             <searchBar contentMode="redraw" placeholder="Search movies..." translatesAutoresizingMaskIntoConstraints="NO" id="movies-search">
-                                <rect key="frame" x="12" y="139" width="369" height="44"/>
+                                <rect key="frame" x="12" y="104" width="1008" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="movies-vc" id="search-delegate"/>
                                 </connections>
                             </searchBar>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="movies-segments">
-                                <rect key="frame" x="16" y="191" width="361" height="33"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="movies-segments">
+                                <rect key="frame" x="16" y="156" width="1000" height="33"/>
                                 <segments>
                                     <segment title="All"/>
                                     <segment title="Now Showing"/>
@@ -110,7 +110,7 @@
                                 </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="126" estimatedRowHeight="126" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="movies-table">
-                                <rect key="frame" x="0.0" y="233" width="393" height="536"/>
+                                <rect key="frame" x="0.0" y="198" width="1032" height="1158"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="movies-vc" id="movies-data-source"/>
@@ -121,22 +121,22 @@
                         <viewLayoutGuide key="safeArea" id="movies-safe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="movies-header" firstAttribute="top" secondItem="movies-safe" secondAttribute="top" id="header-top"/>
-                            <constraint firstItem="movies-header" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" id="header-leading"/>
-                            <constraint firstAttribute="trailing" secondItem="movies-header" secondAttribute="trailing" id="header-trailing"/>
                             <constraint firstItem="movies-header" firstAttribute="height" constant="72" id="header-height"/>
-                            <constraint firstItem="movies-search" firstAttribute="top" secondItem="movies-header" secondAttribute="bottom" constant="8" id="search-top"/>
-                            <constraint firstItem="movies-search" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" constant="12" id="search-leading"/>
-                            <constraint firstAttribute="trailing" secondItem="movies-search" secondAttribute="trailing" constant="12" id="search-trailing"/>
+                            <constraint firstItem="movies-header" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" id="header-leading"/>
+                            <constraint firstItem="movies-header" firstAttribute="top" secondItem="movies-safe" secondAttribute="top" id="header-top"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-header" secondAttribute="trailing" id="header-trailing"/>
                             <constraint firstItem="movies-search" firstAttribute="height" constant="44" id="search-height"/>
-                            <constraint firstItem="movies-segments" firstAttribute="top" secondItem="movies-search" secondAttribute="bottom" constant="8" id="segments-top"/>
-                            <constraint firstItem="movies-segments" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" constant="16" id="segments-leading"/>
-                            <constraint firstAttribute="trailing" secondItem="movies-segments" secondAttribute="trailing" constant="16" id="segments-trailing"/>
+                            <constraint firstItem="movies-search" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" constant="12" id="search-leading"/>
+                            <constraint firstItem="movies-search" firstAttribute="top" secondItem="movies-header" secondAttribute="bottom" constant="8" id="search-top"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-search" secondAttribute="trailing" constant="12" id="search-trailing"/>
                             <constraint firstItem="movies-segments" firstAttribute="height" constant="32" id="segments-height"/>
-                            <constraint firstItem="movies-table" firstAttribute="top" secondItem="movies-segments" secondAttribute="bottom" constant="10" id="table-top"/>
-                            <constraint firstItem="movies-table" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" id="table-leading"/>
-                            <constraint firstAttribute="trailing" secondItem="movies-table" secondAttribute="trailing" id="table-trailing"/>
+                            <constraint firstItem="movies-segments" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" constant="16" id="segments-leading"/>
+                            <constraint firstItem="movies-segments" firstAttribute="top" secondItem="movies-search" secondAttribute="bottom" constant="8" id="segments-top"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-segments" secondAttribute="trailing" constant="16" id="segments-trailing"/>
                             <constraint firstItem="movies-table" firstAttribute="bottom" secondItem="movies-safe" secondAttribute="bottom" id="table-bottom"/>
+                            <constraint firstItem="movies-table" firstAttribute="leading" secondItem="movies-view" secondAttribute="leading" id="table-leading"/>
+                            <constraint firstItem="movies-table" firstAttribute="top" secondItem="movies-segments" secondAttribute="bottom" constant="10" id="table-top"/>
+                            <constraint firstAttribute="trailing" secondItem="movies-table" secondAttribute="trailing" id="table-trailing"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="movies-navigation-item"/>
@@ -150,13 +150,13 @@
             </objects>
             <point key="canvasLocation" x="420" y="-600"/>
         </scene>
-        <!--Bookings Navigation Controller-->
+        <!--Bookings-->
         <scene sceneID="scene-nav-bookings">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-bookings" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Bookings" image="list.bullet.rectangle" catalog="system" id="tab-bookings"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-bookings">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="24" width="1032" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -167,37 +167,37 @@
             </objects>
             <point key="canvasLocation" x="-410" y="125"/>
         </scene>
-        <!--My Bookings-->
+        <!--Bookings View Controller-->
         <scene sceneID="scene-bookings">
             <objects>
                 <viewController id="bookings-vc" customClass="BookingsViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bookings-view">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1032" height="1376"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="My Bookings" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-title">
-                                <rect key="frame" x="20" y="75" width="127" height="26"/>
-                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
+                                <rect key="frame" x="20" y="90" width="132" height="26"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                 <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="4 BOOKINGS TOTAL" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-count">
-                                <rect key="frame" x="20" y="116" width="116" height="12"/>
+                                <rect key="frame" x="20" y="126" width="124" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Show cancelled bookings" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-filter-label">
-                                <rect key="frame" x="20" y="148" width="160" height="18"/>
+                                <rect key="frame" x="20" y="156" width="143.5" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.33000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-filter-switch">
-                                <rect key="frame" x="324" y="141" width="51" height="31"/>
+                                <rect key="frame" x="963" y="147.5" width="51" height="31"/>
                                 <connections>
                                     <action selector="showCancelledChanged:" destination="bookings-vc" eventType="valueChanged" id="bookings-filter-action"/>
                                 </connections>
                             </switch>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="132" estimatedRowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bookings-table">
-                                <rect key="frame" x="0.0" y="184" width="393" height="585"/>
+                                <rect key="frame" x="0.0" y="182.5" width="1032" height="1123.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="bookings-vc" id="bookings-data-source"/>
@@ -208,18 +208,18 @@
                         <viewLayoutGuide key="safeArea" id="bookings-safe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="bookings-title" firstAttribute="top" secondItem="bookings-safe" secondAttribute="top" constant="16" id="bookings-title-top"/>
-                            <constraint firstItem="bookings-title" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" constant="20" id="bookings-title-leading"/>
-                            <constraint firstItem="bookings-count" firstAttribute="top" secondItem="bookings-title" secondAttribute="bottom" constant="10" id="bookings-count-top"/>
                             <constraint firstItem="bookings-count" firstAttribute="leading" secondItem="bookings-title" secondAttribute="leading" id="bookings-count-leading"/>
-                            <constraint firstItem="bookings-filter-label" firstAttribute="top" secondItem="bookings-count" secondAttribute="bottom" constant="14" id="bookings-filter-top"/>
+                            <constraint firstItem="bookings-count" firstAttribute="top" secondItem="bookings-title" secondAttribute="bottom" constant="10" id="bookings-count-top"/>
                             <constraint firstItem="bookings-filter-label" firstAttribute="leading" secondItem="bookings-title" secondAttribute="leading" id="bookings-filter-leading"/>
                             <constraint firstItem="bookings-filter-switch" firstAttribute="centerY" secondItem="bookings-filter-label" secondAttribute="centerY" id="bookings-filter-switch-center"/>
                             <constraint firstAttribute="trailing" secondItem="bookings-filter-switch" secondAttribute="trailing" constant="20" id="bookings-filter-switch-trailing"/>
-                            <constraint firstItem="bookings-table" firstAttribute="top" secondItem="bookings-filter-label" secondAttribute="bottom" constant="12" id="bookings-table-top"/>
-                            <constraint firstItem="bookings-table" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" id="bookings-table-leading"/>
-                            <constraint firstAttribute="trailing" secondItem="bookings-table" secondAttribute="trailing" id="bookings-table-trailing"/>
+                            <constraint firstItem="bookings-filter-label" firstAttribute="top" secondItem="bookings-count" secondAttribute="bottom" constant="14" id="bookings-filter-top"/>
                             <constraint firstItem="bookings-table" firstAttribute="bottom" secondItem="bookings-safe" secondAttribute="bottom" id="bookings-table-bottom"/>
+                            <constraint firstItem="bookings-table" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" id="bookings-table-leading"/>
+                            <constraint firstItem="bookings-table" firstAttribute="top" secondItem="bookings-filter-label" secondAttribute="bottom" constant="12" id="bookings-table-top"/>
+                            <constraint firstAttribute="trailing" secondItem="bookings-table" secondAttribute="trailing" id="bookings-table-trailing"/>
+                            <constraint firstItem="bookings-title" firstAttribute="leading" secondItem="bookings-view" secondAttribute="leading" constant="20" id="bookings-title-leading"/>
+                            <constraint firstItem="bookings-title" firstAttribute="top" secondItem="bookings-safe" secondAttribute="top" constant="16" id="bookings-title-top"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bookings-navigation-item"/>
@@ -233,13 +233,13 @@
             </objects>
             <point key="canvasLocation" x="420" y="125"/>
         </scene>
-        <!--Locations Navigation Controller-->
+        <!--Locations-->
         <scene sceneID="scene-nav-locations">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-locations" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Locations" image="mappin.and.ellipse" catalog="system" id="tab-locations"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-locations">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="24" width="1032" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -250,12 +250,12 @@
             </objects>
             <point key="canvasLocation" x="-410" y="850"/>
         </scene>
-        <!--Locations-->
+        <!--Cinema Locations View Controller-->
         <scene sceneID="scene-locations">
             <objects>
                 <viewController id="locations-vc" customClass="CinemaLocationsViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="locations-view">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1032" height="1376"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="locations-safe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -266,13 +266,13 @@
             </objects>
             <point key="canvasLocation" x="420" y="850"/>
         </scene>
-        <!--Profile Navigation Controller-->
+        <!--Profile-->
         <scene sceneID="scene-nav-profile">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nav-profile" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle" catalog="system" id="tab-profile"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bar-profile">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="24" width="1032" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -283,47 +283,47 @@
             </objects>
             <point key="canvasLocation" x="-410" y="1575"/>
         </scene>
-        <!--Profile-->
+        <!--Profile View Controller-->
         <scene sceneID="scene-profile">
             <objects>
                 <viewController id="profile-vc" customClass="ProfileViewController" customModule="CineSeat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="profile-view">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1032" height="1376"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="profile-scroll">
-                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <rect key="frame" x="0.0" y="74" width="1032" height="1232"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="profile-content-stack">
-                                        <rect key="frame" x="20" y="16" width="353" height="419"/>
+                                        <rect key="frame" x="20" y="16" width="992" height="387"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Profile" textAlignment="natural" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-title">
-                                                <rect key="frame" x="0.0" y="0.0" width="353" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="992" height="26.5"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                                 <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="profile-icon">
-                                                <rect key="frame" x="0.0" y="38" width="353" height="96"/>
+                                                <rect key="frame" x="0.0" y="39" width="992" height="95"/>
                                                 <color key="tintColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="96" id="profile-icon-height"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Welcome to TicketPlease" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-welcome">
-                                                <rect key="frame" x="0.0" y="146" width="353" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" weight="bold" pointSize="22"/>
+                                                <rect key="frame" x="0.0" y="146.5" width="992" height="26.5"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                                 <color key="textColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Sign in to manage your account, keep your profile details, and quickly access your cinema bookings." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="profile-message">
-                                                <rect key="frame" x="0.0" y="184" width="353" height="50"/>
+                                                <rect key="frame" x="0.0" y="185" width="992" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="0.33000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="horizontal" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="profile-button-hstack">
-                                                <rect key="frame" x="0.0" y="246" width="353" height="52"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="profile-button-hstack">
+                                                <rect key="frame" x="0.0" y="214" width="992" height="52"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-login-button">
-                                                        <rect key="frame" x="0.0" y="0.0" width="171.66666666666666" height="52"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="491" height="52"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                         <state key="normal" title="Log In"/>
                                                         <connections>
@@ -331,7 +331,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="profile-create-button">
-                                                        <rect key="frame" x="181.66666666666666" y="0.0" width="171.33333333333334" height="52"/>
+                                                        <rect key="frame" x="501" y="0.0" width="491" height="52"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                         <state key="normal" title="Create Account"/>
                                                         <connections>
@@ -344,20 +344,20 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="profile-privacy-card">
-                                                <rect key="frame" x="0.0" y="310" width="353" height="109"/>
+                                                <rect key="frame" x="0.0" y="278" width="992" height="109"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Your password is stored securely in the iOS Keychain. Account data stays on this device." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="profile-privacy-label">
-                                                        <rect key="frame" x="12" y="12" width="329" height="85"/>
+                                                        <rect key="frame" x="12" y="12" width="968" height="85"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.96000000000000008" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="profile-privacy-label" firstAttribute="top" secondItem="profile-privacy-card" secondAttribute="top" constant="12" id="profile-privacy-label-top"/>
-                                                    <constraint firstItem="profile-privacy-label" firstAttribute="leading" secondItem="profile-privacy-card" secondAttribute="leading" constant="12" id="profile-privacy-label-leading"/>
-                                                    <constraint firstAttribute="trailing" secondItem="profile-privacy-label" secondAttribute="trailing" constant="12" id="profile-privacy-label-trailing"/>
                                                     <constraint firstAttribute="bottom" secondItem="profile-privacy-label" secondAttribute="bottom" constant="12" id="profile-privacy-label-bottom"/>
+                                                    <constraint firstItem="profile-privacy-label" firstAttribute="leading" secondItem="profile-privacy-card" secondAttribute="leading" constant="12" id="profile-privacy-label-leading"/>
+                                                    <constraint firstItem="profile-privacy-label" firstAttribute="top" secondItem="profile-privacy-card" secondAttribute="top" constant="12" id="profile-privacy-label-top"/>
+                                                    <constraint firstAttribute="trailing" secondItem="profile-privacy-label" secondAttribute="trailing" constant="12" id="profile-privacy-label-trailing"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -368,24 +368,24 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <viewLayoutGuide key="contentLayoutGuide" id="profile-scroll-content"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="profile-scroll-frame"/>
                                 <constraints>
-                                    <constraint firstItem="profile-content-stack" firstAttribute="top" secondItem="profile-scroll-content" secondAttribute="top" constant="16" id="profile-stack-top"/>
-                                    <constraint firstItem="profile-content-stack" firstAttribute="leading" secondItem="profile-scroll-content" secondAttribute="leading" constant="20" id="profile-stack-leading"/>
-                                    <constraint firstItem="profile-content-stack" firstAttribute="trailing" secondItem="profile-scroll-content" secondAttribute="trailing" constant="-20" id="profile-stack-trailing"/>
                                     <constraint firstItem="profile-content-stack" firstAttribute="bottom" secondItem="profile-scroll-content" secondAttribute="bottom" constant="-20" id="profile-stack-bottom"/>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="leading" secondItem="profile-scroll-content" secondAttribute="leading" constant="20" id="profile-stack-leading"/>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="top" secondItem="profile-scroll-content" secondAttribute="top" constant="16" id="profile-stack-top"/>
+                                    <constraint firstItem="profile-content-stack" firstAttribute="trailing" secondItem="profile-scroll-content" secondAttribute="trailing" constant="-20" id="profile-stack-trailing"/>
                                     <constraint firstItem="profile-content-stack" firstAttribute="width" secondItem="profile-scroll-frame" secondAttribute="width" constant="-40" id="profile-stack-width"/>
                                 </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="profile-scroll-content"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="profile-scroll-frame"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="profile-safe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="profile-scroll" firstAttribute="top" secondItem="profile-safe" secondAttribute="top" id="profile-scroll-top"/>
-                            <constraint firstItem="profile-scroll" firstAttribute="leading" secondItem="profile-view" secondAttribute="leading" id="profile-scroll-leading"/>
-                            <constraint firstAttribute="trailing" secondItem="profile-scroll" secondAttribute="trailing" id="profile-scroll-trailing"/>
                             <constraint firstItem="profile-scroll" firstAttribute="bottom" secondItem="profile-safe" secondAttribute="bottom" id="profile-scroll-bottom"/>
+                            <constraint firstItem="profile-scroll" firstAttribute="leading" secondItem="profile-view" secondAttribute="leading" id="profile-scroll-leading"/>
+                            <constraint firstItem="profile-scroll" firstAttribute="top" secondItem="profile-safe" secondAttribute="top" id="profile-scroll-top"/>
+                            <constraint firstAttribute="trailing" secondItem="profile-scroll" secondAttribute="trailing" id="profile-scroll-trailing"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="profile-navigation-item"/>
@@ -403,11 +403,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="film" catalog="system" width="128" height="93"/>
         <image name="list.bullet.rectangle" catalog="system" width="128" height="93"/>
-        <image name="mappin.and.ellipse" catalog="system" width="128" height="124"/>
+        <image name="mappin.and.ellipse" catalog="system" width="110" height="128"/>
         <image name="person.crop.circle" catalog="system" width="128" height="123"/>
-        <image name="ticket" catalog="system" width="128" height="102"/>
+        <image name="ticket" catalog="system" width="128" height="86"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

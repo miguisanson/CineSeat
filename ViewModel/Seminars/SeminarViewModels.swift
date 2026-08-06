@@ -34,7 +34,7 @@ final class SeminarListViewModel: TicketedShowingListViewModeling {
     var headerText: String {
         "\(filteredSeminars.count) seminars - \(selectedStatusFilter.title.lowercased()) - rating \(ratingSortOrder.title.lowercased())"
     }
-    var ratingSortButtonTitle: String { "rating: \(ratingSortOrder.title.lowercased())" }
+    var ratingSortButtonTitle: String { ratingSortOrder.buttonTitle }
     var listings: [EventListing] { filteredSeminars.map(EventListing.seminar) }
 
     var filteredSeminars: [Seminar] {

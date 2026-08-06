@@ -13,8 +13,10 @@ TicketPlease is a UIKit ticket-booking application for movies, concerts, and sem
 - Cinema/event venue MapKit pins, callouts, assigned showings, and zoom controls
 - Local reminders through `UserNotifications` without APNs
 - Account registration, validation, duplicate-email prevention, login, profile editing, restored session, and Keychain passwords
-- Account-owned reviews with one rating/comment per showing, edit/delete, and completed-booking eligibility
-- Developer Mode for isolated eligibility simulation, notification tests, and confirmed data resets
+- Read-only reviews from Showings and booking-owned review writing from Booking Detail after showtime
+- One TicketPlease numerical rating/comment per account and item with edit/delete
+- Separate TMDB online written reviews for movies without merging them into TicketPlease reviews
+- Developer Mode for unlimited review testing, notification tests, and confirmed data resets
 - Bundled offline movie posters with cache and URLSession fallback
 
 ## Architecture
@@ -64,14 +66,18 @@ New installs have no generated account, booking, or review records. Core Data is
 
 ## Reviews
 
-The Review feature is separated across Model, Persistence, Domain, ViewModel, View, and CustomViews. A review is eligible only when:
+The Review feature is separated across Model, Persistence, Domain, ViewModel, View, and CustomViews. Showing details can read reviews but cannot write them. Writing is available from the matching Booking Detail only when:
 
 1. An account is signed in.
 2. That account owns a ticket assignment for the item.
 3. The booking is confirmed.
-4. The scheduled start plus the movie/event duration has passed.
+4. The scheduled start time has passed.
 
-`ReviewStore` updates an existing review instead of inserting a duplicate for the same profile and subject. Only its author profile ID can edit or delete it. Developer Mode can simulate eligibility for local presentation testing.
+`ReviewStore` updates an existing review instead of inserting a duplicate for the same profile and subject. Only its author profile ID can edit or delete it. Developer Mode's **Unlimited review testing** switch bypasses the time rule and permits repeated local test reviews from Booking Detail.
+
+The Reviews screen has separate **TicketPlease** and **Online** segments. Online movie comments use TMDB's movie reviews endpoint and never enter `reviews.json` or the TicketPlease average. The development token is stored only in the local Xcode user scheme under `TMDB_READ_ACCESS_TOKEN`; it is not stored in app source or documentation. Before a live release, remove and rotate that token, obtain the required production/commercial access, and keep the replacement credential on a backend rather than in the distributed iOS app. Concert and seminar online written reviews remain unavailable until a suitable provider is added.
+
+All rating displays use the shared `RatingDisplayFormatter` and the same `4.7 / 5.0` format. `ShowingMetadataFormatter` also keeps duration capitalization and movie/event metadata consistent across list, detail, summary, and saved-booking screens.
 
 ## Storyboard and Layout
 
@@ -83,4 +89,4 @@ Programmatic screens use Auto Layout, safe-area anchors, reusable table cells, a
 
 Open `CineSeat.xcodeproj`, select the `CineSeat` scheme, choose an iOS 17.5 simulator, and run.
 
-Unit tests cover local content rules, schedules, maps, seats, booking persistence, sharing, settings, authentication, Keychain, review persistence, ownership, and completed-showing eligibility. UI tests cover movie/event review routing, booking access, and account flows.
+Unit tests cover local content rules, schedules, maps, seats, booking persistence, sharing, settings, authentication, Keychain, local/online review separation, ownership, and scheduled-time eligibility. UI tests cover read-only Showing reviews, sort direction, movie/event routing, booking access, and account flows.
