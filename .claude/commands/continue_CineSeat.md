@@ -15,11 +15,11 @@ can do.
    is where the work stands. There is no roadmap document yet — `CineSeat/TICKETPLEASE_LIVE_READINESS_CHECKLIST.md` lists the known gaps and is the best starting point for `/gsd-onboard`.
 3. Keep Opus usage low. You write the checks and contracts, review, run the gate
    and commit. **Codex writes implementations** (`mcp__codex__codex` for one
-   packet; `codex exec` in git worktrees for several at once). Mechanical text
-   work goes to a Claude subagent on `haiku` — **this MacBook has no local
-   model**; `mcp__ollama__ask_local` exists only on the Windows PC. If Codex is
-   unavailable, follow the fallback ladder in AGENTS.md (Claude subagents on
-   Sonnet/Haiku) instead of stopping. GSD stays on the `budget` profile. Keep
+   packet; `codex exec` in git worktrees for several at once). The **local model**
+   (`mcp__ollama__ask_local`, qwen2.5-coder:7b) does mechanical text work for
+   free — commit messages, docstrings, boilerplate, and summarising a long file
+   before you read it. If Codex or Ollama is unavailable, follow the fallback
+   ladder in AGENTS.md (Claude subagents on Sonnet/Haiku) instead of stopping. GSD stays on the `budget` profile. Keep
    replies to the owner short and in plain terms.
 
 ## Start of every session

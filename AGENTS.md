@@ -140,23 +140,24 @@ not on every item.
 |---|---|---|
 | **Claude** | Architecture, types and contracts, writing the failing test, reviewing and merging, anything touching security, data or licensing | Grind through bulk mechanical work |
 | **Codex** | Makes a written failing test pass; implements a module or screen against a stated contract; works in its own git worktree | Change a check to match its code; widen scope |
-| **Local model** (Ollama, `mcp__ollama__ask_local`) | **Windows PC only.** Mechanical work there: boilerplate, summaries of long text, commit messages, docstrings | Design, multi-file reasoning, anything unverified |
+| **Local model** (Ollama, `mcp__ollama__ask_local`, qwen2.5-coder:7b) | Free mechanical work: boilerplate, summaries of long text, commit messages, docstrings | Design, multi-file reasoning, anything unverified |
 
-On the MacBook there is no local model by choice; its mechanical work goes to a
-Claude subagent on `haiku`. The failing test is the handoff: a precise,
+All three run on both machines — the MacBook (M3, 16 GB) and the Windows PC both
+serve qwen2.5-coder:7b through Ollama. The failing test is the handoff: a precise,
 checkable spec. Every delegated result is reviewed and gated before it merges.
 
 ### When an agent is unavailable — the fallback ladder
 
-If one is out — Codex at its usage limit or erroring, no local model on this
-machine — the work moves down the ladder instead of stopping:
+If one is out — Codex at its usage limit or erroring, Ollama not running — the
+work moves down the ladder instead of stopping:
 
 1. **Codex unavailable:** implementation goes to a **Claude subagent on a
    cheaper model** (`Agent` with `model: "sonnet"`) in the same worktree, with
    the same brief Codex would get. Independent packets run in parallel.
    The main Claude session keeps to checks, contracts, review and the gate.
-2. **Local model unavailable** (always, on the MacBook): its mechanical work
-   goes to a Claude subagent on `haiku` (or `sonnet` when it needs judgement).
+2. **Local model unavailable** (Ollama not running, or the model not pulled):
+   its mechanical work goes to a Claude subagent on `haiku` (or `sonnet` when it
+   needs judgement). Start it with `open -a Ollama` before falling back.
 3. **Both unavailable:** Claude subagents do both, cheapest model that can.
 4. **Only the main session:** it implements inline, in the smallest packets.
 
@@ -194,7 +195,7 @@ one owner. When a skill's default disagrees with this file, this file wins.
 | Discipline inside a task: check first, debugging, proving it works, code review, worktrees, closing a branch | **Superpowers**: `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `requesting-code-review`, `receiving-code-review`, `using-git-worktrees`, `finishing-a-development-branch` | GSD `/gsd-add-tests`, `/gsd-debug`, `/gsd-code-review`, `/gsd-audit-fix` |
 | Stress-testing a design decision that is the owner's to make | **grill-me** (user-level skill, never committed: it has no licence) | ad-hoc question batches |
 | Writing implementation code | **Codex**, else the fallback ladder above | Claude subagents writing implementations while Codex is available, including GSD's executor |
-| Mechanical text work | **Local model** on the Windows PC; a `haiku` subagent on the MacBook | Opus |
+| Mechanical text work | **Local model** (Ollama, `mcp__ollama__ask_local`); a `haiku` subagent only if Ollama is down | Opus |
 
 
 **The task shape inside `/gsd-execute-phase` is fixed:** (1) Claude writes the
