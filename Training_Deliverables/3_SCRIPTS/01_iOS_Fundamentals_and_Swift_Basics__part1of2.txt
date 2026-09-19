@@ -1,0 +1,23 @@
+Every iOS app you've ever used — the one that books your rides, the one that plays your music — comes down to the same handful of foundations. A language, a set of tools, and a way of connecting what's on screen to code that runs. That's this module.
+
+Here is what you will be able to do by the end of this video.
+
+Let's start with what iOS development is. It means building for Apple's platforms — iPhone, iPad, Apple Watch, Apple TV. The language is Swift.
+
+A little history helps here. Before Swift, Apple development was done in Objective-C, and you'll still meet that in older codebases. Swift was announced on the second of June, twenty fourteen. Then in twenty nineteen came SwiftUI, a newer, declarative way of building interfaces.
+
+This course teaches Swift with U I Kit, not SwiftUI, and here is why. U I Kit is what the overwhelming majority of existing production code is written in. And doing layout by hand in U I Kit first is what makes SwiftUI's shortcuts legible instead of magical. You'll understand what's being done for you, because you'll have done it yourself.
+
+To build anything you need a Mac, Xcode, and a free Apple account. Xcode is the whole toolkit — editor, interface builder, simulator, debugger.
+
+When you create a project the template asks for several things. Most you can accept. Two you should not rush.
+
+The first is the bundle identifier. That's your app's unique identity on the App Store, and no two apps can share one. If somebody else registers yours, you cannot simply take it — it can only be transferred by agreement between accounts. Pick it deliberately.
+
+The second is the interface: choose Storyboard, not SwiftUI, because that's what selects U I Kit.
+
+Xcode then generates a handful of files. AppDelegate, SceneDelegate, a storyboard, and a view controller. Don't delete any of them. AppDelegate in particular is the first thing that runs when your app opens.
+
+The language. Swift has two ways to declare a value, and the distinction matters. 'var' is a variable — it can change. 'let' is a constant — once it's set, that's it.
+
+Reach for 'let' by default and only use 'var' when you need to change the value. It isn't pedantry: a constant is a promise to everyone reading your code that this thing will not move.

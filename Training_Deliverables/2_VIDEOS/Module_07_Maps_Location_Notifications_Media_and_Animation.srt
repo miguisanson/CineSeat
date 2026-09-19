@@ -1,0 +1,113 @@
+1
+00:00:03,000 --> 00:00:17,800
+This module is about what makes an app feel like it belongs on a phone, rather than like a
+website in a frame. It knows where it is. It can reach you later. It moves with intention.
+
+2
+00:00:17,800 --> 00:00:23,800
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:23,800 --> 00:00:40,600
+First, a distinction that saves a lot of confusion. MapKit and Core Location are two
+different things. MapKit is the map — what you see, the pins, the callouts. Core Location is
+the hardware underneath: GPS, heading, geofencing. MapKit uses Core Location.
+
+4
+00:00:40,600 --> 00:00:56,600
+A map needs three things: a coordinate to centre on, a region defining how far out you're
+zoomed, and annotations for your pins. Add a delegate and you can draw custom pins and
+decide what happens when one is tapped.
+
+5
+00:00:56,600 --> 00:01:22,200
+One decision. There's a Google Maps SDK for iOS with richer place data — phone numbers,
+opening hours. But MapKit is native, needs no API key, no billing account and no credit
+card, and is free for app development. Google's requires a billing account before it will
+
+6
+00:01:22,200 --> 00:01:32,200
+Now permissions, and this is where people lose hours. Anything touching location, camera or
+photos needs two things — and everybody remembers the first one.
+
+7
+00:01:32,200 --> 00:01:50,200
+You request permission in code. But you must also declare it in a file called Info.plist.
+Skip that and the feature doesn't work — it doesn't error clearly, it simply doesn't happen.
+And App Store review rejects builds that use a protected capability without one.
+
+8
+00:01:50,200 --> 00:01:59,000
+The keys must be exact. For location while using the app it's
+NSLocationWhenInUseUsageDescription. There are equivalents for camera, photo library and
+microphone.
+
+9
+00:01:59,000 --> 00:02:15,800
+And whatever text you write is shown to the user word for word in the permission alert. So
+write a real reason — 'used to show cinemas near you', not just the word 'location'. That
+sentence is part of your user experience.
+
+10
+00:02:15,800 --> 00:02:20,200
+Next, notifications. There are two kinds and the difference is architectural.
+
+11
+00:02:20,200 --> 00:02:27,800
+Push notifications, through Apple's APNs service, are sent from a server. Local
+notifications are scheduled on the device itself.
+
+12
+00:02:27,800 --> 00:02:51,800
+The reference app uses local notifications, and the reasoning is practical. APNs needs a
+backend to send from, plus a paid Apple Developer account at ninety-nine dollars a year,
+plus certificates that expire and need rotating. This app has no backend, so local
+
+13
+00:02:51,800 --> 00:03:09,000
+But be honest about the limitation, because it's real. A local notification can only fire on
+a schedule the device already knows about. If a screening were cancelled, the device would
+have no way to find out. That requires push and a server.
+
+14
+00:03:09,000 --> 00:03:25,800
+Two details in this implementation worth copying. It checks a user setting first, so if
+reminders are off nothing is scheduled. And cancelling a booking also cancels its pending
+reminder — so you're never reminded about a ticket you no longer hold.
+
+15
+00:03:25,800 --> 00:03:45,000
+Briefly, two more capabilities. For photos there are two APIs and people mix them up.
+PHPicker is the modern one and what you should use for choosing an existing photo — it runs
+outside your app and doesn't even need photo-library permission for pictures the user
+
+16
+00:03:45,000 --> 00:03:58,600
+The older UIImagePickerController has been soft-deprecated since iOS fourteen. But here's
+the catch: PHPicker cannot take a photo. For camera capture, the older API is still what you
+need. Most real apps use both.
+
+17
+00:03:58,600 --> 00:04:19,800
+And animation. UIKit lets you animate a change over a duration, and the duration is the
+whole point. Set it to zero and the change snaps. Give it three tenths of a second and it
+feels intentional. That's much of the difference between an app that feels cheap and one
+
+18
+00:04:19,800 --> 00:04:37,800
+Here's it all together. Real cinema pins from real coordinates. Tapping one opens a callout
+and routes into the cinema's details and showtimes. And a reminder firing as a banner and on
+the lock screen, carrying the film, the venue, the seats and the time.
+
+19
+00:04:37,800 --> 00:04:40,300
+Let's recap the key points.
+
+20
+00:04:40,300 --> 00:04:42,800
+Here is your practice exercise.
+
+21
+00:04:42,800 --> 00:04:48,800
+That completes the technical curriculum. Chapter eight assembles all seven modules into one
+complete application.

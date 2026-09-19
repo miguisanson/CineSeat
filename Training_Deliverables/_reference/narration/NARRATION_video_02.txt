@@ -1,0 +1,53 @@
+In the last module you learned a language. In this one you build something you can touch. This is the longest module in the course, and it's the one where things start to feel like real app development.
+
+Here is what you will be able to do by the end of this video.
+
+UIKit is Apple's long-established interface framework. It's built on views, view controllers, and an event-driven model: the user does something, your code responds. Screens are laid out in a storyboard, a visual file where you drag controls onto a canvas.
+
+Before layout, though, we need to talk about where your code goes. Because this is where most beginner projects go wrong.
+
+The pattern is MVVM — Model, View, ViewModel. Three responsibilities. The model holds data. The view model owns logic and formatting. The view only displays what it's handed.
+
+Here's a real view model from the app. Look at what's inside it: the search filtering, the category filtering, the rating sort. All of that logic lives here — and not one line of it is in the view controller.
+
+Why bother? Two reasons. The first is that the view controller stays small and readable instead of becoming a dumping ground for everything. The second matters more than it sounds: logic in a view model can be tested. Logic buried inside a screen cannot. We'll prove that in Chapter nine.
+
+The rule for the rest of the course: No data handling, no parsing, no network calls in the view. All of it goes in the view model.
+
+Next: the view controller life cycle. Every screen moves through a fixed sequence of methods as it appears and disappears. Two of them you'll use constantly.
+
+ViewDidLoad runs once, when the screen first loads. That's where setup goes. viewWillAppear runs every single time the screen is about to be shown. So if you need fresh data each time the user comes back to a screen, that's the one you want. Putting it in the wrong place is a classic source of stale-data bugs.
+
+Auto Layout. This is the part almost everyone finds hardest. If you struggle here, you are exactly where everybody else is. It isn't conceptually deep, it's just fiddly.
+
+The reason it exists is history. Apple originally shipped one iPhone size, so layout was trivial. Once there were Pro models, Max models, SE models and iPads, they needed a system that could scale one design across all of them. That system is constraints.
+
+Two pieces of vocabulary. The origin — zero, zero — is the top-left corner. And constraints use 'leading' and 'trailing' rather than left and right, because they follow reading direction. That means the same layout works in a right-to-left language without you changing anything.
+
+And here's the technique that makes constraints manageable: stack views. This seat map is rows of seats inside a vertical stack. Rather than constraining every individual seat button, you constrain the stack, and it handles what's inside. One set of constraints instead of dozens.
+
+If you get stuck, don't let constraints block you. Build the working flow first, treat the layout polish as a finishing pass, and group things into stacks before you start constraining.
+
+Moving between screens. There are three ways; two are worth using.
+
+Push navigation slides the next screen in from the right and gives you a back button automatically. Modal presentation slides up from the bottom and sits on top — good for an about screen or a dialog.
+
+The third is a segue, drawn in the storyboard with no code. It works, but it constrains you: segues force you through the hierarchy, so if you're five screens deep and need to jump back to screen two, a segue can't. Doing navigation in code can.
+
+One gotcha that will cost you an afternoon. Push navigation does nothing at all unless your screen sits inside a navigation controller. The code is correct, the button does nothing, and there's no error message. If that happens to you — that's why.
+
+Finally, table views. A table view is a single scrolling column of rows, like a social media feed. A collection view is a grid of tiles, like a photo gallery. Table views are far more common, so that's our focus.
+
+Two protocols make one work. The data source supplies content: how many rows, and what's in each. The delegate handles interaction: what happens when a row is tapped. You assign both in viewDidLoad.
+
+Miss that assignment and the table renders completely empty — with no error to tell you why. It's probably the single most common beginner stumble in UIKit.
+
+One more detail in this cell. prepareForReuse. Table views recycle cells as you scroll — that's what makes them fast. But it means a cell can arrive still holding the previous row's image. Clearing it on reuse is what prevents that flicker.
+
+When you type in the search bar or flip the rating sort, the screen isn't doing that work. It's asking the view model for a filtered, sorted list and displaying the result. The rows are reusable cells built from stack views. The whole module is on screen at once.
+
+Let's recap the key points.
+
+Here is your practice exercise.
+
+Module three steps back into the language for the intermediate features — closures, collections and concurrency — and then covers how to plan an app before you write it.

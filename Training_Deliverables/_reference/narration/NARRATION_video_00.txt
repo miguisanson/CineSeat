@@ -1,0 +1,25 @@
+Welcome to this iOS development course. Over eleven sessions you'll go from not having written a line of Swift to being able to design, build, test and document an iOS application of your own.
+
+Here is what you will be able to do by the end of this video.
+
+The course is built in two halves. The first seven modules are the technical curriculum, and they climb deliberately.
+
+Module one is the language and the tools. Module two adds the interface layer. Modules three, four and five layer on the language features, the networking and the storage that turn a screen into a real app. Module six is architecture — how to keep it all maintainable. Module seven is the device capabilities that make an app feel native.
+
+Then three craft chapters that no single API teaches you. A case study that assembles everything into one product. A chapter on testing. And a chapter on documentation — which sounds like the boring one, and is the one that decides whether your work survives being handed to somebody else.
+
+Every module ends with a practice exercise. Do them. Watching someone else write code feels like learning, but it isn't — the exercises are where it becomes yours.
+
+What you need. A Mac — that one isn't negotiable, iOS development requires macOS. Xcode, which is free from the Mac App Store and includes everything: the editor, the visual interface builder, the simulator and the debugger. And a free Apple account to download it.
+
+You don't need a physical iPhone to follow along. The simulator covers almost everything. You will need a real device eventually for anything touching the camera or the sensors, but not to learn.
+
+A word on how the example app is used. Rather than teach each concept with a throwaway snippet, every module shows the idea twice — once in isolation, and once inside a real, working application, so you see what it looks like when it has to survive contact with an actual product.
+
+The app happens to be a ticket booker, but nothing about it is special. Around a hundred and thirty seven Swift files, no third-party libraries, running entirely on the device with no backend — which makes it good for teaching, because every layer is visible. Any reasonably complete app would serve the same purpose.
+
+So the useful question isn't "how do I build this screen?" It's "where does this idea fit in the thing I want to make?"
+
+Let's recap the key points.
+
+In Module one we install the tools, create a first project, and cover the Swift language foundations that everything else is built on. See you there.

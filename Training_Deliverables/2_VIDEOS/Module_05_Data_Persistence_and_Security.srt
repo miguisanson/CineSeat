@@ -1,0 +1,109 @@
+1
+00:00:03,000 --> 00:00:17,400
+Your app can fetch data. But close it, reopen it, and everything's gone. This module is
+about memory — and about the one storage decision that, if you get it wrong, becomes a
+genuine security problem.
+
+2
+00:00:17,400 --> 00:00:23,400
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:23,400 --> 00:00:40,200
+The key insight is that there is no single right answer. iOS gives you several mechanisms
+deliberately, and the skill is matching each to the weight and sensitivity of your data. Get
+that wrong and your app is either slow or insecure.
+
+4
+00:00:40,200 --> 00:00:55,000
+First, UserDefaults. Key-value storage for small, lightweight things — which filter was last
+selected, whether the user has seen the welcome screen. You set a value with a key and read
+it back with the same key.
+
+5
+00:00:55,000 --> 00:01:12,200
+One rule: the type must match. Save a Bool and read it as a String and you'll get an error.
+A naming habit that prevents this — prefix boolean keys with 'is' or 'has', so the key
+itself reads as a yes-or-no question.
+
+6
+00:01:12,200 --> 00:01:22,200
+Second, FileManager. When your data is bigger and structured, you encode it as JSON and
+write it to a file in the app's Documents directory.
+
+7
+00:01:22,200 --> 00:01:35,000
+This is how the reference app stores bookings, profiles and reviews. Codable turns the model
+into JSON, FileManager writes it, and on next launch it reads straight back into the same
+types.
+
+8
+00:01:35,000 --> 00:01:49,000
+Third, Core Data. This is Apple's heavyweight option — a full object graph with entities,
+attributes and relationships. You'd reach for it when you have relational data, or a large
+offline dataset that syncs later.
+
+9
+00:01:49,000 --> 00:02:07,400
+The reference app deliberately doesn't use it. For this volume of data, JSON files were
+simpler and easier to reason about. I'd flag that as a real skill: knowing when not to reach
+for the heavy tool is as valuable as knowing how to use it.
+
+10
+00:02:07,400 --> 00:02:13,400
+And now the fourth, which is the most important part of this module. The Keychain.
+
+11
+00:02:13,400 --> 00:02:22,200
+There's a belief that circulates that UserDefaults is encrypted on iOS, so it's fine for
+passwords and tokens. That is not true,
+
+12
+00:02:22,200 --> 00:02:34,200
+UserDefaults writes to a plain, unencrypted file inside your app's container, with no access
+control. Anyone with file system access, or an unencrypted device backup, can read it in
+seconds.
+
+13
+00:02:34,200 --> 00:02:43,000
+Passwords, tokens, API keys, anything personal — those go in the Keychain, which is
+encrypted and protected by the operating system itself.
+
+14
+00:02:43,000 --> 00:03:01,800
+Here's the real implementation. Notice the accessibility setting on this query: the 'this
+device only' variant, which means the credential never travels into an iCloud or iTunes
+backup. It stays on the device it was created on. Pick the most restrictive class your app
+
+15
+00:03:01,800 --> 00:03:12,200
+A practical tip that'll save you debugging time: whatever text encoding you save with, you
+must read back with. Mismatched encodings are a confusing Keychain failure.
+
+16
+00:03:12,200 --> 00:03:24,200
+Let's see persistence working. I've confirmed a booking, and it has an ID. Now I'm going to
+close the app completely — not background it, close it — and reopen.
+
+17
+00:03:24,200 --> 00:03:33,400
+There it is. That came from a JSON file on disk, decoded straight back into the same Swift
+types it was saved from.
+
+18
+00:03:33,400 --> 00:03:44,200
+And the account. The profile details are in a JSON file. The password is in the Keychain.
+Never in the same place, and never in plain text.
+
+19
+00:03:44,200 --> 00:03:46,700
+Let's recap the key points.
+
+20
+00:03:46,700 --> 00:03:49,200
+Here is your practice exercise.
+
+21
+00:03:49,200 --> 00:03:58,800
+Module six is about structure — how to organise all of this so the app doesn't collapse
+under its own weight as it grows.

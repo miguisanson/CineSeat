@@ -1,0 +1,102 @@
+1
+00:00:03,000 --> 00:00:19,400
+How do you know your app works? Not 'it looked fine when I tried it' — how do you know,
+every time, automatically? That's this chapter. And it doubles as proof that the
+architecture from Module six was worth the effort.
+
+2
+00:00:19,400 --> 00:00:25,400
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:25,400 --> 00:00:43,400
+Two kinds. Unit tests are fast because they never launch the app — they check logic
+directly. UI tests are slower: they launch the real app and tap it like a person would. You
+want lots of the first and a handful of the second.
+
+4
+00:00:43,400 --> 00:00:53,800
+Here's a unit test. Read the name and you can predict what it checks before reading the body
+— movie search and rating sort across categories.
+
+5
+00:00:53,800 --> 00:01:05,000
+It creates a view model. Sets the search text. Checks the filtered result. Flips the sort
+order. Checks the order changed. That's the whole shape: arrange, act, assert.
+
+6
+00:01:05,000 --> 00:01:11,000
+Now here's the point I want to land, and it's the reason Module six mattered.
+
+7
+00:01:11,000 --> 00:01:23,400
+There's no storyboard in this test. No screen. No UIKit at all. That's only possible because
+the search and sort logic lives in the view model rather than the view controller.
+
+8
+00:01:23,400 --> 00:01:38,600
+If that logic had stayed in the screen — the way a first calculator is usually written —
+this test could not exist. Testability isn't something you add later. It's a consequence of
+how you structured the code.
+
+9
+00:01:38,600 --> 00:01:43,000
+It goes further. These are three fakes from the test file.
+
+10
+00:01:43,000 --> 00:01:58,600
+The real profile repository writes to disk; this one keeps profiles in an array. The real
+password store uses the Keychain; this one uses a dictionary. The real review fetcher calls
+a network API; this one returns fixed data.
+
+11
+00:01:58,600 --> 00:02:10,200
+Each satisfies the same protocol as the real thing. So tests hand these in instead — and not
+one line of production code had to change to allow it.
+
+12
+00:02:10,200 --> 00:02:25,000
+Think about what testing login would mean without this. Writing real files to disk. Storing
+real passwords. Making real network calls. Slow, unreliable, and dependent on an internet
+connection. This is the concrete payoff of dependency injection.
+
+13
+00:02:25,000 --> 00:02:35,800
+And this is a UI test. The app is being driven automatically — tapping a category, opening a
+film, checking the reviews screen, moving to seat selection.
+
+14
+00:02:35,800 --> 00:02:53,400
+One technique here worth stealing. This test asserts that a button is NOT present. Reviews
+can only be written from a booking, so the write button must never appear while browsing.
+Checking that something is absent is often more valuable than checking it's there.
+
+15
+00:02:53,400 --> 00:03:15,000
+Two practical notes for UI tests. Use accessibility identifiers rather than matching on
+visible text, so your tests don't break when copy changes — and your app becomes more
+accessible as a side effect. And always wait for an element to exist rather than asserting
+
+16
+00:03:15,000 --> 00:03:26,600
+Something worth noticing about the whole suite: read the test names in order and you have
+the specification for the feature. Ownership. Confirmation. Showtime passed. One review per
+item.
+
+17
+00:03:26,600 --> 00:03:36,200
+No comments, no separate document. And unlike a document, a test name can't go stale —
+because when it stops being true, it fails.
+
+18
+00:03:36,200 --> 00:03:38,700
+Let's recap the key points.
+
+19
+00:03:38,700 --> 00:03:41,200
+Here is your practice exercise.
+
+20
+00:03:41,200 --> 00:03:48,800
+The final chapter is the one that decides whether any of this work survives being handed to
+somebody else.

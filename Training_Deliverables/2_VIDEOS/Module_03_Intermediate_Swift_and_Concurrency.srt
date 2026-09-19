@@ -1,0 +1,129 @@
+1
+00:00:03,000 --> 00:00:19,400
+This is the shortest module in the course and the most conceptually demanding. It covers the
+language features that separate code that works from code that scales — and, critically, how
+to stop your app freezing while it waits for something.
+
+2
+00:00:19,400 --> 00:00:25,400
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:25,400 --> 00:00:37,800
+First, closures. A closure is a self-contained block of code you can pass around like a
+value. If you wrote a computed property in the last module, you've already written one.
+
+4
+00:00:37,800 --> 00:00:51,800
+There's a distinction worth knowing: escaping versus non-escaping. A non-escaping closure
+runs and finishes inside the function. An escaping one outlives the function call — it's
+stored somewhere and called later. Network callbacks are escaping.
+
+5
+00:00:51,800 --> 00:01:04,200
+Why care? Because if you do slow work synchronously, the interface freezes while it waits.
+The user thinks your app has hung. Escaping, asynchronous work is what keeps the screen
+alive.
+
+6
+00:01:04,200 --> 00:01:11,400
+Next, three operations you'll reach for constantly. And I want to be precise here, because
+these get confused.
+
+7
+00:01:11,400 --> 00:01:20,600
+Map transforms. It runs a closure on every element and gives you back a collection of the
+same length. It does not search.
+
+8
+00:01:20,600 --> 00:01:26,600
+Filter selects. It keeps the elements matching a condition, so you get a shorter collection.
+
+9
+00:01:26,600 --> 00:01:31,000
+Reduce collapses. It folds a whole collection down into one value.
+
+10
+00:01:31,000 --> 00:01:43,800
+And if you want to find something, that's a fourth operation — first-where. Worth separating
+those in your head now, because mixing up map and search is a very common early confusion.
+
+11
+00:01:43,800 --> 00:01:58,600
+Here they are doing real work: this filters the movie list by the search text, then sorts
+the result by rating. Two operations, chained, replacing what would otherwise be a couple of
+loops and a temporary array.
+
+12
+00:01:58,600 --> 00:02:08,600
+Now memory. Swift uses Automatic Reference Counting — ARC. It counts how many things are
+holding onto an object, and frees it when nothing is.
+
+13
+00:02:08,600 --> 00:02:27,400
+A strong reference keeps an object alive. A weak reference doesn't, and is automatically set
+to nil when the object goes away. There's also 'unowned', which doesn't retain and is never
+nilled — so if you access it after the object is gone, you crash. Prefer weak.
+
+14
+00:02:27,400 --> 00:02:37,000
+The problem this prevents is a retain cycle: two objects each holding the other strongly, so
+neither can ever be freed. That's a leak.
+
+15
+00:02:37,000 --> 00:02:52,200
+One habit prevents most of them. When you write a closure that captures self, mark it 'weak
+self' by default. It costs nothing when unnecessary and saves you when it isn't. Here it is
+in the real app.
+
+16
+00:02:52,200 --> 00:03:00,600
+Finally, concurrency. There's one rule and everything follows from it. Background threads do
+the waiting. The main thread does the drawing.
+
+17
+00:03:00,600 --> 00:03:16,200
+Long work — fetching data, downloading images — goes on a background thread. But every
+single UI update must come back to the main thread. Update the interface from a background
+thread and you get undefined behaviour and crashes.
+
+18
+00:03:16,200 --> 00:03:35,400
+The older way of doing this is Grand Central Dispatch, and you'll see it in existing code.
+The modern way is async and await. 'await' means: pause here, let everything else keep
+running, and continue when the result arrives. It's much easier to read than nested
+
+19
+00:03:35,400 --> 00:03:45,400
+Now the part of this module that isn't code. Before you build anything real, you plan it —
+and there's a four-step workflow worth adopting.
+
+20
+00:03:45,400 --> 00:03:55,800
+Requirements first: list every feature, unfiltered. Then a flowchart: turn those into paths
+and decisions. Then a wireframe: sketch what each screen holds. Only then, code.
+
+21
+00:03:55,800 --> 00:04:15,800
+This is the flowchart for the reference app. Notice what's interesting about it — it isn't
+the happy path. It's the branches. Not signed in. No seat selected. Cancel and release the
+seats. Those branches are where bugs live, and drawing them before you write code is the
+
+22
+00:04:15,800 --> 00:04:30,200
+The professional argument is simple: when your app gets tested, every path gets walked,
+including the awkward ones. If you already mapped them, testing finds nothing you didn't
+anticipate. A flowchart is defect prevention, not paperwork.
+
+23
+00:04:30,200 --> 00:04:32,700
+Let's recap the key points.
+
+24
+00:04:32,700 --> 00:04:35,200
+Here is your practice exercise.
+
+25
+00:04:35,200 --> 00:04:42,400
+In Module four the app starts talking to the internet — URLSession, JSON, and a real public
+API.

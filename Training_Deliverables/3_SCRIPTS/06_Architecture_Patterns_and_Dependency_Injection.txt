@@ -1,0 +1,41 @@
+There was a time when a very long file was taken as a sign of a skilled developer. Ten thousand lines in one view controller, worn almost as a badge of honour. That is emphatically not how code is judged now — and this module is about what replaced it.
+
+Here is what you will be able to do by the end of this video.
+
+The modern measure of quality is this: how quickly could a stranger find the one piece they need to change? Length isn't skill. Navigability is.
+
+Here's how the reference project is organised. Models. View. ViewModel. Domain. Persistence. CustomViews. Each folder has one job, and you can guess where something lives without being told.
+
+The failure mode this avoids has a name: Massive View Controller. In plain M V C everything ends up in the controller — data loading, parsing, business logic, U I updates — and it grows without limit. That's precisely why M V V M exists.
+
+Layered on top of M V V M is Clean Architecture. Three layers. Presentation, which is your views and view models. Domain, which holds the contracts and use cases and knows nothing about any framework. And Data, which is models, repositories and A P I clients.
+
+The rule is that dependencies point inward only. The domain layer knows nothing about U I Kit, nothing about U R L Session, nothing about where data is stored. That's exactly what makes it testable.
+
+Here's how that's expressed. These are the app's protocols.
+
+A protocol is a contract. MovieFetching says: whatever you are, you can give me movies. BookingManaging says: you can add a booking, cancel one, and tell me which seats are taken. Neither says anything about how.
+
+Every view model in this app depends on protocols like these — not on a concrete store, not on a specific A P I client. Just the contract.
+
+That's dependency injection, and it's the most valuable structural idea in this course. The consumer declares what it needs. Something else decides what gets handed over.
+
+And that something else is this file — a composition root. It's the one place in the entire app where concrete types are chosen. Every screen receives protocols; only this file names the real implementations.
+
+Here's the payoff. This app reads from local Jason files. To swap that for a real backend, you'd change the implementations named in this single file. Nothing in any screen or any view model would need to know it happened.
+
+There are three injection patterns in play. Singletons — one shared instance — for things like the settings store. Protocol injection for anything a feature depends on. And the factory that assembles it all.
+
+A word on singletons, because they get a bad reputation and it's half deserved. The problem isn't the single instance — it's reaching for it directly all over your code, because then nothing can be swapped or tested. Here they exist, but confined to this one file. Features never reach for them; they're handed a protocol.
+
+One more structural benefit: reusable custom views. This seat map isn't a stock U I Kit control. It's built from vertical rows of horizontal stacks, with deliberate gaps for aisles, and it takes its layout as data so different cinemas have different shapes.
+
+There's a related problem worth mentioning that only shows up as an app grows: shared formatting. The same rating appears on the list, the detail screen and the booking summary. Early on those each formatted it slightly differently, which looked like a data bug but was really four copies of the same logic drifting apart. Pulling that into one shared formatter fixed it permanently.
+
+Here's the reuse in action. The seat map, interactive, letting me pick seats. And the same component again inside booking detail, read-only. One view, two contexts, configured differently — which is what the whole architecture is for.
+
+Let's recap the key points.
+
+Here is your practice exercise.
+
+Module seven is the last technical module: the device capabilities that make an app feel native.

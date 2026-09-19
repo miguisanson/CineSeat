@@ -1,0 +1,113 @@
+1
+00:00:03,000 --> 00:00:13,800
+Almost every app worth using talks to a server. This module is how yours does it — safely,
+without freezing, and without shipping your secrets to strangers.
+
+2
+00:00:13,800 --> 00:00:19,800
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:19,800 --> 00:00:37,400
+Networking on iOS means HTTP — in practice always the encrypted HTTPS. And URLSession is
+Apple's built-in API for it. Worth saying clearly: you do not need a third-party library to
+do networking properly. The reference app makes real network calls with zero dependencies.
+
+4
+00:00:37,400 --> 00:00:55,800
+The methods you'll use are GET and POST. GET fetches — you send nothing and get data back.
+POST sends data and receives a response; logging in is the classic example. There's also PUT
+to update and DELETE to remove, though those are often handled server-side.
+
+5
+00:00:55,800 --> 00:01:01,400
+Let me walk through a real request, because they all have this same shape.
+
+6
+00:01:01,400 --> 00:01:19,400
+First you build a URL. Then, if you need headers — an authorisation token, a content type —
+you build a URLRequest and set them on it. A plain GET can pass the URL directly; anything
+with headers or a body needs the request object.
+
+7
+00:01:19,400 --> 00:01:27,400
+Then the call. This uses async and await from the last module, so the interface stays
+responsive while it waits.
+
+8
+00:01:27,400 --> 00:01:35,800
+Now the step people skip, and this is the important one. Before you touch the data, check
+the response status code.
+
+9
+00:01:35,800 --> 00:01:54,200
+A request can come back 'successfully' and still contain nothing useful. Two hundred means
+OK. Four-oh-one means you're not authenticated. Four-oh-four means it isn't there. Five
+hundred means the server broke. Rather than memorise them, check the range — anything in the
+
+10
+00:01:54,200 --> 00:02:04,600
+And notice there's no force-unwrapping anywhere in this code. Every uncertain value is
+guarded. The worst case here is an error I handle, not a crash.
+
+11
+00:02:04,600 --> 00:02:16,200
+Once data arrives it has to become a Swift type, and that's Codable. Mark a struct as
+Codable and Swift decodes JSON straight into it in a single line.
+
+12
+00:02:16,200 --> 00:02:25,000
+The old approach was pulling values out of a dictionary key by key, and the code grew
+forever as the payload did.
+
+13
+00:02:25,000 --> 00:02:39,000
+There's one wrinkle. Swift uses camelCase; plenty of APIs use snake_case with underscores.
+CodingKeys bridges the two, so you keep idiomatic Swift naming in your own code and map it
+to whatever the server sends.
+
+14
+00:02:39,000 --> 00:02:50,600
+Rather than repeat all this in every screen, centralise it. A single API client with a
+generic function can decode any Codable type, so one function serves every endpoint.
+
+15
+00:02:50,600 --> 00:03:01,000
+And keep your base URLs in one constant rather than scattered through view controllers, so
+switching between a development and a production server is one change.
+
+16
+00:03:01,000 --> 00:03:19,000
+Here it is running. This reviews screen has two sources. The app's own reviews are stored on
+the device. The Online tab fetches from a real public API — The Movie Database. That's a
+live network call, decoded with Codable, displayed through a view model.
+
+17
+00:03:19,000 --> 00:03:31,400
+One design decision worth noticing: the two never mix. External reviews are shown separately
+and never counted into the app's own rating. Averaging someone else's ratings into yours
+quietly misrepresents both.
+
+18
+00:03:31,400 --> 00:03:43,400
+Last thing, and it matters. Credentials. The token for that API is not in the source code
+and not in the repository — it lives only in a local setting.
+
+19
+00:03:43,400 --> 00:03:59,400
+The rule: anything you ship inside an app can be extracted from it. A production app keeps
+secrets on a server, not in the bundle. Getting into that habit now costs you nothing;
+learning it after a leak is expensive.
+
+20
+00:03:59,400 --> 00:04:01,900
+Let's recap the key points.
+
+21
+00:04:01,900 --> 00:04:04,400
+Here is your practice exercise.
+
+22
+00:04:04,400 --> 00:04:12,000
+Module five answers the next question: the data has arrived, so where does it live when the
+app closes?

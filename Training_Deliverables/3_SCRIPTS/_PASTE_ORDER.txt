@@ -1,0 +1,26 @@
+ELEVENLABS PASTE ORDER — work top to bottom.
+
+13 pastes · 41,772 characters · budget 42,000 · spare 228
+
+Ordered by teaching priority. The course introduction (00) is LAST, so if you run
+short of credits it is the least damaging thing to be missing.
+Acronyms are pre-spaced (M V V M, U I Kit) so the voice says them right first time —
+a re-do costs far more than the few extra characters.
+
+Every file is under the 5,000-character web editor limit.
+
+#   FILE                                                          CHARS  RUNNING
+----------------------------------------------------------------------------------
+1   01_iOS_Fundamentals_and_Swift_Basics__part1of2.txt             2262     2262
+2   01_iOS_Fundamentals_and_Swift_Basics__part2of2.txt             3036     5298
+3   02_UIKit_MVVM_Auto_Layout_and_Table_Views__part1of2.txt        2359     7657
+4   02_UIKit_MVVM_Auto_Layout_and_Table_Views__part2of2.txt        2829    10486
+5   03_Intermediate_Swift_and_Concurrency.txt                      4123    14609
+6   04_Networking.txt                                              3586    18195
+7   05_Data_Persistence_and_Security.txt                           3338    21533
+8   06_Architecture_Patterns_and_Dependency_Injection.txt          3947    25480
+9   07_Maps_Location_Notifications_Media_and_Animation.txt         4174    29654
+10  09_Testing.txt                                                 3214    32868
+11  10_Documentation_Best_Practices.txt                            3436    36304
+12  08_Case_Study_Building_a_Complete_App.txt                      2930    39234
+13  00_Course_Introduction.txt                                     2538    41772

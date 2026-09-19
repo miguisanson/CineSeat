@@ -1,0 +1,29 @@
+Two pieces of vocabulary. The origin — zero, zero — is the top-left corner. And constraints use 'leading' and 'trailing' rather than left and right, because they follow reading direction. That means the same layout works in a right-to-left language without you changing anything.
+
+And here's the technique that makes constraints manageable: stack views. This seat map is rows of seats inside a vertical stack. Rather than constraining every individual seat button, you constrain the stack, and it handles what's inside. One set of constraints instead of dozens.
+
+If you get stuck, don't let constraints block you. Build the working flow first, treat the layout polish as a finishing pass, and group things into stacks before you start constraining.
+
+Moving between screens. There are three ways; two are worth using.
+
+Push navigation slides the next screen in from the right and gives you a back button automatically. Modal presentation slides up from the bottom and sits on top — good for an about screen or a dialog.
+
+The third is a segue, drawn in the storyboard with no code. It works, but it constrains you: segues force you through the hierarchy, so if you're five screens deep and need to jump back to screen two, a segue can't. Doing navigation in code can.
+
+One gotcha that will cost you an afternoon. Push navigation does nothing at all unless your screen sits inside a navigation controller. The code is correct, the button does nothing, and there's no error message. If that happens to you — that's why.
+
+Finally, table views. A table view is a single scrolling column of rows, like a social media feed. A collection view is a grid of tiles, like a photo gallery. Table views are far more common, so that's our focus.
+
+Two protocols make one work. The data source supplies content: how many rows, and what's in each. The delegate handles interaction: what happens when a row is tapped. You assign both in viewDidLoad.
+
+Miss that assignment and the table renders completely empty — with no error to tell you why. It's probably the single most common beginner stumble in U I Kit.
+
+One more detail in this cell. prepareForReuse. Table views recycle cells as you scroll — that's what makes them fast. But it means a cell can arrive still holding the previous row's image. Clearing it on reuse is what prevents that flicker.
+
+When you type in the search bar or flip the rating sort, the screen isn't doing that work. It's asking the view model for a filtered, sorted list and displaying the result. The rows are reusable cells built from stack views. The whole module is on screen at once.
+
+Let's recap the key points.
+
+Here is your practice exercise.
+
+Module three steps back into the language for the intermediate features — closures, collections and concurrency — and then covers how to plan an app before you write it.

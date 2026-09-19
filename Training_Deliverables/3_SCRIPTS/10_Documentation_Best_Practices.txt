@@ -1,0 +1,39 @@
+Six months from now, somebody opens this project. It might be a colleague. It might be you, having forgotten every decision you made. What's there to tell them what happened, and why?
+
+Here is what you will be able to do by the end of this video.
+
+Start with the gap. Code is very good at recording what the software does. It's almost useless at recording what you tried and abandoned, what broke, what you deliberately left out, and where you used an AI assistant.
+
+That gap is what documentation fills. And it's the difference between a project that can be handed over cleanly and one that effectively can't be handed over at all.
+
+A format that works: Five fields for every change.
+
+The date, with the day of the week — it anchors the change in the project's history. What changed, in plain language a non-developer could follow. Whether AI was involved. What difficulties came up. And how each one was solved.
+
+Those last two are the ones people delete before sharing. They're also the most valuable. A change list without difficulties reads like marketing. With them, it reads like engineering.
+
+Here's a real one. This change list ships inside the app itself, on the Settings screen, rather than sitting in a file nobody opens. That's a small decision that signals the project takes its own history seriously.
+
+And in code it's structured, typed data rather than loose text. Which means it can be displayed in the interface, and it can never drift out of sync with the build it ships in.
+
+AI involvement, because it's new, it's increasingly expected, and most people get it wrong in one of two directions. Either over-reporting every autocomplete, or saying nothing and leaving a reviewer to guess.
+
+The healthy position is neither avoidance nor concealment. Use AI assistants, and use them well. Then record where one helped, at what depth, and what you did to verify the result.
+
+A four-level scale is enough. None. Reference, where you used it like documentation. Assisted, where it drafted something you then reworked. Generated, where the code was used largely as-is — and there you should say what you checked.
+
+One rule to hold firmly: never commit AI-produced code you can't explain. If you couldn't debug it at two in the morning without the assistant, you don't understand it yet.
+
+On difficulties — be specific. 'Had trouble with layout' helps nobody. 'Constraints looked correct on one device and broke on another; fixed by grouping controls into stack views and constraining the stack' is something a colleague can use.
+
+And record the decisions you deliberately did not take. Choosing Jason files over Core Data is a real decision. Without a note, the next person just sees an absence and wonders whether you knew.
+
+Here's a checklist to hold your own project against. Every entry has a real date. What changed is in plain language. AI involvement is stated even when it's 'none'. Difficulties are honest, not sanitised. Every difficulty has a matching solution.
+
+Decisions you didn't take are recorded. Known limitations live somewhere findable rather than being implied by silence. Secrets are never in the change list. And the changelog ships with the build, so it can't drift.
+
+Let's recap the key points.
+
+Here is your practice exercise.
+
+And that's the course. Seven modules taught you to build an iOS application. Testing proved it works. And documentation is what makes that work survivable by somebody else.

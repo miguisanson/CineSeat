@@ -1,0 +1,154 @@
+1
+00:00:03,000 --> 00:00:22,600
+Every iOS app you've ever used — the one that books your rides, the one that plays your
+music — comes down to the same handful of foundations. A language, a set of tools, and a way
+of connecting what's on screen to code that runs. That's this module.
+
+2
+00:00:22,600 --> 00:00:28,600
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:28,600 --> 00:00:38,200
+Let's start with what iOS development is. It means building for Apple's platforms — iPhone,
+iPad, Apple Watch, Apple TV. The language is Swift.
+
+4
+00:00:38,200 --> 00:00:55,800
+A little history helps here. Before Swift, Apple development was done in Objective-C, and
+you'll still meet that in older codebases. Swift was announced on the second of June, twenty
+fourteen. Then in twenty nineteen came SwiftUI, a newer, declarative way of building
+
+5
+00:00:55,800 --> 00:01:17,800
+This course teaches Swift with UIKit, not SwiftUI, and here is why. UIKit is what the
+overwhelming majority of existing production code is written in. And doing layout by hand in
+UIKit first is what makes SwiftUI's shortcuts legible instead of magical. You'll understand
+
+6
+00:01:17,800 --> 00:01:27,400
+To build anything you need a Mac, Xcode, and a free Apple account. Xcode is the whole
+toolkit — editor, interface builder, simulator, debugger.
+
+7
+00:01:27,400 --> 00:01:35,400
+When you create a project the template asks for several things. Most you can accept. Two you
+should not rush.
+
+8
+00:01:35,400 --> 00:01:53,400
+The first is the bundle identifier. That's your app's unique identity on the App Store, and
+no two apps can share one. If somebody else registers yours, you cannot simply take it — it
+can only be transferred by agreement between accounts. Pick it deliberately.
+
+9
+00:01:53,400 --> 00:01:59,000
+The second is the interface: choose Storyboard, not SwiftUI, because that's what selects
+UIKit.
+
+10
+00:01:59,000 --> 00:02:12,200
+Xcode then generates a handful of files. AppDelegate, SceneDelegate, a storyboard, and a
+view controller. Don't delete any of them. AppDelegate in particular is the first thing that
+runs when your app opens.
+
+11
+00:02:12,200 --> 00:02:25,000
+The language. Swift has two ways to declare a value, and the distinction matters. 'var' is a
+variable — it can change. 'let' is a constant — once it's set, that's it.
+
+12
+00:02:25,000 --> 00:02:39,000
+Reach for 'let' by default and only use 'var' when you need to change the value. It isn't
+pedantry: a constant is a promise to everyone reading your code that this thing will not
+move.
+
+13
+00:02:39,000 --> 00:02:56,600
+The core types: Int for whole numbers, Double for decimals, String for text, Bool for true
+or false. Then two collection types you'll use constantly — Array, an ordered list you reach
+into by index, and Dictionary, key-value pairs you reach into by key.
+
+14
+00:02:56,600 --> 00:03:07,000
+Control flow is conventional. if-else, switch, for loops, while loops. One small difference
+if you're coming from another language: Swift doesn't need parentheses around the condition.
+
+15
+00:03:07,000 --> 00:03:20,600
+Functions use the 'func' keyword, a name, typed parameters and an optional return type. One
+naming convention marks your code as idiomatic: camelCase. First word lowercase, every
+following word capitalised. Not snake_case with underscores.
+
+16
+00:03:20,600 --> 00:03:24,200
+The single most important idea in this module: Optionals.
+
+17
+00:03:24,200 --> 00:03:37,400
+Look at this model from the real app. Three of its properties have a question mark after the
+type. That question mark means: this might hold a value, or it might be empty.
+
+18
+00:03:37,400 --> 00:03:57,400
+Why does that exist? Because most crashes in a mobile app come from data. You expect a
+field, the data doesn't have it, and the app dies in someone's hand. Optionals force you to
+confront that possibility at the moment you write the code, rather than discovering it in
+
+19
+00:03:57,400 --> 00:04:11,000
+You have safe ways to open an optional. 'if let' unwraps it only when there's something
+inside. The double question mark supplies a fallback value. And 'guard' exits early when the
+value is missing.
+
+20
+00:04:11,000 --> 00:04:23,800
+There's also an exclamation mark, which force-unwraps and asserts the value is definitely
+there. Use it sparingly. Every force-unwrap is a small bet that you're right, and a crash if
+you're wrong.
+
+21
+00:04:23,800 --> 00:04:41,000
+Two more language pieces before we finish. A struct is a value type — it gets copied. A
+class is a reference type — it gets shared. The practical rule this course follows: structs
+for data and models, classes for behaviour and services.
+
+22
+00:04:41,000 --> 00:04:54,600
+And a protocol is a contract. It says what a type must be able to do, without saying how.
+That sounds abstract now; in Module six it becomes the backbone of the whole architecture.
+
+23
+00:04:54,600 --> 00:05:01,000
+Last topic, and it's the practical one. How does a button on screen run your code?
+
+24
+00:05:01,000 --> 00:05:19,000
+There are two separate connections, and you usually need both. An outlet connects the
+control as an object, so code can reach in and change it — enable it, restyle it, read its
+text. An action connects the behaviour, so code runs when it's tapped.
+
+25
+00:05:19,000 --> 00:05:32,600
+You make both by holding Control and dragging from the control into your code. Outlets go
+above viewDidLoad. Actions go below it. Mixing those two up is behind a whole family of
+beginner bugs.
+
+26
+00:05:32,600 --> 00:05:50,200
+Here's all of that doing real work. Every row in this list is one Movie struct. The optional
+properties are the poster and the online-database ID, because not every film has either. The
+list scrolls, nothing crashes, and no value is forced open anywhere.
+
+27
+00:05:50,200 --> 00:05:52,700
+Let's recap the key points.
+
+28
+00:05:52,700 --> 00:05:55,200
+Here is your practice exercise.
+
+29
+00:05:55,200 --> 00:06:07,200
+In Module two we take these foundations and build a real interface — layout, navigation,
+table views, and the architecture pattern that keeps your code from turning into a mess.

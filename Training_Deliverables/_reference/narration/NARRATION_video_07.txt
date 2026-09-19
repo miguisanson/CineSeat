@@ -1,0 +1,41 @@
+This module is about what makes an app feel like it belongs on a phone, rather than like a website in a frame. It knows where it is. It can reach you later. It moves with intention.
+
+Here is what you will be able to do by the end of this video.
+
+First, a distinction that saves a lot of confusion. MapKit and Core Location are two different things. MapKit is the map — what you see, the pins, the callouts. Core Location is the hardware underneath: GPS, heading, geofencing. MapKit uses Core Location.
+
+A map needs three things: a coordinate to centre on, a region defining how far out you're zoomed, and annotations for your pins. Add a delegate and you can draw custom pins and decide what happens when one is tapped.
+
+One decision. There's a Google Maps SDK for iOS with richer place data — phone numbers, opening hours. But MapKit is native, needs no API key, no billing account and no credit card, and is free for app development. Google's requires a billing account before it will even issue a key. For showing your own locations on a map, MapKit is the right call.
+
+Now permissions, and this is where people lose hours. Anything touching location, camera or photos needs two things — and everybody remembers the first one.
+
+You request permission in code. But you must also declare it in a file called Info.plist. Skip that and the feature doesn't work — it doesn't error clearly, it simply doesn't happen. And App Store review rejects builds that use a protected capability without one.
+
+The keys must be exact. For location while using the app it's NSLocationWhenInUseUsageDescription. There are equivalents for camera, photo library and microphone.
+
+And whatever text you write is shown to the user word for word in the permission alert. So write a real reason — 'used to show cinemas near you', not just the word 'location'. That sentence is part of your user experience.
+
+Next, notifications. There are two kinds and the difference is architectural.
+
+Push notifications, through Apple's APNs service, are sent from a server. Local notifications are scheduled on the device itself.
+
+The reference app uses local notifications, and the reasoning is practical. APNs needs a backend to send from, plus a paid Apple Developer account at ninety-nine dollars a year, plus certificates that expire and need rotating. This app has no backend, so local notifications do the same job from the user's point of view with no server and no fee.
+
+But be honest about the limitation, because it's real. A local notification can only fire on a schedule the device already knows about. If a screening were cancelled, the device would have no way to find out. That requires push and a server.
+
+Two details in this implementation worth copying. It checks a user setting first, so if reminders are off nothing is scheduled. And cancelling a booking also cancels its pending reminder — so you're never reminded about a ticket you no longer hold.
+
+Briefly, two more capabilities. For photos there are two APIs and people mix them up. PHPicker is the modern one and what you should use for choosing an existing photo — it runs outside your app and doesn't even need photo-library permission for pictures the user actively picks.
+
+The older UIImagePickerController has been soft-deprecated since iOS fourteen. But here's the catch: PHPicker cannot take a photo. For camera capture, the older API is still what you need. Most real apps use both.
+
+And animation. UIKit lets you animate a change over a duration, and the duration is the whole point. Set it to zero and the change snaps. Give it three tenths of a second and it feels intentional. That's much of the difference between an app that feels cheap and one that feels considered.
+
+Here's it all together. Real cinema pins from real coordinates. Tapping one opens a callout and routes into the cinema's details and showtimes. And a reminder firing as a banner and on the lock screen, carrying the film, the venue, the seats and the time.
+
+Let's recap the key points.
+
+Here is your practice exercise.
+
+That completes the technical curriculum. Chapter eight assembles all seven modules into one complete application.

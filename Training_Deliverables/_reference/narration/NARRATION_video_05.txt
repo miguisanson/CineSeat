@@ -1,0 +1,41 @@
+Your app can fetch data. But close it, reopen it, and everything's gone. This module is about memory — and about the one storage decision that, if you get it wrong, becomes a genuine security problem.
+
+Here is what you will be able to do by the end of this video.
+
+The key insight is that there is no single right answer. iOS gives you several mechanisms deliberately, and the skill is matching each to the weight and sensitivity of your data. Get that wrong and your app is either slow or insecure.
+
+First, UserDefaults. Key-value storage for small, lightweight things — which filter was last selected, whether the user has seen the welcome screen. You set a value with a key and read it back with the same key.
+
+One rule: the type must match. Save a Bool and read it as a String and you'll get an error. A naming habit that prevents this — prefix boolean keys with 'is' or 'has', so the key itself reads as a yes-or-no question.
+
+Second, FileManager. When your data is bigger and structured, you encode it as JSON and write it to a file in the app's Documents directory.
+
+This is how the reference app stores bookings, profiles and reviews. Codable turns the model into JSON, FileManager writes it, and on next launch it reads straight back into the same types.
+
+Third, Core Data. This is Apple's heavyweight option — a full object graph with entities, attributes and relationships. You'd reach for it when you have relational data, or a large offline dataset that syncs later.
+
+The reference app deliberately doesn't use it. For this volume of data, JSON files were simpler and easier to reason about. I'd flag that as a real skill: knowing when not to reach for the heavy tool is as valuable as knowing how to use it.
+
+And now the fourth, which is the most important part of this module. The Keychain.
+
+There's a belief that circulates that UserDefaults is encrypted on iOS, so it's fine for passwords and tokens. That is not true,
+
+UserDefaults writes to a plain, unencrypted file inside your app's container, with no access control. Anyone with file system access, or an unencrypted device backup, can read it in seconds.
+
+Passwords, tokens, API keys, anything personal — those go in the Keychain, which is encrypted and protected by the operating system itself.
+
+Here's the real implementation. Notice the accessibility setting on this query: the 'this device only' variant, which means the credential never travels into an iCloud or iTunes backup. It stays on the device it was created on. Pick the most restrictive class your app can function under.
+
+A practical tip that'll save you debugging time: whatever text encoding you save with, you must read back with. Mismatched encodings are a confusing Keychain failure.
+
+Let's see persistence working. I've confirmed a booking, and it has an ID. Now I'm going to close the app completely — not background it, close it — and reopen.
+
+There it is. That came from a JSON file on disk, decoded straight back into the same Swift types it was saved from.
+
+And the account. The profile details are in a JSON file. The password is in the Keychain. Never in the same place, and never in plain text.
+
+Let's recap the key points.
+
+Here is your practice exercise.
+
+Module six is about structure — how to organise all of this so the app doesn't collapse under its own weight as it grows.

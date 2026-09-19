@@ -1,0 +1,1513 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3CEB9A1E2FDF725000C0A2A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEB9A1D2FDF725000C0A2A6 /* AppDelegate.swift */; };
+		3CEB9A202FDF725000C0A2A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEB9A1F2FDF725000C0A2A6 /* SceneDelegate.swift */; };
+		3CEB9A222FDF725000C0A2A6 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEB9A212FDF725000C0A2A6 /* MoviesViewController.swift */; };
+		3CEB9A252FDF725000C0A2A6 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 3CEB9A242FDF725000C0A2A6 /* Base */; };
+		3CEB9A2A2FDF725100C0A2A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CEB9A292FDF725100C0A2A6 /* Assets.xcassets */; };
+		3CEB9A2D2FDF725100C0A2A6 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 3CEB9A2C2FDF725100C0A2A6 /* Base */; };
+		3CEB9A382FDF725100C0A2A6 /* CineSeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEB9A372FDF725100C0A2A6 /* CineSeatTests.swift */; };
+		3CEB9A422FDF725100C0A2A6 /* CineSeatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEB9A412FDF725100C0A2A6 /* CineSeatUITests.swift */; };
+		3CEB9A442FDF725100C0A2A6 /* CineSeatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEB9A432FDF725100C0A2A6 /* CineSeatUITestsLaunchTests.swift */; };
+		A20000000000000000000002 /* MoviesViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000002 /* MoviesViewModels.swift */; };
+		A2000000000000000000000B /* BookingViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000B /* BookingViewModels.swift */; };
+		A20000000000000000000004 /* BookingFlowViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* BookingFlowViewControllers.swift */; };
+		A20000000000000000000005 /* BookingsViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000005 /* BookingsViewControllers.swift */; };
+		A20000000000000000000009 /* ProfileViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000009 /* ProfileViewModels.swift */; };
+		A2000000000000000000000A /* ProfileViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000A /* ProfileViewControllers.swift */; };
+		A2000000000000000000000C /* DependencyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000C /* DependencyProtocols.swift */; };
+		A2000000000000000000000D /* UseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000D /* UseCases.swift */; };
+		A2000000000000000000000E /* AppFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000E /* AppFactory.swift */; };
+		A20000000000000000000010 /* Cinemas.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000010 /* Cinemas.json */; };
+		A20000000000000000000011 /* PosterImages in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* PosterImages */; };
+		A20000000000000000000012 /* Movies.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* Movies.json */; };
+		A20000000000000000000013 /* Showings.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000013 /* Showings.json */; };
+		B20000000000000000000001 /* MovieCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* MovieCategory.swift */; };
+		B20000000000000000000002 /* RatingSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* RatingSortOrder.swift */; };
+		B20000000000000000000003 /* CinemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* CinemaType.swift */; };
+		B20000000000000000000004 /* Cinema.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* Cinema.swift */; };
+		B20000000000000000000005 /* MovieShowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* MovieShowing.swift */; };
+		B20000000000000000000006 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* Movie.swift */; };
+		B20000000000000000000007 /* BookingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* BookingStatus.swift */; };
+		B20000000000000000000008 /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* Booking.swift */; };
+		B20000000000000000000009 /* BookingDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* BookingDraft.swift */; };
+		B2000000000000000000000A /* SeatLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000A /* SeatLayout.swift */; };
+		B2000000000000000000000B /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000B /* UserProfile.swift */; };
+		B2000000000000000000000D /* AuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000D /* AuthenticationError.swift */; };
+		B2000000000000000000000E /* AccountValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000E /* AccountValidation.swift */; };
+		B2000000000000000000000F /* JSONFileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000F /* JSONFileReader.swift */; };
+		B20000000000000000000010 /* JSONFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* JSONFileWriter.swift */; };
+		B20000000000000000000011 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* AppPreferences.swift */; };
+		B20000000000000000000012 /* BookingPersisting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000012 /* BookingPersisting.swift */; };
+		B20000000000000000000013 /* BookingFileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* BookingFileRepository.swift */; };
+		B20000000000000000000014 /* BookingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* BookingStore.swift */; };
+		B20000000000000000000015 /* ProfilePersisting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* ProfilePersisting.swift */; };
+		B20000000000000000000016 /* PasswordStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* PasswordStoring.swift */; };
+		B20000000000000000000017 /* ProfileFileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* ProfileFileRepository.swift */; };
+		B20000000000000000000018 /* KeychainPasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* KeychainPasswordStore.swift */; };
+		B20000000000000000000019 /* AccountSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* AccountSessionStore.swift */; };
+		B2000000000000000000001A /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001A /* AuthenticationService.swift */; };
+		B2000000000000000000001B /* AppContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001B /* AppContent.swift */; };
+		B2000000000000000000001C /* LocalContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001C /* LocalContentStore.swift */; };
+		B2000000000000000000001D /* LocalContentDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001D /* LocalContentDTO.swift */; };
+		B2000000000000000000001E /* LocalContentMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001E /* LocalContentMapper.swift */; };
+		B2000000000000000000001F /* LocalContentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001F /* LocalContentError.swift */; };
+		B20000000000000000000020 /* CineSeatTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000020 /* CineSeatTheme.swift */; };
+		B20000000000000000000021 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000021 /* MainTabBarController.swift */; };
+		B20000000000000000000022 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000022 /* CardView.swift */; };
+		B20000000000000000000023 /* PosterPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000023 /* PosterPlaceholderView.swift */; };
+		B20000000000000000000024 /* ScrollableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* ScrollableViewController.swift */; };
+		B20000000000000000000025 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000025 /* MovieTableViewCell.swift */; };
+		B20000000000000000000026 /* BookingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000026 /* BookingTableViewCell.swift */; };
+		B20000000000000000000027 /* SeatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000027 /* SeatButton.swift */; };
+		B20000000000000000000028 /* SeatMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000028 /* SeatMapView.swift */; };
+		C20000000000000000000001 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000001 /* AppConstants.swift */; };
+		C20000000000000000000002 /* CineSeatDateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000002 /* CineSeatDateFormatters.swift */; };
+		C20000000000000000000003 /* BookingNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000003 /* BookingNumberFormatter.swift */; };
+		C20000000000000000000004 /* ShowingSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000004 /* ShowingSchedule.swift */; };
+		C20000000000000000000005 /* ShowingTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000005 /* ShowingTime.swift */; };
+		C20000000000000000000006 /* BookingTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000006 /* BookingTime.swift */; };
+		C20000000000000000000007 /* BookingSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000007 /* BookingSchedule.swift */; };
+		C20000000000000000000008 /* BookingCancellationReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000008 /* BookingCancellationReason.swift */; };
+		C20000000000000000000009 /* SeatVisualState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000009 /* SeatVisualState.swift */; };
+		C2000000000000000000000A /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000000000000000000000A /* LocalNotificationService.swift */; };
+		D20000000000000000000001 /* CineSeatUIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000001 /* CineSeatUIConstants.swift */; };
+		D20000000000000000000002 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000002 /* AppSettings.swift */; };
+		D20000000000000000000003 /* AppSettingsPropertyListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000003 /* AppSettingsPropertyListRepository.swift */; };
+		D20000000000000000000004 /* AppSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000004 /* AppSettingsStore.swift */; };
+		D20000000000000000000005 /* SeatLayoutPropertyListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000005 /* SeatLayoutPropertyListRepository.swift */; };
+		D20000000000000000000006 /* SeatLayoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000006 /* SeatLayoutStore.swift */; };
+		D20000000000000000000007 /* SettingsViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000007 /* SettingsViewModels.swift */; };
+		D20000000000000000000008 /* SettingsViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000008 /* SettingsViewControllers.swift */; };
+		D20000000000000000000009 /* DefaultAppSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000009 /* DefaultAppSettings.plist */; };
+		D2000000000000000000000A /* SeatLayouts.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1000000000000000000000A /* SeatLayouts.plist */; };
+		E20000000000000000000001 /* CinemaLocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000000000000000000001 /* CinemaLocationsViewModel.swift */; };
+		E20000000000000000000002 /* CinemaLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000000000000000000002 /* CinemaLocationsViewController.swift */; };
+		F20000000000000000000001 /* ShowingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* ShowingCategory.swift */; };
+		F20000000000000000000002 /* EventCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000002 /* EventCategory.swift */; };
+		F20000000000000000000003 /* EventListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000003 /* EventListing.swift */; };
+		F20000000000000000000004 /* ShowingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000004 /* ShowingsViewModel.swift */; };
+		F20000000000000000000005 /* TicketedShowingListViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000005 /* TicketedShowingListViewModeling.swift */; };
+		F20000000000000000000006 /* TicketedShowingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000006 /* TicketedShowingTableViewCell.swift */; };
+		F20000000000000000000007 /* ShowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000007 /* ShowingsViewController.swift */; };
+		F20000000000000000000008 /* TicketedShowingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000008 /* TicketedShowingListViewController.swift */; };
+		F20000000000000000000009 /* TicketedShowingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000009 /* TicketedShowingDetailViewController.swift */; };
+		F2000000000000000000000A /* Concerts.json in Resources */ = {isa = PBXBuildFile; fileRef = F1000000000000000000000A /* Concerts.json */; };
+		F2000000000000000000000B /* Seminars.json in Resources */ = {isa = PBXBuildFile; fileRef = F1000000000000000000000B /* Seminars.json */; };
+		G20000000000000000000001 /* CinemaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = G10000000000000000000001 /* CinemaDetailViewModel.swift */; };
+		G20000000000000000000002 /* CinemaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = G10000000000000000000002 /* CinemaDetailViewController.swift */; };
+		J20000000000000000000001 /* EventVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000001 /* EventVenue.swift */; };
+		J20000000000000000000002 /* EventTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000002 /* EventTime.swift */; };
+		J20000000000000000000003 /* EventSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000003 /* EventSchedule.swift */; };
+		J20000000000000000000004 /* EventShowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000004 /* EventShowing.swift */; };
+		J20000000000000000000005 /* BookingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000005 /* BookingItem.swift */; };
+		J20000000000000000000006 /* EventBookingDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000006 /* EventBookingDraft.swift */; };
+		J20000000000000000000007 /* TicketedShowingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000007 /* TicketedShowingScheduleViewModel.swift */; };
+		J20000000000000000000008 /* LocationPreviewMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000008 /* LocationPreviewMapView.swift */; };
+		J20000000000000000000009 /* TicketedShowingBookingSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = J10000000000000000000009 /* TicketedShowingBookingSummaryViewController.swift */; };
+		J2000000000000000000000A /* LocationMapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = J1000000000000000000000A /* LocationMapItem.swift */; };
+		J2000000000000000000000B /* ShowingVenueDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = J1000000000000000000000B /* ShowingVenueDetailViewModel.swift */; };
+		J2000000000000000000000C /* ShowingVenueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = J1000000000000000000000C /* ShowingVenueDetailViewController.swift */; };
+		J2000000000000000000000D /* EventVenues.json in Resources */ = {isa = PBXBuildFile; fileRef = J1000000000000000000000D /* EventVenues.json */; };
+		J2000000000000000000000E /* EventShowings.json in Resources */ = {isa = PBXBuildFile; fileRef = J1000000000000000000000E /* EventShowings.json */; };
+		K20000000000000000000001 /* Concert.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000001 /* Concert.swift */; };
+		K20000000000000000000002 /* Seminar.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000002 /* Seminar.swift */; };
+		K20000000000000000000003 /* ConcertViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000003 /* ConcertViewModels.swift */; };
+		K20000000000000000000004 /* SeminarViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000004 /* SeminarViewModels.swift */; };
+		K20000000000000000000005 /* ConcertListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000005 /* ConcertListViewController.swift */; };
+		K20000000000000000000006 /* SeminarListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000006 /* SeminarListViewController.swift */; };
+		K20000000000000000000007 /* ConcertDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000007 /* ConcertDetailViewController.swift */; };
+		K20000000000000000000008 /* SeminarDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = K10000000000000000000008 /* SeminarDetailViewController.swift */; };
+		L20000000000000000000001 /* ReviewContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000001 /* ReviewContentType.swift */; };
+		L20000000000000000000002 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000002 /* Review.swift */; };
+		L20000000000000000000003 /* ReviewSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000003 /* ReviewSubject.swift */; };
+		L20000000000000000000004 /* ReviewRatingSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000004 /* ReviewRatingSummary.swift */; };
+		L20000000000000000000005 /* ShowingStatusFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000005 /* ShowingStatusFilter.swift */; };
+		L20000000000000000000006 /* ReviewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000006 /* ReviewProtocols.swift */; };
+		L20000000000000000000007 /* FetchReviewsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000007 /* FetchReviewsUseCase.swift */; };
+		L20000000000000000000008 /* ReviewPersisting.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000008 /* ReviewPersisting.swift */; };
+		L20000000000000000000009 /* ReviewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000009 /* ReviewsViewModel.swift */; };
+		L2000000000000000000000A /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = L1000000000000000000000A /* ReviewTableViewCell.swift */; };
+		L2000000000000000000000B /* ReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = L1000000000000000000000B /* ReviewsViewController.swift */; };
+		M20000000000000000000001 /* ReviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000001 /* ReviewError.swift */; };
+		M20000000000000000000002 /* ReviewFileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000002 /* ReviewFileRepository.swift */; };
+		M20000000000000000000003 /* ReviewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000003 /* ReviewStore.swift */; };
+		M20000000000000000000004 /* ManageReviewsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000004 /* ManageReviewsUseCase.swift */; };
+		M20000000000000000000005 /* ReviewEligibilityUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000005 /* ReviewEligibilityUseCase.swift */; };
+		M20000000000000000000006 /* ReviewEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000006 /* ReviewEditorViewModel.swift */; };
+		M20000000000000000000007 /* ReviewEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000007 /* ReviewEditorViewController.swift */; };
+		M20000000000000000000008 /* DeveloperModeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000008 /* DeveloperModeViewModel.swift */; };
+		M20000000000000000000009 /* DeveloperModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = M10000000000000000000009 /* DeveloperModeViewController.swift */; };
+		M2000000000000000000000A /* ShowingListTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = M1000000000000000000000A /* ShowingListTableHeaderView.swift */; };
+		N20000000000000000000001 /* ShowingDurationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = N10000000000000000000001 /* ShowingDurationParser.swift */; };
+		N20000000000000000000002 /* SettingsChangelogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = N10000000000000000000002 /* SettingsChangelogEntry.swift */; };
+		N20000000000000000000003 /* AppChangelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = N10000000000000000000003 /* AppChangelog.swift */; };
+		N20000000000000000000004 /* SettingsSwitchRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = N10000000000000000000004 /* SettingsSwitchRowView.swift */; };
+		O20000000000000000000001 /* ReviewAccessContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000001 /* ReviewAccessContext.swift */; };
+		O20000000000000000000002 /* OnlineReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000002 /* OnlineReview.swift */; };
+		O20000000000000000000003 /* OnlineReviewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000003 /* OnlineReviewProtocols.swift */; };
+		O20000000000000000000004 /* FetchOnlineReviewsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000004 /* FetchOnlineReviewsUseCase.swift */; };
+		O20000000000000000000005 /* TMDBConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000005 /* TMDBConfiguration.swift */; };
+		O20000000000000000000006 /* TMDBReviewAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000006 /* TMDBReviewAPIClient.swift */; };
+		O20000000000000000000007 /* OnlineReviewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000007 /* OnlineReviewsViewModel.swift */; };
+		O20000000000000000000008 /* OnlineReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = O10000000000000000000008 /* OnlineReviewTableViewCell.swift */; };
+		P20000000000000000000001 /* LocalContentMetadata.json in Resources */ = {isa = PBXBuildFile; fileRef = P10000000000000000000001 /* LocalContentMetadata.json */; };
+		R20000000000000000000001 /* RatingDisplayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = R10000000000000000000001 /* RatingDisplayFormatter.swift */; };
+		R20000000000000000000002 /* ShowingMetadataFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = R10000000000000000000002 /* ShowingMetadataFormatter.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3CEB9A342FDF725100C0A2A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3CEB9A122FDF725000C0A2A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CEB9A192FDF725000C0A2A6;
+			remoteInfo = CineSeat;
+		};
+		3CEB9A3E2FDF725100C0A2A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3CEB9A122FDF725000C0A2A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CEB9A192FDF725000C0A2A6;
+			remoteInfo = CineSeat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3CEB9A1A2FDF725000C0A2A6 /* CineSeat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CineSeat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CEB9A1D2FDF725000C0A2A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3CEB9A1F2FDF725000C0A2A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3CEB9A212FDF725000C0A2A6 /* MoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
+		3CEB9A242FDF725000C0A2A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3CEB9A292FDF725100C0A2A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3CEB9A2C2FDF725100C0A2A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3CEB9A2E2FDF725100C0A2A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3CEB9A332FDF725100C0A2A6 /* CineSeatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CineSeatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CEB9A372FDF725100C0A2A6 /* CineSeatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CineSeatTests.swift; sourceTree = "<group>"; };
+		3CEB9A3D2FDF725100C0A2A6 /* CineSeatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CineSeatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CEB9A412FDF725100C0A2A6 /* CineSeatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CineSeatUITests.swift; sourceTree = "<group>"; };
+		3CEB9A432FDF725100C0A2A6 /* CineSeatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CineSeatUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000002 /* MoviesViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModels.swift; sourceTree = "<group>"; };
+		A1000000000000000000000B /* BookingViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModels.swift; sourceTree = "<group>"; };
+		A10000000000000000000004 /* BookingFlowViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingFlowViewControllers.swift; sourceTree = "<group>"; };
+		A10000000000000000000005 /* BookingsViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingsViewControllers.swift; sourceTree = "<group>"; };
+		A10000000000000000000009 /* ProfileViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModels.swift; sourceTree = "<group>"; };
+		A1000000000000000000000A /* ProfileViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllers.swift; sourceTree = "<group>"; };
+		A1000000000000000000000C /* DependencyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyProtocols.swift; sourceTree = "<group>"; };
+		A1000000000000000000000D /* UseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCases.swift; sourceTree = "<group>"; };
+		A1000000000000000000000E /* AppFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFactory.swift; sourceTree = "<group>"; };
+		A10000000000000000000010 /* Cinemas.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Cinemas.json; sourceTree = "<group>"; };
+		A10000000000000000000011 /* PosterImages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PosterImages; sourceTree = "<group>"; };
+		A10000000000000000000012 /* Movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Movies.json; sourceTree = "<group>"; };
+		A10000000000000000000013 /* Showings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Showings.json; sourceTree = "<group>"; };
+		B10000000000000000000001 /* MovieCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCategory.swift; sourceTree = "<group>"; };
+		B10000000000000000000002 /* RatingSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingSortOrder.swift; sourceTree = "<group>"; };
+		B10000000000000000000003 /* CinemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaType.swift; sourceTree = "<group>"; };
+		B10000000000000000000004 /* Cinema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cinema.swift; sourceTree = "<group>"; };
+		B10000000000000000000005 /* MovieShowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieShowing.swift; sourceTree = "<group>"; };
+		B10000000000000000000006 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		B10000000000000000000007 /* BookingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingStatus.swift; sourceTree = "<group>"; };
+		B10000000000000000000008 /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
+		B10000000000000000000009 /* BookingDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDraft.swift; sourceTree = "<group>"; };
+		B1000000000000000000000A /* SeatLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatLayout.swift; sourceTree = "<group>"; };
+		B1000000000000000000000B /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		B1000000000000000000000D /* AuthenticationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
+		B1000000000000000000000E /* AccountValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountValidation.swift; sourceTree = "<group>"; };
+		B1000000000000000000000F /* JSONFileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONFileReader.swift; sourceTree = "<group>"; };
+		B10000000000000000000010 /* JSONFileWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONFileWriter.swift; sourceTree = "<group>"; };
+		B10000000000000000000011 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
+		B10000000000000000000012 /* BookingPersisting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingPersisting.swift; sourceTree = "<group>"; };
+		B10000000000000000000013 /* BookingFileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingFileRepository.swift; sourceTree = "<group>"; };
+		B10000000000000000000014 /* BookingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000015 /* ProfilePersisting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePersisting.swift; sourceTree = "<group>"; };
+		B10000000000000000000016 /* PasswordStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStoring.swift; sourceTree = "<group>"; };
+		B10000000000000000000017 /* ProfileFileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFileRepository.swift; sourceTree = "<group>"; };
+		B10000000000000000000018 /* KeychainPasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainPasswordStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000019 /* AccountSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSessionStore.swift; sourceTree = "<group>"; };
+		B1000000000000000000001A /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
+		B1000000000000000000001B /* AppContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContent.swift; sourceTree = "<group>"; };
+		B1000000000000000000001C /* LocalContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContentStore.swift; sourceTree = "<group>"; };
+		B1000000000000000000001D /* LocalContentDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContentDTO.swift; sourceTree = "<group>"; };
+		B1000000000000000000001E /* LocalContentMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContentMapper.swift; sourceTree = "<group>"; };
+		B1000000000000000000001F /* LocalContentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContentError.swift; sourceTree = "<group>"; };
+		B10000000000000000000020 /* CineSeatTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CineSeatTheme.swift; sourceTree = "<group>"; };
+		B10000000000000000000021 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		B10000000000000000000022 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		B10000000000000000000023 /* PosterPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterPlaceholderView.swift; sourceTree = "<group>"; };
+		B10000000000000000000024 /* ScrollableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableViewController.swift; sourceTree = "<group>"; };
+		B10000000000000000000025 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		B10000000000000000000026 /* BookingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTableViewCell.swift; sourceTree = "<group>"; };
+		B10000000000000000000027 /* SeatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatButton.swift; sourceTree = "<group>"; };
+		B10000000000000000000028 /* SeatMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatMapView.swift; sourceTree = "<group>"; };
+		C10000000000000000000001 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		C10000000000000000000002 /* CineSeatDateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CineSeatDateFormatters.swift; sourceTree = "<group>"; };
+		C10000000000000000000003 /* BookingNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingNumberFormatter.swift; sourceTree = "<group>"; };
+		C10000000000000000000004 /* ShowingSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingSchedule.swift; sourceTree = "<group>"; };
+		C10000000000000000000005 /* ShowingTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingTime.swift; sourceTree = "<group>"; };
+		C10000000000000000000006 /* BookingTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTime.swift; sourceTree = "<group>"; };
+		C10000000000000000000007 /* BookingSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingSchedule.swift; sourceTree = "<group>"; };
+		C10000000000000000000008 /* BookingCancellationReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingCancellationReason.swift; sourceTree = "<group>"; };
+		C10000000000000000000009 /* SeatVisualState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatVisualState.swift; sourceTree = "<group>"; };
+		C1000000000000000000000A /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
+		D10000000000000000000001 /* CineSeatUIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CineSeatUIConstants.swift; sourceTree = "<group>"; };
+		D10000000000000000000002 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		D10000000000000000000003 /* AppSettingsPropertyListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsPropertyListRepository.swift; sourceTree = "<group>"; };
+		D10000000000000000000004 /* AppSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsStore.swift; sourceTree = "<group>"; };
+		D10000000000000000000005 /* SeatLayoutPropertyListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatLayoutPropertyListRepository.swift; sourceTree = "<group>"; };
+		D10000000000000000000006 /* SeatLayoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatLayoutStore.swift; sourceTree = "<group>"; };
+		D10000000000000000000007 /* SettingsViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModels.swift; sourceTree = "<group>"; };
+		D10000000000000000000008 /* SettingsViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewControllers.swift; sourceTree = "<group>"; };
+		D10000000000000000000009 /* DefaultAppSettings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DefaultAppSettings.plist; sourceTree = "<group>"; };
+		D1000000000000000000000A /* SeatLayouts.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SeatLayouts.plist; sourceTree = "<group>"; };
+		E10000000000000000000001 /* CinemaLocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaLocationsViewModel.swift; sourceTree = "<group>"; };
+		E10000000000000000000002 /* CinemaLocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaLocationsViewController.swift; sourceTree = "<group>"; };
+		F10000000000000000000001 /* ShowingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingCategory.swift; sourceTree = "<group>"; };
+		F10000000000000000000002 /* EventCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCategory.swift; sourceTree = "<group>"; };
+		F10000000000000000000003 /* EventListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListing.swift; sourceTree = "<group>"; };
+		F10000000000000000000004 /* ShowingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingsViewModel.swift; sourceTree = "<group>"; };
+		F10000000000000000000005 /* TicketedShowingListViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketedShowingListViewModeling.swift; sourceTree = "<group>"; };
+		F10000000000000000000006 /* TicketedShowingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketedShowingTableViewCell.swift; sourceTree = "<group>"; };
+		F10000000000000000000007 /* ShowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingsViewController.swift; sourceTree = "<group>"; };
+		F10000000000000000000008 /* TicketedShowingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketedShowingListViewController.swift; sourceTree = "<group>"; };
+		F10000000000000000000009 /* TicketedShowingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketedShowingDetailViewController.swift; sourceTree = "<group>"; };
+		F1000000000000000000000A /* Concerts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Concerts.json; sourceTree = "<group>"; };
+		F1000000000000000000000B /* Seminars.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Seminars.json; sourceTree = "<group>"; };
+		G10000000000000000000001 /* CinemaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaDetailViewModel.swift; sourceTree = "<group>"; };
+		G10000000000000000000002 /* CinemaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CinemaDetailViewController.swift; sourceTree = "<group>"; };
+		J10000000000000000000001 /* EventVenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventVenue.swift; sourceTree = "<group>"; };
+		J10000000000000000000002 /* EventTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTime.swift; sourceTree = "<group>"; };
+		J10000000000000000000003 /* EventSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSchedule.swift; sourceTree = "<group>"; };
+		J10000000000000000000004 /* EventShowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventShowing.swift; sourceTree = "<group>"; };
+		J10000000000000000000005 /* BookingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingItem.swift; sourceTree = "<group>"; };
+		J10000000000000000000006 /* EventBookingDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBookingDraft.swift; sourceTree = "<group>"; };
+		J10000000000000000000007 /* TicketedShowingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketedShowingScheduleViewModel.swift; sourceTree = "<group>"; };
+		J10000000000000000000008 /* LocationPreviewMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPreviewMapView.swift; sourceTree = "<group>"; };
+		J10000000000000000000009 /* TicketedShowingBookingSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketedShowingBookingSummaryViewController.swift; sourceTree = "<group>"; };
+		J1000000000000000000000A /* LocationMapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapItem.swift; sourceTree = "<group>"; };
+		J1000000000000000000000B /* ShowingVenueDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingVenueDetailViewModel.swift; sourceTree = "<group>"; };
+		J1000000000000000000000C /* ShowingVenueDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingVenueDetailViewController.swift; sourceTree = "<group>"; };
+		J1000000000000000000000D /* EventVenues.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EventVenues.json; sourceTree = "<group>"; };
+		J1000000000000000000000E /* EventShowings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EventShowings.json; sourceTree = "<group>"; };
+		K10000000000000000000001 /* Concert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concert.swift; sourceTree = "<group>"; };
+		K10000000000000000000002 /* Seminar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seminar.swift; sourceTree = "<group>"; };
+		K10000000000000000000003 /* ConcertViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewModels.swift; sourceTree = "<group>"; };
+		K10000000000000000000004 /* SeminarViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeminarViewModels.swift; sourceTree = "<group>"; };
+		K10000000000000000000005 /* ConcertListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertListViewController.swift; sourceTree = "<group>"; };
+		K10000000000000000000006 /* SeminarListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeminarListViewController.swift; sourceTree = "<group>"; };
+		K10000000000000000000007 /* ConcertDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDetailViewController.swift; sourceTree = "<group>"; };
+		K10000000000000000000008 /* SeminarDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeminarDetailViewController.swift; sourceTree = "<group>"; };
+		L10000000000000000000001 /* ReviewContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewContentType.swift; sourceTree = "<group>"; };
+		L10000000000000000000002 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		L10000000000000000000003 /* ReviewSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSubject.swift; sourceTree = "<group>"; };
+		L10000000000000000000004 /* ReviewRatingSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRatingSummary.swift; sourceTree = "<group>"; };
+		L10000000000000000000005 /* ShowingStatusFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingStatusFilter.swift; sourceTree = "<group>"; };
+		L10000000000000000000006 /* ReviewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProtocols.swift; sourceTree = "<group>"; };
+		L10000000000000000000007 /* FetchReviewsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchReviewsUseCase.swift; sourceTree = "<group>"; };
+		L10000000000000000000008 /* ReviewPersisting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPersisting.swift; sourceTree = "<group>"; };
+		L10000000000000000000009 /* ReviewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsViewModel.swift; sourceTree = "<group>"; };
+		L1000000000000000000000A /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		L1000000000000000000000B /* ReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsViewController.swift; sourceTree = "<group>"; };
+		M10000000000000000000001 /* ReviewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewError.swift; sourceTree = "<group>"; };
+		M10000000000000000000002 /* ReviewFileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewFileRepository.swift; sourceTree = "<group>"; };
+		M10000000000000000000003 /* ReviewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStore.swift; sourceTree = "<group>"; };
+		M10000000000000000000004 /* ManageReviewsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageReviewsUseCase.swift; sourceTree = "<group>"; };
+		M10000000000000000000005 /* ReviewEligibilityUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewEligibilityUseCase.swift; sourceTree = "<group>"; };
+		M10000000000000000000006 /* ReviewEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewEditorViewModel.swift; sourceTree = "<group>"; };
+		M10000000000000000000007 /* ReviewEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewEditorViewController.swift; sourceTree = "<group>"; };
+		M10000000000000000000008 /* DeveloperModeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperModeViewModel.swift; sourceTree = "<group>"; };
+		M10000000000000000000009 /* DeveloperModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperModeViewController.swift; sourceTree = "<group>"; };
+		M1000000000000000000000A /* ShowingListTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingListTableHeaderView.swift; sourceTree = "<group>"; };
+		N10000000000000000000001 /* ShowingDurationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingDurationParser.swift; sourceTree = "<group>"; };
+		N10000000000000000000002 /* SettingsChangelogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsChangelogEntry.swift; sourceTree = "<group>"; };
+		N10000000000000000000003 /* AppChangelog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChangelog.swift; sourceTree = "<group>"; };
+		N10000000000000000000004 /* SettingsSwitchRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwitchRowView.swift; sourceTree = "<group>"; };
+		O10000000000000000000001 /* ReviewAccessContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAccessContext.swift; sourceTree = "<group>"; };
+		O10000000000000000000002 /* OnlineReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineReview.swift; sourceTree = "<group>"; };
+		O10000000000000000000003 /* OnlineReviewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineReviewProtocols.swift; sourceTree = "<group>"; };
+		O10000000000000000000004 /* FetchOnlineReviewsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchOnlineReviewsUseCase.swift; sourceTree = "<group>"; };
+		O10000000000000000000005 /* TMDBConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBConfiguration.swift; sourceTree = "<group>"; };
+		O10000000000000000000006 /* TMDBReviewAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBReviewAPIClient.swift; sourceTree = "<group>"; };
+		O10000000000000000000007 /* OnlineReviewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineReviewsViewModel.swift; sourceTree = "<group>"; };
+		O10000000000000000000008 /* OnlineReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineReviewTableViewCell.swift; sourceTree = "<group>"; };
+		P10000000000000000000001 /* LocalContentMetadata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LocalContentMetadata.json; sourceTree = "<group>"; };
+		R10000000000000000000001 /* RatingDisplayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingDisplayFormatter.swift; sourceTree = "<group>"; };
+		R10000000000000000000002 /* ShowingMetadataFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingMetadataFormatter.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3CEB9A172FDF725000C0A2A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CEB9A302FDF725100C0A2A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CEB9A3A2FDF725100C0A2A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3CEB9A112FDF725000C0A2A6 = {
+			isa = PBXGroup;
+			children = (
+				3CEB9A1C2FDF725000C0A2A6 /* CineSeat */,
+				3CEB9A362FDF725100C0A2A6 /* CineSeatTests */,
+				3CEB9A402FDF725100C0A2A6 /* CineSeatUITests */,
+				3CEB9A1B2FDF725000C0A2A6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3CEB9A1B2FDF725000C0A2A6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3CEB9A1A2FDF725000C0A2A6 /* CineSeat.app */,
+				3CEB9A332FDF725100C0A2A6 /* CineSeatTests.xctest */,
+				3CEB9A3D2FDF725100C0A2A6 /* CineSeatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C30000000000000000000001 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				C10000000000000000000001 /* AppConstants.swift */,
+				C10000000000000000000002 /* CineSeatDateFormatters.swift */,
+				C10000000000000000000003 /* BookingNumberFormatter.swift */,
+				D10000000000000000000001 /* CineSeatUIConstants.swift */,
+				N10000000000000000000001 /* ShowingDurationParser.swift */,
+				N10000000000000000000003 /* AppChangelog.swift */,
+				R10000000000000000000001 /* RatingDisplayFormatter.swift */,
+				R10000000000000000000002 /* ShowingMetadataFormatter.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B30000000000000000000001 /* Movies */,
+				K30000000000000000000001 /* Concerts */,
+				K30000000000000000000002 /* Seminars */,
+				L30000000000000000000001 /* Reviews */,
+				F30000000000000000000002 /* Showings */,
+				J30000000000000000000001 /* Locations */,
+				B30000000000000000000002 /* Booking */,
+				B30000000000000000000003 /* Profile */,
+				D30000000000000000000001 /* Settings */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000002 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000002 /* MoviesViewModels.swift */,
+				K30000000000000000000003 /* Concerts */,
+				K30000000000000000000004 /* Seminars */,
+				L30000000000000000000004 /* Reviews */,
+				M30000000000000000000001 /* Developer */,
+				A1000000000000000000000B /* BookingViewModels.swift */,
+				A10000000000000000000009 /* ProfileViewModels.swift */,
+				D10000000000000000000007 /* SettingsViewModels.swift */,
+				E10000000000000000000001 /* CinemaLocationsViewModel.swift */,
+				G10000000000000000000001 /* CinemaDetailViewModel.swift */,
+				F10000000000000000000004 /* ShowingsViewModel.swift */,
+				F10000000000000000000005 /* TicketedShowingListViewModeling.swift */,
+				J10000000000000000000007 /* TicketedShowingScheduleViewModel.swift */,
+				J1000000000000000000000B /* ShowingVenueDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000003 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3CEB9A212FDF725000C0A2A6 /* MoviesViewController.swift */,
+				K30000000000000000000005 /* Concerts */,
+				K30000000000000000000006 /* Seminars */,
+				L30000000000000000000005 /* Reviews */,
+				M30000000000000000000002 /* Developer */,
+				A10000000000000000000004 /* BookingFlowViewControllers.swift */,
+				A10000000000000000000005 /* BookingsViewControllers.swift */,
+				A1000000000000000000000A /* ProfileViewControllers.swift */,
+				E10000000000000000000002 /* CinemaLocationsViewController.swift */,
+				G10000000000000000000002 /* CinemaDetailViewController.swift */,
+				F10000000000000000000007 /* ShowingsViewController.swift */,
+				F10000000000000000000008 /* TicketedShowingListViewController.swift */,
+				F10000000000000000000009 /* TicketedShowingDetailViewController.swift */,
+				J10000000000000000000009 /* TicketedShowingBookingSummaryViewController.swift */,
+				J1000000000000000000000C /* ShowingVenueDetailViewController.swift */,
+				D10000000000000000000008 /* SettingsViewControllers.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000004 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000C /* DependencyProtocols.swift */,
+				A1000000000000000000000D /* UseCases.swift */,
+				L30000000000000000000002 /* Reviews */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000005 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000E /* AppFactory.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000001 /* Movies */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000001 /* MovieCategory.swift */,
+				B10000000000000000000003 /* CinemaType.swift */,
+				B10000000000000000000004 /* Cinema.swift */,
+				B10000000000000000000005 /* MovieShowing.swift */,
+				C10000000000000000000004 /* ShowingSchedule.swift */,
+				C10000000000000000000005 /* ShowingTime.swift */,
+				B10000000000000000000006 /* Movie.swift */,
+			);
+			path = Movies;
+			sourceTree = "<group>";
+		};
+		K30000000000000000000001 /* Concerts */ = {
+			isa = PBXGroup;
+			children = (
+				K10000000000000000000001 /* Concert.swift */,
+			);
+			path = Concerts;
+			sourceTree = "<group>";
+		};
+		K30000000000000000000002 /* Seminars */ = {
+			isa = PBXGroup;
+			children = (
+				K10000000000000000000002 /* Seminar.swift */,
+			);
+			path = Seminars;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000002 /* Showings */ = {
+			isa = PBXGroup;
+			children = (
+				F10000000000000000000001 /* ShowingCategory.swift */,
+				L10000000000000000000005 /* ShowingStatusFilter.swift */,
+				B10000000000000000000002 /* RatingSortOrder.swift */,
+				F10000000000000000000002 /* EventCategory.swift */,
+				F10000000000000000000003 /* EventListing.swift */,
+				J10000000000000000000002 /* EventTime.swift */,
+				J10000000000000000000003 /* EventSchedule.swift */,
+				J10000000000000000000004 /* EventShowing.swift */,
+			);
+			path = Showings;
+			sourceTree = "<group>";
+		};
+		J30000000000000000000001 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+				J10000000000000000000001 /* EventVenue.swift */,
+				J1000000000000000000000A /* LocationMapItem.swift */,
+			);
+			path = Locations;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000002 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000007 /* BookingStatus.swift */,
+				C10000000000000000000008 /* BookingCancellationReason.swift */,
+				B10000000000000000000008 /* Booking.swift */,
+				B10000000000000000000009 /* BookingDraft.swift */,
+				J10000000000000000000005 /* BookingItem.swift */,
+				J10000000000000000000006 /* EventBookingDraft.swift */,
+				C10000000000000000000006 /* BookingTime.swift */,
+				C10000000000000000000007 /* BookingSchedule.swift */,
+				C10000000000000000000009 /* SeatVisualState.swift */,
+				B1000000000000000000000A /* SeatLayout.swift */,
+			);
+			path = Booking;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000003 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B1000000000000000000000B /* UserProfile.swift */,
+				B1000000000000000000000D /* AuthenticationError.swift */,
+				B1000000000000000000000E /* AccountValidation.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		D30000000000000000000001 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000002 /* AppSettings.swift */,
+				N10000000000000000000002 /* SettingsChangelogEntry.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000004 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000011 /* AppPreferences.swift */,
+				B30000000000000000000005 /* Shared */,
+				B30000000000000000000006 /* Booking */,
+				B30000000000000000000007 /* Profile */,
+				L30000000000000000000003 /* Reviews */,
+				B30000000000000000000008 /* LocalContent */,
+				D30000000000000000000002 /* Settings */,
+				D30000000000000000000003 /* SeatLayouts */,
+				C30000000000000000000002 /* Notifications */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000005 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B1000000000000000000000F /* JSONFileReader.swift */,
+				B10000000000000000000010 /* JSONFileWriter.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000006 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000012 /* BookingPersisting.swift */,
+				B10000000000000000000013 /* BookingFileRepository.swift */,
+				B10000000000000000000014 /* BookingStore.swift */,
+			);
+			path = Booking;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000007 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000015 /* ProfilePersisting.swift */,
+				B10000000000000000000016 /* PasswordStoring.swift */,
+				B10000000000000000000017 /* ProfileFileRepository.swift */,
+				B10000000000000000000018 /* KeychainPasswordStore.swift */,
+				B10000000000000000000019 /* AccountSessionStore.swift */,
+				B1000000000000000000001A /* AuthenticationService.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000008 /* LocalContent */ = {
+			isa = PBXGroup;
+			children = (
+				B1000000000000000000001B /* AppContent.swift */,
+				B1000000000000000000001C /* LocalContentStore.swift */,
+				B1000000000000000000001D /* LocalContentDTO.swift */,
+				B1000000000000000000001E /* LocalContentMapper.swift */,
+				B1000000000000000000001F /* LocalContentError.swift */,
+				A10000000000000000000010 /* Cinemas.json */,
+				A10000000000000000000012 /* Movies.json */,
+				F1000000000000000000000A /* Concerts.json */,
+				F1000000000000000000000B /* Seminars.json */,
+				J1000000000000000000000D /* EventVenues.json */,
+				J1000000000000000000000E /* EventShowings.json */,
+				A10000000000000000000013 /* Showings.json */,
+				P10000000000000000000001 /* LocalContentMetadata.json */,
+			);
+			path = LocalContent;
+			sourceTree = "<group>";
+		};
+		C30000000000000000000002 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				C1000000000000000000000A /* LocalNotificationService.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		D30000000000000000000002 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000003 /* AppSettingsPropertyListRepository.swift */,
+				D10000000000000000000004 /* AppSettingsStore.swift */,
+				D10000000000000000000009 /* DefaultAppSettings.plist */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		D30000000000000000000003 /* SeatLayouts */ = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000005 /* SeatLayoutPropertyListRepository.swift */,
+				D10000000000000000000006 /* SeatLayoutStore.swift */,
+				D1000000000000000000000A /* SeatLayouts.plist */,
+			);
+			path = SeatLayouts;
+			sourceTree = "<group>";
+		};
+		B30000000000000000000009 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				B3000000000000000000000A /* Theme */,
+				B3000000000000000000000B /* Common */,
+				B3000000000000000000000C /* Cells */,
+				B3000000000000000000000D /* Seating */,
+				J30000000000000000000002 /* Map */,
+				N30000000000000000000001 /* Settings */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		B3000000000000000000000A /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000020 /* CineSeatTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		B3000000000000000000000B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000021 /* MainTabBarController.swift */,
+				B10000000000000000000022 /* CardView.swift */,
+				B10000000000000000000023 /* PosterPlaceholderView.swift */,
+				B10000000000000000000024 /* ScrollableViewController.swift */,
+				M1000000000000000000000A /* ShowingListTableHeaderView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		B3000000000000000000000C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000025 /* MovieTableViewCell.swift */,
+				F10000000000000000000006 /* TicketedShowingTableViewCell.swift */,
+				B10000000000000000000026 /* BookingTableViewCell.swift */,
+				L1000000000000000000000A /* ReviewTableViewCell.swift */,
+				O10000000000000000000008 /* OnlineReviewTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		B3000000000000000000000D /* Seating */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000027 /* SeatButton.swift */,
+				B10000000000000000000028 /* SeatMapView.swift */,
+			);
+			path = Seating;
+			sourceTree = "<group>";
+		};
+		J30000000000000000000002 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				J10000000000000000000008 /* LocationPreviewMapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		N30000000000000000000001 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				N10000000000000000000004 /* SettingsSwitchRowView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		K30000000000000000000003 /* Concerts */ = {
+			isa = PBXGroup;
+			children = (
+				K10000000000000000000003 /* ConcertViewModels.swift */,
+			);
+			path = Concerts;
+			sourceTree = "<group>";
+		};
+		K30000000000000000000004 /* Seminars */ = {
+			isa = PBXGroup;
+			children = (
+				K10000000000000000000004 /* SeminarViewModels.swift */,
+			);
+			path = Seminars;
+			sourceTree = "<group>";
+		};
+		K30000000000000000000005 /* Concerts */ = {
+			isa = PBXGroup;
+			children = (
+				K10000000000000000000005 /* ConcertListViewController.swift */,
+				K10000000000000000000007 /* ConcertDetailViewController.swift */,
+			);
+			path = Concerts;
+			sourceTree = "<group>";
+		};
+		K30000000000000000000006 /* Seminars */ = {
+			isa = PBXGroup;
+			children = (
+				K10000000000000000000006 /* SeminarListViewController.swift */,
+				K10000000000000000000008 /* SeminarDetailViewController.swift */,
+			);
+			path = Seminars;
+			sourceTree = "<group>";
+		};
+		L30000000000000000000001 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				L10000000000000000000001 /* ReviewContentType.swift */,
+				L10000000000000000000002 /* Review.swift */,
+				L10000000000000000000003 /* ReviewSubject.swift */,
+				L10000000000000000000004 /* ReviewRatingSummary.swift */,
+				M10000000000000000000001 /* ReviewError.swift */,
+				O10000000000000000000001 /* ReviewAccessContext.swift */,
+				O10000000000000000000002 /* OnlineReview.swift */,
+			);
+			path = Reviews;
+			sourceTree = "<group>";
+		};
+		L30000000000000000000002 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				L10000000000000000000006 /* ReviewProtocols.swift */,
+				L10000000000000000000007 /* FetchReviewsUseCase.swift */,
+				M10000000000000000000004 /* ManageReviewsUseCase.swift */,
+				M10000000000000000000005 /* ReviewEligibilityUseCase.swift */,
+				O10000000000000000000003 /* OnlineReviewProtocols.swift */,
+				O10000000000000000000004 /* FetchOnlineReviewsUseCase.swift */,
+			);
+			path = Reviews;
+			sourceTree = "<group>";
+		};
+		L30000000000000000000003 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				L10000000000000000000008 /* ReviewPersisting.swift */,
+				M10000000000000000000002 /* ReviewFileRepository.swift */,
+				M10000000000000000000003 /* ReviewStore.swift */,
+				O10000000000000000000005 /* TMDBConfiguration.swift */,
+				O10000000000000000000006 /* TMDBReviewAPIClient.swift */,
+			);
+			path = Reviews;
+			sourceTree = "<group>";
+		};
+		L30000000000000000000004 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				L10000000000000000000009 /* ReviewsViewModel.swift */,
+				M10000000000000000000006 /* ReviewEditorViewModel.swift */,
+				O10000000000000000000007 /* OnlineReviewsViewModel.swift */,
+			);
+			path = Reviews;
+			sourceTree = "<group>";
+		};
+		L30000000000000000000005 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				L1000000000000000000000B /* ReviewsViewController.swift */,
+				M10000000000000000000007 /* ReviewEditorViewController.swift */,
+			);
+			path = Reviews;
+			sourceTree = "<group>";
+		};
+		M30000000000000000000001 /* Developer */ = {
+			isa = PBXGroup;
+			children = (
+				M10000000000000000000008 /* DeveloperModeViewModel.swift */,
+			);
+			path = Developer;
+			sourceTree = "<group>";
+		};
+		M30000000000000000000002 /* Developer */ = {
+			isa = PBXGroup;
+			children = (
+				M10000000000000000000009 /* DeveloperModeViewController.swift */,
+			);
+			path = Developer;
+			sourceTree = "<group>";
+		};
+		3CEB9A1C2FDF725000C0A2A6 /* CineSeat */ = {
+			isa = PBXGroup;
+			children = (
+				3CEB9A1D2FDF725000C0A2A6 /* AppDelegate.swift */,
+				3CEB9A1F2FDF725000C0A2A6 /* SceneDelegate.swift */,
+				C30000000000000000000001 /* Constants */,
+				A30000000000000000000001 /* Models */,
+				B30000000000000000000004 /* Persistence */,
+				A30000000000000000000004 /* Domain */,
+				A30000000000000000000002 /* ViewModel */,
+				A30000000000000000000003 /* View */,
+				A30000000000000000000005 /* Design */,
+				B30000000000000000000009 /* CustomViews */,
+				A10000000000000000000011 /* PosterImages */,
+				3CEB9A232FDF725000C0A2A6 /* Main.storyboard */,
+				3CEB9A292FDF725100C0A2A6 /* Assets.xcassets */,
+				3CEB9A2B2FDF725100C0A2A6 /* LaunchScreen.storyboard */,
+				3CEB9A2E2FDF725100C0A2A6 /* Info.plist */,
+			);
+			path = CineSeat;
+			sourceTree = "<group>";
+		};
+		3CEB9A362FDF725100C0A2A6 /* CineSeatTests */ = {
+			isa = PBXGroup;
+			children = (
+				3CEB9A372FDF725100C0A2A6 /* CineSeatTests.swift */,
+			);
+			path = CineSeatTests;
+			sourceTree = "<group>";
+		};
+		3CEB9A402FDF725100C0A2A6 /* CineSeatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3CEB9A412FDF725100C0A2A6 /* CineSeatUITests.swift */,
+				3CEB9A432FDF725100C0A2A6 /* CineSeatUITestsLaunchTests.swift */,
+			);
+			path = CineSeatUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3CEB9A192FDF725000C0A2A6 /* CineSeat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CEB9A472FDF725100C0A2A6 /* Build configuration list for PBXNativeTarget "CineSeat" */;
+			buildPhases = (
+				3CEB9A162FDF725000C0A2A6 /* Sources */,
+				3CEB9A172FDF725000C0A2A6 /* Frameworks */,
+				3CEB9A182FDF725000C0A2A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CineSeat;
+			productName = CineSeat;
+			productReference = 3CEB9A1A2FDF725000C0A2A6 /* CineSeat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3CEB9A322FDF725100C0A2A6 /* CineSeatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CEB9A4A2FDF725100C0A2A6 /* Build configuration list for PBXNativeTarget "CineSeatTests" */;
+			buildPhases = (
+				3CEB9A2F2FDF725100C0A2A6 /* Sources */,
+				3CEB9A302FDF725100C0A2A6 /* Frameworks */,
+				3CEB9A312FDF725100C0A2A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3CEB9A352FDF725100C0A2A6 /* PBXTargetDependency */,
+			);
+			name = CineSeatTests;
+			productName = CineSeatTests;
+			productReference = 3CEB9A332FDF725100C0A2A6 /* CineSeatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3CEB9A3C2FDF725100C0A2A6 /* CineSeatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CEB9A4D2FDF725100C0A2A6 /* Build configuration list for PBXNativeTarget "CineSeatUITests" */;
+			buildPhases = (
+				3CEB9A392FDF725100C0A2A6 /* Sources */,
+				3CEB9A3A2FDF725100C0A2A6 /* Frameworks */,
+				3CEB9A3B2FDF725100C0A2A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3CEB9A3F2FDF725100C0A2A6 /* PBXTargetDependency */,
+			);
+			name = CineSeatUITests;
+			productName = CineSeatUITests;
+			productReference = 3CEB9A3D2FDF725100C0A2A6 /* CineSeatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3CEB9A122FDF725000C0A2A6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					3CEB9A192FDF725000C0A2A6 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					3CEB9A322FDF725100C0A2A6 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 3CEB9A192FDF725000C0A2A6;
+					};
+					3CEB9A3C2FDF725100C0A2A6 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 3CEB9A192FDF725000C0A2A6;
+					};
+				};
+			};
+			buildConfigurationList = 3CEB9A152FDF725000C0A2A6 /* Build configuration list for PBXProject "CineSeat" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3CEB9A112FDF725000C0A2A6;
+			productRefGroup = 3CEB9A1B2FDF725000C0A2A6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3CEB9A192FDF725000C0A2A6 /* CineSeat */,
+				3CEB9A322FDF725100C0A2A6 /* CineSeatTests */,
+				3CEB9A3C2FDF725100C0A2A6 /* CineSeatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3CEB9A182FDF725000C0A2A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CEB9A2A2FDF725100C0A2A6 /* Assets.xcassets in Resources */,
+				A20000000000000000000010 /* Cinemas.json in Resources */,
+				A20000000000000000000012 /* Movies.json in Resources */,
+				F2000000000000000000000A /* Concerts.json in Resources */,
+				F2000000000000000000000B /* Seminars.json in Resources */,
+				J2000000000000000000000D /* EventVenues.json in Resources */,
+				J2000000000000000000000E /* EventShowings.json in Resources */,
+				A20000000000000000000013 /* Showings.json in Resources */,
+				P20000000000000000000001 /* LocalContentMetadata.json in Resources */,
+				A20000000000000000000011 /* PosterImages in Resources */,
+				D20000000000000000000009 /* DefaultAppSettings.plist in Resources */,
+				D2000000000000000000000A /* SeatLayouts.plist in Resources */,
+				3CEB9A2D2FDF725100C0A2A6 /* Base in Resources */,
+				3CEB9A252FDF725000C0A2A6 /* Base in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CEB9A312FDF725100C0A2A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CEB9A3B2FDF725100C0A2A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CEB9A162FDF725000C0A2A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C20000000000000000000001 /* AppConstants.swift in Sources */,
+				C20000000000000000000002 /* CineSeatDateFormatters.swift in Sources */,
+				C20000000000000000000003 /* BookingNumberFormatter.swift in Sources */,
+				N20000000000000000000001 /* ShowingDurationParser.swift in Sources */,
+				N20000000000000000000003 /* AppChangelog.swift in Sources */,
+				R20000000000000000000001 /* RatingDisplayFormatter.swift in Sources */,
+				R20000000000000000000002 /* ShowingMetadataFormatter.swift in Sources */,
+				D20000000000000000000001 /* CineSeatUIConstants.swift in Sources */,
+				B20000000000000000000001 /* MovieCategory.swift in Sources */,
+				B20000000000000000000002 /* RatingSortOrder.swift in Sources */,
+				B20000000000000000000003 /* CinemaType.swift in Sources */,
+				B20000000000000000000004 /* Cinema.swift in Sources */,
+				B20000000000000000000005 /* MovieShowing.swift in Sources */,
+				F20000000000000000000001 /* ShowingCategory.swift in Sources */,
+				L20000000000000000000005 /* ShowingStatusFilter.swift in Sources */,
+				F20000000000000000000002 /* EventCategory.swift in Sources */,
+				F20000000000000000000003 /* EventListing.swift in Sources */,
+				K20000000000000000000001 /* Concert.swift in Sources */,
+				K20000000000000000000002 /* Seminar.swift in Sources */,
+				L20000000000000000000001 /* ReviewContentType.swift in Sources */,
+				L20000000000000000000002 /* Review.swift in Sources */,
+				L20000000000000000000003 /* ReviewSubject.swift in Sources */,
+				L20000000000000000000004 /* ReviewRatingSummary.swift in Sources */,
+				M20000000000000000000001 /* ReviewError.swift in Sources */,
+				O20000000000000000000001 /* ReviewAccessContext.swift in Sources */,
+				O20000000000000000000002 /* OnlineReview.swift in Sources */,
+				J20000000000000000000001 /* EventVenue.swift in Sources */,
+				J20000000000000000000002 /* EventTime.swift in Sources */,
+				J20000000000000000000003 /* EventSchedule.swift in Sources */,
+				J20000000000000000000004 /* EventShowing.swift in Sources */,
+				C20000000000000000000004 /* ShowingSchedule.swift in Sources */,
+				C20000000000000000000005 /* ShowingTime.swift in Sources */,
+				B20000000000000000000006 /* Movie.swift in Sources */,
+				B20000000000000000000007 /* BookingStatus.swift in Sources */,
+				C20000000000000000000008 /* BookingCancellationReason.swift in Sources */,
+				B20000000000000000000008 /* Booking.swift in Sources */,
+				B20000000000000000000009 /* BookingDraft.swift in Sources */,
+				J20000000000000000000005 /* BookingItem.swift in Sources */,
+				J20000000000000000000006 /* EventBookingDraft.swift in Sources */,
+				C20000000000000000000006 /* BookingTime.swift in Sources */,
+				C20000000000000000000007 /* BookingSchedule.swift in Sources */,
+				C20000000000000000000009 /* SeatVisualState.swift in Sources */,
+				B2000000000000000000000A /* SeatLayout.swift in Sources */,
+				B2000000000000000000000B /* UserProfile.swift in Sources */,
+				B2000000000000000000000D /* AuthenticationError.swift in Sources */,
+				B2000000000000000000000E /* AccountValidation.swift in Sources */,
+				D20000000000000000000002 /* AppSettings.swift in Sources */,
+				N20000000000000000000002 /* SettingsChangelogEntry.swift in Sources */,
+				B2000000000000000000000F /* JSONFileReader.swift in Sources */,
+				B20000000000000000000010 /* JSONFileWriter.swift in Sources */,
+				B20000000000000000000011 /* AppPreferences.swift in Sources */,
+				B20000000000000000000012 /* BookingPersisting.swift in Sources */,
+				B20000000000000000000013 /* BookingFileRepository.swift in Sources */,
+				B20000000000000000000014 /* BookingStore.swift in Sources */,
+				B20000000000000000000015 /* ProfilePersisting.swift in Sources */,
+				B20000000000000000000016 /* PasswordStoring.swift in Sources */,
+				B20000000000000000000017 /* ProfileFileRepository.swift in Sources */,
+				B20000000000000000000018 /* KeychainPasswordStore.swift in Sources */,
+				B20000000000000000000019 /* AccountSessionStore.swift in Sources */,
+				B2000000000000000000001A /* AuthenticationService.swift in Sources */,
+				D20000000000000000000003 /* AppSettingsPropertyListRepository.swift in Sources */,
+				D20000000000000000000004 /* AppSettingsStore.swift in Sources */,
+				D20000000000000000000005 /* SeatLayoutPropertyListRepository.swift in Sources */,
+				D20000000000000000000006 /* SeatLayoutStore.swift in Sources */,
+				C2000000000000000000000A /* LocalNotificationService.swift in Sources */,
+				B2000000000000000000001B /* AppContent.swift in Sources */,
+				B2000000000000000000001C /* LocalContentStore.swift in Sources */,
+				B2000000000000000000001D /* LocalContentDTO.swift in Sources */,
+				B2000000000000000000001E /* LocalContentMapper.swift in Sources */,
+				B2000000000000000000001F /* LocalContentError.swift in Sources */,
+				L20000000000000000000008 /* ReviewPersisting.swift in Sources */,
+				M20000000000000000000002 /* ReviewFileRepository.swift in Sources */,
+				M20000000000000000000003 /* ReviewStore.swift in Sources */,
+				O20000000000000000000005 /* TMDBConfiguration.swift in Sources */,
+				O20000000000000000000006 /* TMDBReviewAPIClient.swift in Sources */,
+				A2000000000000000000000C /* DependencyProtocols.swift in Sources */,
+				A2000000000000000000000D /* UseCases.swift in Sources */,
+				L20000000000000000000006 /* ReviewProtocols.swift in Sources */,
+				L20000000000000000000007 /* FetchReviewsUseCase.swift in Sources */,
+				M20000000000000000000004 /* ManageReviewsUseCase.swift in Sources */,
+				M20000000000000000000005 /* ReviewEligibilityUseCase.swift in Sources */,
+				O20000000000000000000003 /* OnlineReviewProtocols.swift in Sources */,
+				O20000000000000000000004 /* FetchOnlineReviewsUseCase.swift in Sources */,
+				A20000000000000000000002 /* MoviesViewModels.swift in Sources */,
+				A2000000000000000000000B /* BookingViewModels.swift in Sources */,
+				A20000000000000000000009 /* ProfileViewModels.swift in Sources */,
+				D20000000000000000000007 /* SettingsViewModels.swift in Sources */,
+				E20000000000000000000001 /* CinemaLocationsViewModel.swift in Sources */,
+				G20000000000000000000001 /* CinemaDetailViewModel.swift in Sources */,
+				F20000000000000000000004 /* ShowingsViewModel.swift in Sources */,
+				F20000000000000000000005 /* TicketedShowingListViewModeling.swift in Sources */,
+				K20000000000000000000003 /* ConcertViewModels.swift in Sources */,
+				K20000000000000000000004 /* SeminarViewModels.swift in Sources */,
+				L20000000000000000000009 /* ReviewsViewModel.swift in Sources */,
+				M20000000000000000000006 /* ReviewEditorViewModel.swift in Sources */,
+				O20000000000000000000007 /* OnlineReviewsViewModel.swift in Sources */,
+				M20000000000000000000008 /* DeveloperModeViewModel.swift in Sources */,
+				J20000000000000000000007 /* TicketedShowingScheduleViewModel.swift in Sources */,
+				J2000000000000000000000B /* ShowingVenueDetailViewModel.swift in Sources */,
+				A2000000000000000000000E /* AppFactory.swift in Sources */,
+				B20000000000000000000020 /* CineSeatTheme.swift in Sources */,
+				B20000000000000000000021 /* MainTabBarController.swift in Sources */,
+				B20000000000000000000022 /* CardView.swift in Sources */,
+				B20000000000000000000023 /* PosterPlaceholderView.swift in Sources */,
+				B20000000000000000000024 /* ScrollableViewController.swift in Sources */,
+				M2000000000000000000000A /* ShowingListTableHeaderView.swift in Sources */,
+				N20000000000000000000004 /* SettingsSwitchRowView.swift in Sources */,
+				J20000000000000000000008 /* LocationPreviewMapView.swift in Sources */,
+				B20000000000000000000025 /* MovieTableViewCell.swift in Sources */,
+				F20000000000000000000006 /* TicketedShowingTableViewCell.swift in Sources */,
+				B20000000000000000000026 /* BookingTableViewCell.swift in Sources */,
+				L2000000000000000000000A /* ReviewTableViewCell.swift in Sources */,
+				O20000000000000000000008 /* OnlineReviewTableViewCell.swift in Sources */,
+				B20000000000000000000027 /* SeatButton.swift in Sources */,
+				B20000000000000000000028 /* SeatMapView.swift in Sources */,
+				3CEB9A222FDF725000C0A2A6 /* MoviesViewController.swift in Sources */,
+				G20000000000000000000002 /* CinemaDetailViewController.swift in Sources */,
+				F20000000000000000000007 /* ShowingsViewController.swift in Sources */,
+				F20000000000000000000008 /* TicketedShowingListViewController.swift in Sources */,
+				F20000000000000000000009 /* TicketedShowingDetailViewController.swift in Sources */,
+				K20000000000000000000005 /* ConcertListViewController.swift in Sources */,
+				K20000000000000000000006 /* SeminarListViewController.swift in Sources */,
+				K20000000000000000000007 /* ConcertDetailViewController.swift in Sources */,
+				K20000000000000000000008 /* SeminarDetailViewController.swift in Sources */,
+				L2000000000000000000000B /* ReviewsViewController.swift in Sources */,
+				M20000000000000000000007 /* ReviewEditorViewController.swift in Sources */,
+				M20000000000000000000009 /* DeveloperModeViewController.swift in Sources */,
+				J20000000000000000000009 /* TicketedShowingBookingSummaryViewController.swift in Sources */,
+				J2000000000000000000000C /* ShowingVenueDetailViewController.swift in Sources */,
+				J2000000000000000000000A /* LocationMapItem.swift in Sources */,
+				A20000000000000000000004 /* BookingFlowViewControllers.swift in Sources */,
+				A20000000000000000000005 /* BookingsViewControllers.swift in Sources */,
+				A2000000000000000000000A /* ProfileViewControllers.swift in Sources */,
+				E20000000000000000000002 /* CinemaLocationsViewController.swift in Sources */,
+				D20000000000000000000008 /* SettingsViewControllers.swift in Sources */,
+				3CEB9A1E2FDF725000C0A2A6 /* AppDelegate.swift in Sources */,
+				3CEB9A202FDF725000C0A2A6 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CEB9A2F2FDF725100C0A2A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CEB9A382FDF725100C0A2A6 /* CineSeatTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CEB9A392FDF725100C0A2A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CEB9A442FDF725100C0A2A6 /* CineSeatUITestsLaunchTests.swift in Sources */,
+				3CEB9A422FDF725100C0A2A6 /* CineSeatUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3CEB9A352FDF725100C0A2A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CEB9A192FDF725000C0A2A6 /* CineSeat */;
+			targetProxy = 3CEB9A342FDF725100C0A2A6 /* PBXContainerItemProxy */;
+		};
+		3CEB9A3F2FDF725100C0A2A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CEB9A192FDF725000C0A2A6 /* CineSeat */;
+			targetProxy = 3CEB9A3E2FDF725100C0A2A6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3CEB9A232FDF725000C0A2A6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CEB9A242FDF725000C0A2A6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3CEB9A2B2FDF725100C0A2A6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CEB9A2C2FDF725100C0A2A6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3CEB9A452FDF725100C0A2A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3CEB9A462FDF725100C0A2A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3CEB9A482FDF725100C0A2A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y2K39ZD8ZU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CineSeat/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SevenSeven.CineSeat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3CEB9A492FDF725100C0A2A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y2K39ZD8ZU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CineSeat/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SevenSeven.CineSeat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3CEB9A4B2FDF725100C0A2A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y2K39ZD8ZU;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SevenSeven.CineSeatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CineSeat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CineSeat";
+			};
+			name = Debug;
+		};
+		3CEB9A4C2FDF725100C0A2A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y2K39ZD8ZU;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SevenSeven.CineSeatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CineSeat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CineSeat";
+			};
+			name = Release;
+		};
+		3CEB9A4E2FDF725100C0A2A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y2K39ZD8ZU;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SevenSeven.CineSeatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CineSeat;
+			};
+			name = Debug;
+		};
+		3CEB9A4F2FDF725100C0A2A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y2K39ZD8ZU;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SevenSeven.CineSeatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CineSeat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3CEB9A152FDF725000C0A2A6 /* Build configuration list for PBXProject "CineSeat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CEB9A452FDF725100C0A2A6 /* Debug */,
+				3CEB9A462FDF725100C0A2A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CEB9A472FDF725100C0A2A6 /* Build configuration list for PBXNativeTarget "CineSeat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CEB9A482FDF725100C0A2A6 /* Debug */,
+				3CEB9A492FDF725100C0A2A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CEB9A4A2FDF725100C0A2A6 /* Build configuration list for PBXNativeTarget "CineSeatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CEB9A4B2FDF725100C0A2A6 /* Debug */,
+				3CEB9A4C2FDF725100C0A2A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CEB9A4D2FDF725100C0A2A6 /* Build configuration list for PBXNativeTarget "CineSeatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CEB9A4E2FDF725100C0A2A6 /* Debug */,
+				3CEB9A4F2FDF725100C0A2A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 3CEB9A122FDF725000C0A2A6 /* Project object */;
+}

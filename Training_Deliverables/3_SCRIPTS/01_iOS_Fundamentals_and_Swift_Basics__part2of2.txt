@@ -1,0 +1,33 @@
+The core types: Int for whole numbers, Double for decimals, String for text, Bool for true or false. Then two collection types you'll use constantly — Array, an ordered list you reach into by index, and Dictionary, key-value pairs you reach into by key.
+
+Control flow is conventional. if-else, switch, for loops, while loops. One small difference if you're coming from another language: Swift doesn't need parentheses around the condition.
+
+Functions use the 'func' keyword, a name, typed parameters and an optional return type. One naming convention marks your code as idiomatic: camelCase. First word lowercase, every following word capitalised. Not snake_case with underscores.
+
+The single most important idea in this module: Optionals.
+
+Look at this model from the real app. Three of its properties have a question mark after the type. That question mark means: this might hold a value, or it might be empty.
+
+Why does that exist? Because most crashes in a mobile app come from data. You expect a field, the data doesn't have it, and the app dies in someone's hand. Optionals force you to confront that possibility at the moment you write the code, rather than discovering it in production.
+
+You have safe ways to open an optional. 'if let' unwraps it only when there's something inside. The double question mark supplies a fallback value. And 'guard' exits early when the value is missing.
+
+There's also an exclamation mark, which force-unwraps and asserts the value is definitely there. Use it sparingly. Every force-unwrap is a small bet that you're right, and a crash if you're wrong.
+
+Two more language pieces before we finish. A struct is a value type — it gets copied. A class is a reference type — it gets shared. The practical rule this course follows: structs for data and models, classes for behaviour and services.
+
+And a protocol is a contract. It says what a type must be able to do, without saying how. That sounds abstract now; in Module six it becomes the backbone of the whole architecture.
+
+Last topic, and it's the practical one. How does a button on screen run your code?
+
+There are two separate connections, and you usually need both. An outlet connects the control as an object, so code can reach in and change it — enable it, restyle it, read its text. An action connects the behaviour, so code runs when it's tapped.
+
+You make both by holding Control and dragging from the control into your code. Outlets go above viewDidLoad. Actions go below it. Mixing those two up is behind a whole family of beginner bugs.
+
+Here's all of that doing real work. Every row in this list is one Movie struct. The optional properties are the poster and the online-database ID, because not every film has either. The list scrolls, nothing crashes, and no value is forced open anywhere.
+
+Let's recap the key points.
+
+Here is your practice exercise.
+
+In Module two we take these foundations and build a real interface — layout, navigation, table views, and the architecture pattern that keeps your code from turning into a mess.

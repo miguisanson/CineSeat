@@ -1,0 +1,84 @@
+## macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+## Xcode — user-specific state (never share these)
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+## Build products
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+timeline.xctimeline
+playground.xcworkspace
+
+## Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+## CocoaPods / Carthage (not currently used — here in case they get added)
+Pods/
+Carthage/Build/
+
+## Signing material — must never reach a public repo
+*.p12
+*.mobileprovision
+*.cer
+*.certSigningRequest
+
+## fastlane
+fastlane/report.xml
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+## ---------------------------------------------------------------
+## Project-specific: large training media
+##
+## Training_Deliverables.zip is 353 MB — over GitHub's hard 100 MB
+## per-file limit, so a push would be rejected. It is also just an
+## archived copy of Training_Deliverables/, which IS tracked.
+Training_Deliverables.zip
+
+## Raw footage and render sources: 323 MB (218 MB footage + 94 MB
+## hyperframes_videos). Each file is individually under 100 MB, but
+## committing them bloats every future clone permanently and cannot be
+## undone without rewriting history. The finished deliverables in
+## 2_VIDEOS/, 1_PPTS/ and 3_SCRIPTS/ ARE tracked.
+## Delete these two lines if you want the raw media versioned instead.
+Training_Deliverables/_reference/footage/
+Training_Deliverables/_reference/hyperframes_videos/
+
+# GSD Core install (reinstall: npx @opengsd/gsd-core@latest --claude --local).
+# Its working plans in .planning/ ARE committed.
+.claude/settings.local.json
+.claude/.gsd-profile
+.claude/.gsd-runtime
+.claude/agents/gsd-*
+.claude/commands/gsd-*
+.claude/gsd-*
+.claude/hooks/
+.claude/scripts/
+
+## Vendored HyperFrames skills (18 MB) — restorable from skills-lock.json,
+## so the lock file is tracked and the fetched copies are not.
+.agents/skills/

@@ -1,0 +1,113 @@
+1
+00:00:03,000 --> 00:00:23,000
+There was a time when a very long file was taken as a sign of a skilled developer. Ten
+thousand lines in one view controller, worn almost as a badge of honour. That is
+emphatically not how code is judged now — and this module is about what replaced it.
+
+2
+00:00:23,000 --> 00:00:29,000
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:29,000 --> 00:00:39,000
+The modern measure of quality is this: how quickly could a stranger find the one piece they
+need to change? Length isn't skill. Navigability is.
+
+4
+00:00:39,000 --> 00:00:50,200
+Here's how the reference project is organised. Models. View. ViewModel. Domain. Persistence.
+CustomViews. Each folder has one job, and you can guess where something lives without being
+told.
+
+5
+00:00:50,200 --> 00:01:05,800
+The failure mode this avoids has a name: Massive View Controller. In plain MVC everything
+ends up in the controller — data loading, parsing, business logic, UI updates — and it grows
+without limit. That's precisely why MVVM exists.
+
+6
+00:01:05,800 --> 00:01:22,200
+Layered on top of MVVM is Clean Architecture. Three layers. Presentation, which is your
+views and view models. Domain, which holds the contracts and use cases and knows nothing
+about any framework. And Data, which is models, repositories and API clients.
+
+7
+00:01:22,200 --> 00:01:34,200
+The rule is that dependencies point inward only. The domain layer knows nothing about UIKit,
+nothing about URLSession, nothing about where data is stored. That's exactly what makes it
+testable.
+
+8
+00:01:34,200 --> 00:01:37,800
+Here's how that's expressed. These are the app's protocols.
+
+9
+00:01:37,800 --> 00:01:52,200
+A protocol is a contract. MovieFetching says: whatever you are, you can give me movies.
+BookingManaging says: you can add a booking, cancel one, and tell me which seats are taken.
+Neither says anything about how.
+
+10
+00:01:52,200 --> 00:02:02,600
+Every view model in this app depends on protocols like these — not on a concrete store, not
+on a specific API client. Just the contract.
+
+11
+00:02:02,600 --> 00:02:13,000
+That's dependency injection, and it's the most valuable structural idea in this course. The
+consumer declares what it needs. Something else decides what gets handed over.
+
+12
+00:02:13,000 --> 00:02:27,000
+And that something else is this file — a composition root. It's the one place in the entire
+app where concrete types are chosen. Every screen receives protocols; only this file names
+the real implementations.
+
+13
+00:02:27,000 --> 00:02:43,000
+Here's the payoff. This app reads from local JSON files. To swap that for a real backend,
+you'd change the implementations named in this single file. Nothing in any screen or any
+view model would need to know it happened.
+
+14
+00:02:43,000 --> 00:02:56,600
+There are three injection patterns in play. Singletons — one shared instance — for things
+like the settings store. Protocol injection for anything a feature depends on. And the
+factory that assembles it all.
+
+15
+00:02:56,600 --> 00:03:19,000
+A word on singletons, because they get a bad reputation and it's half deserved. The problem
+isn't the single instance — it's reaching for it directly all over your code, because then
+nothing can be swapped or tested. Here they exist, but confined to this one file. Features
+
+16
+00:03:19,000 --> 00:03:35,400
+One more structural benefit: reusable custom views. This seat map isn't a stock UIKit
+control. It's built from vertical rows of horizontal stacks, with deliberate gaps for
+aisles, and it takes its layout as data so different cinemas have different shapes.
+
+17
+00:03:35,400 --> 00:04:01,000
+There's a related problem worth mentioning that only shows up as an app grows: shared
+formatting. The same rating appears on the list, the detail screen and the booking summary.
+Early on those each formatted it slightly differently, which looked like a data bug but was
+
+18
+00:04:01,000 --> 00:04:15,800
+Here's the reuse in action. The seat map, interactive, letting me pick seats. And the same
+component again inside booking detail, read-only. One view, two contexts, configured
+differently — which is what the whole architecture is for.
+
+19
+00:04:15,800 --> 00:04:18,300
+Let's recap the key points.
+
+20
+00:04:18,300 --> 00:04:20,800
+Here is your practice exercise.
+
+21
+00:04:20,800 --> 00:04:27,200
+Module seven is the last technical module: the device capabilities that make an app feel
+native.

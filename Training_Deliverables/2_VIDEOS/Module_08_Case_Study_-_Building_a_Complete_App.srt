@@ -1,0 +1,89 @@
+1
+00:00:03,000 --> 00:00:16,600
+Seven modules taught you seven capabilities in isolation. This chapter is about what happens
+when you assemble them into one coherent product — because that's a separate skill, and it's
+the one interviews probe.
+
+2
+00:00:16,600 --> 00:00:22,600
+Here is what you will be able to do by the end of this video.
+
+3
+00:00:22,600 --> 00:00:32,600
+It started as one sentence: a cinema ticket-booking app where you browse films, pick a
+schedule, choose seats, see the price and confirm a reservation.
+
+4
+00:00:32,600 --> 00:00:45,000
+That became a requirements list — deliberately unglamorous. Movie list. Movie details.
+Showtimes. Seat selection. Booking summary. Confirmation. A bookings history. Cancellation.
+Validation alerts. A list a non-developer could have written.
+
+5
+00:00:45,000 --> 00:01:01,800
+And one thing was missing, which an early review caught: there was no profile screen. Adding
+accounts turned out to unlock roughly a third of everything else — bookings could be owned,
+tickets shared, reviews gated on whether you held a ticket.
+
+6
+00:01:01,800 --> 00:01:11,000
+That's the strongest argument for writing requirements down where somebody else can read and
+question them, rather than holding them in your head.
+
+7
+00:01:11,000 --> 00:01:15,400
+The requirements became this flowchart. Rectangles are processes, diamonds are decisions.
+
+8
+00:01:15,400 --> 00:01:32,200
+Trace the happy path first — start, browse, select, confirm, done. Now look at everything
+else. Not signed in, routing off to account creation. No seat selected, routing to a
+validation alert. Cancel, which releases the seats and cancels the pending reminder.
+
+9
+00:01:32,200 --> 00:01:46,200
+Most of real app design is the handling of things going wrong. Those branches are where bugs
+breed, and drawing them before any code existed is why they were handled deliberately rather
+than discovered later.
+
+10
+00:01:46,200 --> 00:01:59,000
+Then a wireframe — rough sketches deciding only what goes where, not what it looks like.
+Chasing pixel-perfect visuals at that stage wastes effort on decisions that change once real
+content arrives.
+
+11
+00:01:59,000 --> 00:02:19,800
+Two things changed between plan and build, and both are healthy. The 'how to use' tab was
+cut — it existed only to fill a fourth tab, and Settings made it redundant. And a payment
+step was scoped out on purpose: better to ship no payment than a fake one that misleads.
+
+12
+00:02:19,800 --> 00:02:27,400
+Here's the result. Five taps from browsing a film to a confirmed, locally-persisted ticket
+with its own booking ID.
+
+13
+00:02:27,400 --> 00:02:39,400
+And every step is a module doing real work. The detail screen is Module two. The data is
+Modules four and five. The structure holding it together is Module six.
+
+14
+00:02:39,400 --> 00:02:50,200
+One design detail deserves its own moment, because it's the reuse the architecture module
+was building toward. Movies book by seat. Concerts and seminars book by quantity.
+
+15
+00:02:50,200 --> 00:03:05,000
+Rather than two separate booking systems, there's a single reservation core with two
+different front-ends. That's exactly the reuse Clean Architecture and protocol-based
+injection are supposed to make possible — and here it is, on screen, working.
+
+16
+00:03:05,000 --> 00:03:07,500
+Let's recap the key points.
+
+17
+00:03:07,500 --> 00:03:15,100
+Chapter nine proves it all works — and shows why the architecture from Module six was worth
+the effort.
